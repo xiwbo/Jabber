@@ -29,3 +29,8 @@ android {
 		abortOnError false
 	}
 }
+dependencies {
+	implementation fileTree(dir: 'libs', include: ['*.jar'])
+	implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+	implementation 'com.shaishavgandhi:login-buttons:1.0.0'
+}
