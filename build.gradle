@@ -4,7 +4,8 @@ buildscript {
 		jcenter()
 	}
 	dependencies {
-		classpath 'com.android.tools.build:gradle:3.3.0-alpha03'
+		classpath 'com.android.tools.build:gradle:3.3.0-alpha06'
+		classpath 'com.google.gms:google-services:4.0.1'
 	}
 }
 apply plugin: 'android'
@@ -19,6 +20,13 @@ allprojects {
 android {
 	compileSdkVersion 'android-28'
 	buildToolsVersion '28.0.0'
+	defaultConfig {
+		applicationId "com.jabber"
+		minSdkVersion 19
+		targetSdkVersion 28
+		versionCode 1
+		versionName "1.0"
+	}
 	buildTypes {
 		release {
 			minifyEnabled false
@@ -29,3 +37,13 @@ android {
 		abortOnError false
 	}
 }
+dependencies {
+	implementation fileTree(dir: 'libs', include: ['*.jar'])
+	implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+	implementation 'com.shaishavgandhi:login-buttons:1.0.0'
+	implementation "com.google.firebase:firebase-database:16.0.1"
+	implementation 'com.google.firebase:firebase-auth:16.0.3'
+	implementation 'com.google.firebase:firebase-core:16.0.0'
+	implementation 'com.firebase:firebase-client-android:2.5.2'
+}
+apply plugin: 'com.google.gms.google-services'
