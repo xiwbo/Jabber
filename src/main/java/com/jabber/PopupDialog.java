@@ -19,7 +19,7 @@ public class PopupDialog extends Activity
 		this.txtButton = txtButton;
 		this.myDialog = dialog;
 	}
-	
+
 	public void show() {
 		Button popupButton;
 		TextView popupText;
