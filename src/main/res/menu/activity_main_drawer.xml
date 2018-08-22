@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navHome"
+            android:icon="@drawable/home"
+            android:title="Home" />
+        <item
+            android:id="@+id/navBio"
+            android:icon="@drawable/bio"
+            android:title="Bio" />
+        <item
+            android:id="@+id/navInterest"
+            android:icon="@drawable/interest"
+            android:title="Interest" />
+        <item
+            android:id="@+id/navAnonChat"
+            android:icon="@drawable/anonymous"
+            android:title="Anonymous Chat" />
+        <item
+            android:id="@+id/navAboutUs"
+            android:icon="@drawable/about"
+            android:title="About us" />
+        <item
+            android:id="@+id/navLogout"
+            android:icon="@drawable/logout"
+            android:title="Logout" />
+    </group>
+</menu>

@@ -3,10 +3,11 @@ package com.jabber;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.content.Intent;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Toast;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -48,6 +49,9 @@ public class LoginScreen extends Activity
 			public void onComplete(@NonNull Task<AuthResult> task) {
 				if(task.isSuccessful()) {
 					// GO TO HOME SCREEN
+					Intent intent = new Intent(getApplicationContext(), NavBar.class);
+					startActivity(intent);
+					LoginScreen.this.finish();
 					Toast.makeText(getApplicationContext(),"Login success!", Toast.LENGTH_SHORT).show();
 				}
 				else {
