@@ -4,4 +4,7 @@ build
 .classpath
 .project
 local.properties
+<<<<<<< HEAD
 .idea
+=======
+>>>>>>> ac8c84812e5f0c6e70b42bdd554a4761965b1a9f

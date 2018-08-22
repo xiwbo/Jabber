@@ -71,7 +71,11 @@ public class LoginScreen extends Activity
 					// Sign in success, update UI with the signed-in user's information
 					FirebaseUser currentUser = mAuth.getCurrentUser();
 					Intent intent = new Intent(getApplicationContext(), NavBar.class);
+<<<<<<< HEAD
 					Toast.makeText(getApplicationContext(),"Welcome! " + currentUser.getEmail(), Toast.LENGTH_LONG).show();
+=======
+					Toast.makeText(getApplicationContext(),"Welcome" + currentUser.getEmail().toString(), Toast.LENGTH_LONG).show();
+>>>>>>> ac8c84812e5f0c6e70b42bdd554a4761965b1a9f
 					startActivity(intent);
 				}
 				else {
