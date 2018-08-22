@@ -1,7 +1,7 @@
 package com.jabber;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.app.Activity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.content.Intent;
@@ -34,7 +34,7 @@ public class RegisterScreen extends AppCompatActivity {
 		firebase = new Firebase("https://jabber-6ac14.firebaseio.com");
 		mAuth = FirebaseAuth.getInstance();
 		registerbtn = findViewById(R.id.btnRegister);
-		email = findViewById(R.id.txtEmail);
+		email = findViewById(R.id.navEmail);
 		password = findViewById(R.id.txtPassword);
 		loginLink = findViewById(R.id.linkLogin);
 		loginLink.setOnClickListener(new View.OnClickListener() {

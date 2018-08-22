@@ -116,7 +116,7 @@
         android:layout_marginTop="29dp"
         android:layout_marginBottom="24dp"
         android:src="@drawable/appicon"
-        app:layout_constraintBottom_toTopOf="@+id/txtEmail"
+        app:layout_constraintBottom_toTopOf="@+id/navEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -141,7 +141,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtPassword" />
 
     <EditText
-        android:id="@+id/txtEmail"
+        android:id="@+id/navEmail"
         android:layout_width="0dp"
         android:layout_height="44dp"
         android:layout_marginStart="24dp"
@@ -194,6 +194,6 @@
         app:layout_constraintBottom_toTopOf="@+id/txtPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/navEmail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

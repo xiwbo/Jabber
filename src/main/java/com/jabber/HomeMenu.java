@@ -1,11 +1,14 @@
 package com.jabber;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -14,10 +17,10 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class NavBar extends AppCompatActivity
+public class HomeMenu extends AppCompatActivity
 		implements NavigationView.OnNavigationItemSelectedListener {
-
 	TextView textView;
 
 	@Override
@@ -26,6 +29,7 @@ public class NavBar extends AppCompatActivity
 		setContentView(R.layout.nav_main);
 		textView = findViewById(R.id.hellow);
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
 		setSupportActionBar(toolbar);
 
 		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -86,18 +90,28 @@ public class NavBar extends AppCompatActivity
 		// Handle navigation view item clicks here.
 		int id = item.getItemId();
 
-		if (id == R.id.navHome) {
+		if(id == R.id.navHome) {
 			textView.setText("HOME");
-		} else if (id == R.id.navBio) {
+		}
+		else if(id == R.id.navBio) {
 			textView.setText("BIO");
-		} else if (id == R.id.navInterest) {
+		}
+		else if(id == R.id.navInterest) {
 			textView.setText("INTEREST");
-		} else if (id == R.id.navAnonChat) {
+		}
+		else if(id == R.id.navAnonChat) {
 			textView.setText("ANON");
-		} else if (id == R.id.navAboutUs) {
+		}
+		else if(id == R.id.navAboutUs) {
 			textView.setText("ABOUT");
-		} else if (id == R.id.navLogout) {
+		}
+		else if(id == R.id.navLogout) {
 			textView.setText("LOG OUT");
+			FirebaseAuth.getInstance().signOut();
+			Toast.makeText(getApplicationContext(), "Good Bye! ",Toast.LENGTH_LONG).show();
+			Intent intent = new Intent(getApplicationContext(), LoginScreen.class);
+			startActivity(intent);
+			finish();
 		}
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

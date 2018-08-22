@@ -2,6 +2,8 @@ package com.jabber;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.content.Intent;
 import android.widget.EditText;
@@ -25,6 +27,7 @@ public class LoginScreen extends Activity
 	String user,pass;
 	Firebase firebase;
 	TextView registerLink;
+	FirebaseUser currentUser;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,10 @@ public class LoginScreen extends Activity
 		loginbtn = findViewById(R.id.btnLogin);
 		username = findViewById(R.id.txtUsername);
 		password = findViewById(R.id.txtPassword);
+		loginbtn.setEnabled(false);
+		username.addTextChangedListener(textWatcher);
+		password.addTextChangedListener(textWatcher);
+
 		loginbtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -44,6 +51,7 @@ public class LoginScreen extends Activity
 				signIn();
 			}
 		});
+		
 		registerLink = findViewById(R.id.linkRegister);
 		registerLink.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -59,8 +67,10 @@ public class LoginScreen extends Activity
 	public void onStart() {
 		super.onStart();
 		// Check if user is signed in (non-null) and update UI accordingly.
-		//FirebaseUser currentUser = mAuth.getCurrentUser();
-		//updateUI(currentUser);
+		currentUser = mAuth.getCurrentUser();
+		if(currentUser != null) {
+			HomeMenu();
+		}
 	}
 
 	public void signIn() {
@@ -69,14 +79,7 @@ public class LoginScreen extends Activity
 			public void onComplete(@NonNull Task<AuthResult> task) {
 				if(task.isSuccessful()) {
 					// Sign in success, update UI with the signed-in user's information
-					FirebaseUser currentUser = mAuth.getCurrentUser();
-					Intent intent = new Intent(getApplicationContext(), NavBar.class);
-<<<<<<< HEAD
-					Toast.makeText(getApplicationContext(),"Welcome! " + currentUser.getEmail(), Toast.LENGTH_LONG).show();
-=======
-					Toast.makeText(getApplicationContext(),"Welcome" + currentUser.getEmail().toString(), Toast.LENGTH_LONG).show();
->>>>>>> ac8c84812e5f0c6e70b42bdd554a4761965b1a9f
-					startActivity(intent);
+					HomeMenu();
 				}
 				else {
 					// If sign in fails, display a message to the user.
@@ -85,4 +88,25 @@ public class LoginScreen extends Activity
 			}
 		});
 	}
+
+	public void HomeMenu() {
+		currentUser = mAuth.getCurrentUser();
+		Intent intent = new Intent(getApplicationContext(), HomeMenu.class);
+		Toast.makeText(getApplicationContext(),"Welcome! " + currentUser.getEmail(), Toast.LENGTH_LONG).show();
+		startActivity(intent);
+		LoginScreen.this.finish();
+	}
+
+	private TextWatcher textWatcher = new TextWatcher() {
+		@Override
+		public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+		}
+		@Override
+		public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+			loginbtn.setEnabled(!username.getText().toString().trim().isEmpty() && !password.getText().toString().trim().isEmpty());
+		}
+		@Override
+		public void afterTextChanged(Editable editable) {
+		}
+	};
 }
