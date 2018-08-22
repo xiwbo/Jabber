@@ -1,10 +1,10 @@
 package com.jabber;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.app.Dialog;
 
 public class PopupDialog extends Activity
 {

@@ -43,6 +43,16 @@ public class ManageAccount extends Activity
 			}
 		});
 
+		//Bio Screen
+		Button btnBio = new Button(this);
+		btnBio.setText("Bio Screen");
+		btnBio.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(getApplicationContext(), "BIO screen", Toast.LENGTH_SHORT).show();
+			}
+		});
+
 		//Popup Implementation
 		Button btnPopup = new Button(this);
 		btnPopup.setText("Popup Sample");
@@ -56,6 +66,8 @@ public class ManageAccount extends Activity
 		mainLayout.addView(btnRegister);
 		mainLayout.addView(btnCamera);
 		mainLayout.addView(btnPopup);
+		mainLayout.addView(btnBio);
+		mainLayout.setOrientation(LinearLayout.VERTICAL);
 		setContentView(mainLayout);
 	}
 

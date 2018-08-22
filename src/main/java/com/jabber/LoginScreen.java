@@ -5,8 +5,8 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.Toast;
 import android.widget.Button;
+import android.widget.Toast;
 import android.content.Intent;
 
 public class LoginScreen extends Activity
@@ -24,7 +24,7 @@ public class LoginScreen extends Activity
 		btnLogin.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// showPopup("Please check your internet connection.", "OK");
+				//showPopup("Please check your internet connection.", "OK");
 				Toast.makeText(getApplicationContext(), "login button clicked", Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(getApplicationContext(), ManageAccount.class);
 				startActivity(intent);
