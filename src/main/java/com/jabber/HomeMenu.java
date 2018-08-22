@@ -19,8 +19,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class HomeMenu extends AppCompatActivity
-		implements NavigationView.OnNavigationItemSelectedListener {
+public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 	TextView textView;
 
 	@Override
@@ -36,14 +35,12 @@ public class HomeMenu extends AppCompatActivity
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-						.setAction("Action", null).show();
+				Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 			}
 		});
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-				this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 		drawer.addDrawerListener(toggle);
 		toggle.syncState();
 
@@ -75,10 +72,10 @@ public class HomeMenu extends AppCompatActivity
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 
-		//noinspection SimplifiableIfStatement
-//		if (id == R.id.action_settings) {
-//			return true;
-//		}
+		// noinspection SimplifiableIfStatement
+		// if (id == R.id.action_settings) {
+		// 	return true;
+		// }
 		// 3 dots code will go here
 
 		return super.onOptionsItemSelected(item);
