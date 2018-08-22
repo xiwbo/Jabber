@@ -1,36 +1,64 @@
 buildscript {
-	repositories {
-		google()
-		jcenter()
-	}
-	dependencies {
-		classpath 'com.android.tools.build:gradle:3.3.0-alpha03'
-	}
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.3.0-alpha06'
+        classpath 'com.google.gms:google-services:4.0.1'
+        classpath 'com.google.android.gms:play-services:9.0.1'
+    }
 }
 apply plugin: 'android'
 
 allprojects {
-	repositories {
-		google()
-		jcenter()
-	}
+    repositories {
+        google()
+        jcenter()
+    }
 }
 
 android {
-	compileSdkVersion 'android-28'
-	buildToolsVersion '28.0.0'
-	buildTypes {
-		release {
-			minifyEnabled false
-			proguardFile getDefaultProguardFile('proguard-android.txt')
-		}
-	}
-	lintOptions {
-		abortOnError false
-	}
+    compileSdkVersion 'android-28'
+    buildToolsVersion '28.0.0'
+    defaultConfig {
+        multiDexEnabled true
+        applicationId "com.jabber"
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFile getDefaultProguardFile('proguard-android.txt')
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+    dexOptions {
+        preDexLibraries true
+        maxProcessCount 8
+        javaMaxHeapSize "4g"
+    }
 }
 dependencies {
-	implementation fileTree(dir: 'libs', include: ['*.jar'])
-	implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
-	implementation 'com.shaishavgandhi:login-buttons:1.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0-alpha1'
+    implementation 'com.android.support:design:28.0.0-alpha1'
+    implementation 'com.android.support:support-v4:28.0.0-alpha1'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
+    implementation 'com.google.android.material:material:1.0.0-beta01'
+    implementation "com.google.firebase:firebase-database:16.0.1"
+    implementation 'com.google.firebase:firebase-auth:16.0.3'
+    implementation 'com.google.firebase:firebase-core:16.0.0'
+    implementation 'com.firebase:firebase-client-android:2.5.2'
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support:multidex:1.0.3'
+    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
 }
+apply plugin: 'com.google.gms.google-services'
