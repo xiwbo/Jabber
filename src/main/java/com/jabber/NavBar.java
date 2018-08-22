@@ -72,9 +72,10 @@ public class NavBar extends AppCompatActivity
 		int id = item.getItemId();
 
 		//noinspection SimplifiableIfStatement
-		if (id == R.id.action_settings) {
-			return true;
-		}
+//		if (id == R.id.action_settings) {
+//			return true;
+//		}
+		// 3 dots code will go here
 
 		return super.onOptionsItemSelected(item);
 	}

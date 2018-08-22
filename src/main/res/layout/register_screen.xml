@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".RegisterScreen"
+    tools:layout_editor_absoluteY="25dp">
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="0dp"
+        android:layout_height="43dp"
+        android:layout_alignEnd="@+id/tickbox"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/buttonshape"
+        android:backgroundTint="#808080"
+        android:text="REGISTER"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tickbox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPassword" />
+
+    <CheckBox
+        android:id="@+id/tickbox"
+        android:layout_width="wrap_content"
+        android:layout_height="37dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="22dp"
+        android:layout_marginBottom="25dp"
+        android:buttonTint="@color/white"
+        android:text="By checking this box, you agree to our"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/lblLogin"
+        app:layout_constraintStart_toStartOf="@+id/btnRegister" />
+
+    <TextView
+        android:id="@+id/linkTermsOfUse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="76dp"
+        android:fontFamily="@font/robotobold"
+        android:text="Terms of Use"
+        android:textColor="@color/fbBlue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tickbox" />
+
+    <TextView
+        android:id="@+id/signIntxt3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/linkTermsOfUse"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="5dp"
+        android:fontFamily="@font/robotolight"
+        android:text="and"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@+id/linkTermsOfUse"
+        app:layout_constraintTop_toBottomOf="@+id/tickbox" />
+
+    <TextView
+        android:id="@+id/linkPrivacyPolicy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/linkTermsOfUse"
+        android:layout_alignEnd="@+id/tickbox"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="75dp"
+        android:fontFamily="@font/robotobold"
+        android:text="Privacy Policy"
+        android:textColor="@color/fbBlue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/signIntxt3"
+        app:layout_constraintTop_toBottomOf="@+id/tickbox" />
+
+    <TextView
+        android:id="@+id/lblLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="24dp"
+        android:text="Already have an account?"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toTopOf="@+id/linkLogin"
+        app:layout_constraintStart_toStartOf="@+id/linkTermsOfUse" />
+
+    <TextView
+        android:id="@+id/linkLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginBottom="40dp"
+        android:layout_toEndOf="@+id/linkTermsOfUse"
+        android:fontFamily="@font/robotobold"
+        android:text="Login"
+        android:textColor="@color/fbBlue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/linkTermsOfUse" />
+
+    <ImageView
+        android:id="@+id/imgJabberLogo"
+        android:layout_width="177dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginBottom="24dp"
+        android:src="@drawable/appicon"
+        app:layout_constraintBottom_toTopOf="@+id/txtEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txtConfirmPw"
+        android:layout_width="0dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="3dp"
+        android:backgroundTint="#fff"
+        android:ems="10"
+        android:fontFamily="@font/robotolight"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toTopOf="@+id/btnRegister"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPassword" />
+
+    <EditText
+        android:id="@+id/txtEmail"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="159dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="157dp"
+        android:backgroundTint="#fff"
+        android:ems="10"
+        android:fontFamily="@font/robotolight"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="@+id/txtConfirmPw"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txtPassword"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="#fff"
+        android:ems="10"
+        android:fontFamily="@font/robotolight"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txtUsername"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#fff"
+        android:ems="10"
+        android:hint="Username"
+        android:fontFamily="@font/robotolight"
+        android:inputType="textEmailAddress"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toTopOf="@+id/txtPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
