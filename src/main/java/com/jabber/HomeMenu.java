@@ -4,7 +4,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-
+import android.widget.ImageButton;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -43,6 +43,15 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		navigationView.setNavigationItemSelectedListener(this);
 		myDialog = new Dialog(this);
 		myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		View header = navigationView.getHeaderView(0);
+		ImageButton imgButton = header.findViewById(R.id.addProfilePhoto);
+		imgButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(getApplicationContext(), CameraScreen.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override
