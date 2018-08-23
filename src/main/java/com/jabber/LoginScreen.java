@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.content.Intent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,7 +28,7 @@ public class LoginScreen extends Activity
 	EditText password;
 	String user,pass;
 	Firebase firebase;
-	TextView registerLink;
+	TextView registerLink, forgotPass;
 	FirebaseUser currentUser;
 
 	@Override
@@ -39,16 +41,29 @@ public class LoginScreen extends Activity
 		loginbtn = findViewById(R.id.btnLogin);
 		username = findViewById(R.id.txtUsername);
 		password = findViewById(R.id.txtPassword);
+		forgotPass = findViewById(R.id.linkForgotPw);
 		loginbtn.setEnabled(false);
 		username.addTextChangedListener(textWatcher);
 		password.addTextChangedListener(textWatcher);
+		password.setOnEditorActionListener(editorActionListener);
 
 		loginbtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				user = username.getText().toString();
-				pass = password.getText().toString();
-				signIn();
+				if(!username.getText().toString().contains("@") || !username.getText().toString().contains(".com")) {
+					Toast.makeText(getApplicationContext(), "Please check your email address.", Toast.LENGTH_SHORT).show();
+				}
+				else {
+					OnClick();
+				}
+			}
+		});
+
+		forgotPass.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(getApplicationContext(), ForgotPassword.class);
+				startActivity(intent);
 			}
 		});
 		
@@ -83,7 +98,7 @@ public class LoginScreen extends Activity
 				}
 				else {
 					// If sign in fails, display a message to the user.
-					Toast.makeText(getApplicationContext(), "Login Fail", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), "Incorrect username or email and/or password.", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
@@ -92,7 +107,7 @@ public class LoginScreen extends Activity
 	public void HomeMenu() {
 		currentUser = mAuth.getCurrentUser();
 		Intent intent = new Intent(getApplicationContext(), HomeMenu.class);
-		Toast.makeText(getApplicationContext(),"Welcome! " + currentUser.getEmail(), Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(),"Welcome! " + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
 		startActivity(intent);
 		LoginScreen.this.finish();
 	}
@@ -107,6 +122,26 @@ public class LoginScreen extends Activity
 		}
 		@Override
 		public void afterTextChanged(Editable editable) {
+		}
+	};
+
+	public void OnClick() {
+		user = username.getText().toString();
+		pass = password.getText().toString();
+		signIn();
+	}
+
+	private TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
+		@Override
+		public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+			switch(i) {
+				case EditorInfo.IME_ACTION_SEND:
+					if(!username.getText().toString().trim().isEmpty() && !password.getText().toString().trim().isEmpty()) {
+						OnClick();
+					}
+					break;
+			}
+			return(false);
 		}
 	};
 }
