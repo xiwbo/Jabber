@@ -38,5 +38,13 @@
 			android:name=".HomeMenu"
 			android:label="@string/app_name"
 			android:theme="@style/AppTheme.NoActionBar"></activity>
+		<activity
+			android:name=".CameraScreen"
+			android:label="@string/app_name"
+			android:theme="@style/Theme.AppCompat.Light.DarkActionBar"></activity>
+		<activity
+			android:name=".GalleryScreen"
+			android:label="@string/app_name"
+			android:theme="@style/Theme.AppCompat.Light.DarkActionBar"></activity>
 	</application>
 </manifest>
