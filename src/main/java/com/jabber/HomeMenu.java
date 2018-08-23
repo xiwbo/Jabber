@@ -18,34 +18,29 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
+	NavigationView navigationView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.nav_main);
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
-		FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-		fab.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Toast.makeText(getApplicationContext(), "Pop-up for group",Toast.LENGTH_SHORT).show();
-			}
-		});
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 		drawer.addDrawerListener(toggle);
 		toggle.syncState();
 
-		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+		navigationView = (NavigationView) findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
-		//Fragments on nav
-		DisplayFragment(R.menu.main);
+		//Shows the first item in the nav drawer
+		DisplayFragment(R.id.navHome);
+		navigationView.setCheckedItem(R.id.navHome);
 
 		View header = navigationView.getHeaderView(0);
 		ImageButton imgButton = header.findViewById(R.id.addImgButton);
@@ -115,8 +110,7 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		Fragment fragment = null;
 		switch(id) {
 			case R.id.navHome:
-					fragment = new NavHome();
-					Toast.makeText(this, "HOME SCREEN", Toast.LENGTH_SHORT).show();
+				fragment = new NavHomeScreen();
 				break;
 			case R.id.navBio:
 				Toast.makeText(this, "BIO SCREEN", Toast.LENGTH_SHORT).show();
@@ -128,7 +122,7 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 				Toast.makeText(this, "ANON SCREEN", Toast.LENGTH_SHORT).show();
 				break;
 			case R.id.navAboutUs:
-				Toast.makeText(this, "ABOUT SCREEN", Toast.LENGTH_SHORT).show();
+				fragment = new NavAboutScreen();
 				break;
 			case R.id.navLogout:
 					FirebaseAuth.getInstance().signOut();

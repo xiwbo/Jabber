@@ -12,9 +12,7 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -48,7 +46,6 @@ public class LoginScreen extends Activity
 		username.addTextChangedListener(textWatcher);
 		password.addTextChangedListener(textWatcher);
 		password.setOnEditorActionListener(editorActionListener);
-
 		loginbtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -56,7 +53,7 @@ public class LoginScreen extends Activity
 					Toast.makeText(getApplicationContext(), "Please check your email address.", Toast.LENGTH_SHORT).show();
 				}
 				else {
-					OnClick();
+					signIn();
 				}
 			}
 		});
@@ -86,11 +83,14 @@ public class LoginScreen extends Activity
 		// Check if user is signed in (non-null) and update UI accordingly.
 		currentUser = mAuth.getCurrentUser();
 		if(currentUser != null) {
+			System.out.println("UID: " + currentUser.getUid());
 			HomeMenu();
 		}
 	}
 
 	public void signIn() {
+		user = username.getText().toString();
+		pass = password.getText().toString();
 		mAuth.signInWithEmailAndPassword(user, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 			@Override
 			public void onComplete(@NonNull Task<AuthResult> task) {
@@ -109,6 +109,7 @@ public class LoginScreen extends Activity
 	public void HomeMenu() {
 		currentUser = mAuth.getCurrentUser();
 		Intent intent = new Intent(getApplicationContext(), HomeMenu.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 		Toast.makeText(getApplicationContext(),"Welcome! " + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
 		startActivity(intent);
 		LoginScreen.this.finish();
@@ -127,19 +128,13 @@ public class LoginScreen extends Activity
 		}
 	};
 
-	public void OnClick() {
-		user = username.getText().toString();
-		pass = password.getText().toString();
-		signIn();
-	}
-
 	private TextView.OnEditorActionListener editorActionListener = new TextView.OnEditorActionListener() {
 		@Override
 		public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
 			switch(i) {
 				case EditorInfo.IME_ACTION_SEND:
 					if(!username.getText().toString().trim().isEmpty() && !password.getText().toString().trim().isEmpty()) {
-						OnClick();
+						signIn();
 					}
 					break;
 			}

@@ -21,15 +21,21 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.firebase.client.Firebase;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class RegisterScreen extends AppCompatActivity
 {
 	private FirebaseAuth mAuth;
+	DatabaseReference databaseReference;
 	Button registerbtn;
 	TextView loginLink;
 	EditText email,username,password,confirmPassword;
 	CheckBox tickbox;
-	String user,pass;
+	String user,mail,pass;
 	Firebase firebase;
 
 	@Override
@@ -75,20 +81,35 @@ public class RegisterScreen extends AppCompatActivity
 			}
 		});
 	}
-
-	public void createAccount() {
-		mAuth.createUserWithEmailAndPassword(user, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+	public void createAccount(final String userName, final String userEmail, final String userPassword) {
+		mAuth.createUserWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 			@Override
 			public void onComplete(@NonNull Task<AuthResult> task) {
 				if(task.isSuccessful()) {
 					// GO TO HOME SCREEN
-					Intent intent = new Intent(getApplicationContext(), LoginScreen.class);
-					startActivity(intent);
-					RegisterScreen.this.finish();
-					Toast.makeText(getApplicationContext(),"register success!", Toast.LENGTH_SHORT).show();
+					FirebaseUser firebaseUser = mAuth.getCurrentUser();
+					String userId = firebaseUser.getUid();
+					databaseReference = FirebaseDatabase.getInstance().getReference("Users").child("Email");
+					HashMap<String, String> hashMap = new HashMap<>();
+					hashMap.put("id", userId);
+					hashMap.put("email", userEmail);
+					hashMap.put("username",userName);
+					hashMap.put("password",userPassword);
+					databaseReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+						@Override
+						public void onComplete(@NonNull Task<Void> task) {
+							if(task.isSuccessful()) {
+								Toast.makeText(getApplicationContext(),"Register Success!", Toast.LENGTH_SHORT).show();
+								Intent intent = new Intent(getApplicationContext(), LoginScreen.class);
+								intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+								startActivity(intent);
+								RegisterScreen.this.finish();
+							}
+						}
+					});
 				}
 				else {
-					Toast.makeText(getApplicationContext(),"register fail", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(),"Register fail", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
@@ -96,9 +117,10 @@ public class RegisterScreen extends AppCompatActivity
 
 	public void OnClick() {
 		if(password.getText().toString().equals(confirmPassword.getText().toString())) {
-			user = email.getText().toString();
+			user = username.getText().toString();
+			mail = email.getText().toString();
 			pass = password.getText().toString();
-			createAccount();
+			createAccount(user,mail,pass);
 		}
 		else {
 			Toast.makeText(getApplicationContext(), "Password does not match.", Toast.LENGTH_SHORT).show();
@@ -111,7 +133,7 @@ public class RegisterScreen extends AppCompatActivity
 		}
 		@Override
 		public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-			registerbtn.setEnabled(!email.getText().toString().trim().isEmpty() && !username.getText().toString().trim().isEmpty() && !password.getText().toString().trim().isEmpty() && !confirmPassword.getText().toString().trim().isEmpty() && tickbox.isChecked());
+			registerbtn.setEnabled(!email.getText().toString().trim().isEmpty() && !username.getText().toString().trim().isEmpty() && !password.getText().toString().trim().isEmpty() && !confirmPassword.getText().toString().trim().isEmpty());
 		}
 		@Override
 		public void afterTextChanged(Editable editable) {
