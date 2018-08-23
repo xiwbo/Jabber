@@ -4,3 +4,5 @@ build
 .classpath
 .project
 local.properties
+jabber.iml
+.idea

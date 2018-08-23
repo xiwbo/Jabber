@@ -74,11 +74,11 @@
         android:fontFamily="@font/robotolight"
         android:text="Password?"
         android:textColor="@color/fbBlue"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/lblForgotPw"
         app:layout_constraintTop_toTopOf="@+id/txtPassword" />
 
     <Button
-        android:fontFamily="@font/robotolight"
         android:id="@+id/btnLogin"
         android:layout_width="0dp"
         android:layout_height="41dp"
@@ -88,6 +88,7 @@
         android:layout_marginBottom="52dp"
         android:background="@drawable/buttonshape"
         android:backgroundTint="#808080"
+        android:fontFamily="@font/robotolight"
         android:text="Login"
         android:textColor="#ffffff"
         android:textSize="20sp"
@@ -137,6 +138,7 @@
         android:fontFamily="@font/robotobold"
         android:text="Register"
         android:textColor="@color/fbBlue"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblRegister" />
