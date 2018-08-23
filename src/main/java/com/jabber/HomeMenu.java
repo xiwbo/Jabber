@@ -2,13 +2,12 @@ package com.jabber;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-
+import android.widget.ImageButton;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -46,6 +45,15 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 
 		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
+		View header = navigationView.getHeaderView(0);
+		ImageButton imgButton = header.findViewById(R.id.addProfilePhoto);
+		imgButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(getApplicationContext(), CameraScreen.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override
