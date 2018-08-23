@@ -1,42 +1,42 @@
 {
-  "project_info": {
-    "project_number": "676460430520",
-    "firebase_url": "https://jabber-6ac14.firebaseio.com",
-    "project_id": "jabber-6ac14",
-    "storage_bucket": "jabber-6ac14.appspot.com"
-  },
-  "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:676460430520:android:979f6a7845270cba",
-        "android_client_info": {
-          "package_name": "com.jabber"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "676460430520-vq988fvfveg9bh9h2mcbppig0dbup9ib.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyArXsGKa2Hs1QEJ-jKnzSK0RV0fHCYDCGE"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    }
-  ],
-  "configuration_version": "1"
+"project_info": {
+	"project_number": "676460430520",
+	"firebase_url": "https://jabber-6ac14.firebaseio.com",
+	"project_id": "jabber-6ac14",
+	"storage_bucket": "jabber-6ac14.appspot.com"
+},
+"client": [
+	{
+	"client_info": {
+		"mobilesdk_app_id": "1:676460430520:android:979f6a7845270cba",
+		"android_client_info": {
+		"package_name": "com.jabber"
+		}
+	},
+	"oauth_client": [
+		{
+		"client_id": "676460430520-vq988fvfveg9bh9h2mcbppig0dbup9ib.apps.googleusercontent.com",
+		"client_type": 3
+		}
+	],
+	"api_key": [
+		{
+		"current_key": "AIzaSyArXsGKa2Hs1QEJ-jKnzSK0RV0fHCYDCGE"
+		}
+	],
+	"services": {
+		"analytics_service": {
+		"status": 1
+		},
+		"appinvite_service": {
+		"status": 1,
+		"other_platform_oauth_client": []
+		},
+		"ads_service": {
+		"status": 2
+		}
+	}
+	}
+],
+"configuration_version": "1"
 }
