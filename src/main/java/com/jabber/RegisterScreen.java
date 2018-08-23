@@ -59,15 +59,15 @@ public class RegisterScreen extends AppCompatActivity {
 		mAuth.createUserWithEmailAndPassword(user, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 			@Override
 			public void onComplete(@NonNull Task<AuthResult> task) {
+				//If Successfully registered
 				if(task.isSuccessful()) {
-					// GO TO HOME SCREEN
 					Intent intent = new Intent(getApplicationContext(), LoginScreen.class);
 					startActivity(intent);
 					RegisterScreen.this.finish();
-					Toast.makeText(getApplicationContext(),"register success!", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(),"Successfully Registerd!", Toast.LENGTH_SHORT).show();
 				}
 				else {
-					Toast.makeText(getApplicationContext(),"register fail", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(),"Registration Failed", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
