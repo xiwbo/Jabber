@@ -20,14 +20,13 @@ import java.io.FileNotFoundException;
 public class GalleryScreen extends AppCompatActivity
 {
 	private final int CAMERA_REQUEST = 100;
-	private final int RESULT_LOAD_IMG = 100;
+	public static final int RESULT_GALLERY = 100;
 	ImageView imageView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.camera_screen);
-		Button camBtn = (Button)findViewById(R.id.camBtn);
 		Button galleryBtn = (Button)findViewById(R.id.galleryBtn);
 		galleryBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -38,10 +37,9 @@ public class GalleryScreen extends AppCompatActivity
 		imageView = (ImageView)this.findViewById(R.id.imageView);
 	}
 
-	private void openGalleryIntent() {
-		Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-		photoPickerIntent.setType("image/*");
-		startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
+	public void openGalleryIntent() {
+		Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		startActivityForResult(galleryIntent , RESULT_GALLERY );
 	}
 
 	@Override
