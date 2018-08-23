@@ -30,19 +30,21 @@ public class CameraScreen extends AppCompatActivity
 				dispatchTakePictureIntent();
 			}
 		});
+		final GalleryScreen gs = new GalleryScreen();
 		Button galleryBtn = (Button)findViewById(R.id.galleryBtn);
 		galleryBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				dispatchTakePictureIntent();
+				Intent intent = new Intent(getApplicationContext(), GalleryScreen.class);
+				startActivity(intent);
 			}
 		});
 		imageView = (ImageView)this.findViewById(R.id.imageView);
 	}
 
-	private void dispatchTakePictureIntent() {
+	public void dispatchTakePictureIntent() {
 		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+		if(takePictureIntent.resolveActivity(getPackageManager()) != null) {
 			startActivityForResult(takePictureIntent, CAMERA_REQUEST);
 		}
 	}
