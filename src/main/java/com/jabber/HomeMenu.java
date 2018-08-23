@@ -2,26 +2,28 @@ package com.jabber;
 
 import android.content.Intent;
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import android.view.View;
-import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import android.view.LayoutInflater;
+import android.widget.ImageButton;
+import android.widget.Toast;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.View;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,7 +52,29 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		imgButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Toast.makeText(getApplicationContext(), "Image button was clicked.", Toast.LENGTH_SHORT).show();
+				AlertDialog.Builder alertadd = new AlertDialog.Builder(HomeMenu.this);
+				LayoutInflater factory = LayoutInflater.from(HomeMenu.this);
+				final View aView = factory.inflate(R.layout.camera_pop_up, null);
+				ImageButton camera = aView.findViewById(R.id.imgCamera);
+				ImageButton gallery = aView.findViewById(R.id.imgGallery);
+				camera.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						Toast.makeText(getApplicationContext(), "Camera", Toast.LENGTH_SHORT).show();
+					}
+				});
+				gallery.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						Toast.makeText(getApplicationContext(), "Gallery", Toast.LENGTH_SHORT).show();
+					}
+				});
+				alertadd.setView(aView);
+				/*alertadd.setNeutralButton("Here!", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dlg, int sumthin) {
+					}
+				});*/
+				alertadd.show();
 			}
 		});
 	}
@@ -81,7 +105,7 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		int id = item.getItemId();
 		// noinspection SimplifiableIfStatement
 		// if (id == R.id.action_settings) {
-		// 	return true;
+		//	return true;
 		// }
 		// 3 dots code will go here
 		return(super.onOptionsItemSelected(item));

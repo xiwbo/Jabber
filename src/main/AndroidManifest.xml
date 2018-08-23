@@ -39,7 +39,7 @@
             android:name=".ForgotPassword"
             android:label="Forgot Password"
             android:parentActivityName=".LoginScreen"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
