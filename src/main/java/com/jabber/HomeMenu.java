@@ -1,13 +1,17 @@
 package com.jabber;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -28,15 +32,20 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
 
 public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
 	Dialog myDialog;
 	TextView textView;
 	PopupDialog logoutPopup;
+	private static final int PICK_IMAGE_REQUEST = 1;
 	private final int CAMERA_REQUEST = 100;
 	private final int RESULT_GALLERY = 100;
 	ImageView imageView;
+	ImageButton imgButton;
+	private Uri imageURI;
+	View header;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,15 +57,14 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 		drawer.addDrawerListener(toggle);
 		toggle.syncState();
-		NavigationView navigationView = (NavigationView)findViewById(R.id.nav_view);
+		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
 		//Fragments on nav
 		DisplayFragment(R.id.navHome);
 		navigationView.setCheckedItem(R.id.navHome);
-
-		View header = navigationView.getHeaderView(0);
-		imageView = (ImageView)this.findViewById(R.id.userPhoto);
-		ImageButton imgButton = header.findViewById(R.id.addProfilePhoto);
+		header = navigationView.getHeaderView(0);
+		imageView = header.findViewById(R.id.userPhoto);
+		imgButton = header.findViewById(R.id.addProfilePhoto);
 		imgButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -76,7 +84,8 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 					@Override
 					public void onClick(View view) {
 						Toast.makeText(getApplicationContext(), "Gallery", Toast.LENGTH_SHORT).show();
-						openGalleryIntent();
+						//openGalleryIntent();
+						openFileChooser();
 					}
 				});
 				alertadd.setView(aView);
@@ -89,6 +98,13 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		});
 		myDialog = new Dialog(this);
 		myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	}
+
+	public void openFileChooser() {
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(intent, PICK_IMAGE_REQUEST);
 	}
 
 	@Override
@@ -176,20 +192,19 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		startActivityForResult(galleryIntent , RESULT_GALLERY );
 	}
 
+		@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-			Bitmap photo = (Bitmap)data.getExtras().get("data");
-			imageView.setImageBitmap(photo);
+		if(requestCode == CAMERA_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+			//Bitmap photo = (Bitmap)data.getExtras().get("data");
+			//System.out.println("Photo: " + photo);
+			imageURI = data.getData();
+			Picasso.get().load(imageURI).into(imageView);
+			imageView.setImageURI(imageURI);
 		}
-		if(requestCode == RESULT_GALLERY && resultCode == RESULT_OK) {
-			try {
-				final Uri imageUri = data.getData();
-				final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-				final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-				imageView.setImageBitmap(selectedImage);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+		if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+			imageURI = data.getData();
+			Picasso.get().load(imageURI).into(imageView);
+			imageView.setImageURI(imageURI);
 		}
 	}
 }
