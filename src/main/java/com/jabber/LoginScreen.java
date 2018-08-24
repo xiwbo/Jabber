@@ -28,7 +28,7 @@ public class LoginScreen extends Activity
 	Button loginbtn;
 	EditText username;
 	EditText password;
-	String user,pass;
+	String user, pass;
 	Firebase firebase;
 	TextView registerLink, forgotPass;
 	FirebaseUser currentUser;
@@ -83,7 +83,7 @@ public class LoginScreen extends Activity
 	@Override
 	public void onStart() {
 		super.onStart();
-		// Check if user is signed in (non-null) and update UI accordingly.
+		//Check user if signed in already
 		currentUser = mAuth.getCurrentUser();
 		if(currentUser != null) {
 			HomeMenu();
@@ -95,7 +95,7 @@ public class LoginScreen extends Activity
 			@Override
 			public void onComplete(@NonNull Task<AuthResult> task) {
 				if(task.isSuccessful()) {
-					// Sign in success, update UI with the signed-in user's information
+					//Sign in success
 					HomeMenu();
 				}
 				else {

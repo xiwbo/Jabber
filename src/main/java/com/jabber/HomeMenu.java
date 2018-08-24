@@ -34,8 +34,7 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 		drawer.addDrawerListener(toggle);
 		toggle.syncState();
-
-		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+		NavigationView navigationView = (NavigationView)findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
 		//Fragments on nav
 		DisplayFragment(R.menu.main);
@@ -53,7 +52,8 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 				camera.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						Toast.makeText(getApplicationContext(), "Camera", Toast.LENGTH_SHORT).show();
+						Intent intent = new Intent(getApplicationContext(), CameraScreen.class);
+						startActivity(intent);
 					}
 				});
 				gallery.setOnClickListener(new View.OnClickListener() {
@@ -70,12 +70,14 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 				alertadd.show();
 			}
 		});
+		myDialog = new Dialog(this);
+		myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	}
 
 	@Override
 	public void onBackPressed() {
-		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-		if(drawer.isDrawerOpen(GravityCompat.START)) {
+		DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
+		if (drawer.isDrawerOpen(GravityCompat.START)) {
 			drawer.closeDrawer(GravityCompat.START);
 		}
 		else {
@@ -123,11 +125,13 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 				fragment = new AboutScreen();
 				break;
 			case R.id.navLogout:
-					FirebaseAuth.getInstance().signOut();
-					Toast.makeText(getApplicationContext(), "Good Bye! ",Toast.LENGTH_LONG).show();
-					Intent intent = new Intent(getApplicationContext(), LoginScreen.class);
-					startActivity(intent);
-					finish();
+					logoutPopup = new PopupDialog(myDialog, "Are you sure you want to logout?", "OK");
+					logoutPopup.showPromptPopup();
+					// FirebaseAuth.getInstance().signOut();
+					// Toast.makeText(getApplicationContext(), "Good Bye! ",Toast.LENGTH_LONG).show();
+					// Intent intent = new Intent(getApplicationContext(), LoginScreen.class);
+					// startActivity(intent);
+					// finish();
 				break;
 		}
 		if(fragment != null) {
