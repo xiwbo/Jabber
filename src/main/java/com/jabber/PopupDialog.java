@@ -52,7 +52,7 @@ public class PopupDialog extends Activity
 			@Override
 			public void onClick(View v) {
 				FirebaseAuth.getInstance().signOut();
-				Intent intent = new Intent(getActivity(), LoginScreen.class);
+				Intent intent = new Intent(getApplicationContext(), LoginScreen.class);
 				startActivity(intent);
 				myDialog.dismiss();
 			}

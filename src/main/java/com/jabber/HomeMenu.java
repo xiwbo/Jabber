@@ -1,13 +1,21 @@
 package com.jabber;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.provider.MediaStore;
+import android.widget.ImageView;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.LayoutInflater;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
@@ -22,8 +30,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+
 public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
+	Dialog myDialog;
+	TextView textView;
+	PopupDialog logoutPopup;
+	private final int CAMERA_REQUEST = 100;
+	private final int RESULT_GALLERY = 100;
+	ImageView imageView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,7 +56,8 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		DisplayFragment(R.menu.main);
 
 		View header = navigationView.getHeaderView(0);
-		ImageButton imgButton = header.findViewById(R.id.addImgButton);
+		imageView = (ImageView)this.findViewById(R.id.userPhoto);
+		ImageButton imgButton = header.findViewById(R.id.addProfilePhoto);
 		imgButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -52,14 +69,15 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 				camera.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						Intent intent = new Intent(getApplicationContext(), CameraScreen.class);
-						startActivity(intent);
+						Toast.makeText(getApplicationContext(), "Camera", Toast.LENGTH_SHORT).show();
+						dispatchTakePictureIntent();
 					}
 				});
 				gallery.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
 						Toast.makeText(getApplicationContext(), "Gallery", Toast.LENGTH_SHORT).show();
+						openGalleryIntent();
 					}
 				});
 				alertadd.setView(aView);
@@ -150,5 +168,34 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		int id = item.getItemId();
 		DisplayFragment(id);
 		return(true);
+	}
+
+	public void dispatchTakePictureIntent() {
+		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		if(takePictureIntent.resolveActivity(getPackageManager()) != null) {
+			startActivityForResult(takePictureIntent, CAMERA_REQUEST);
+		}
+	}
+
+	public void openGalleryIntent() {
+		Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		startActivityForResult(galleryIntent , RESULT_GALLERY );
+	}
+
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+			Bitmap photo = (Bitmap)data.getExtras().get("data");
+			imageView.setImageBitmap(photo);
+		}
+		if(requestCode == RESULT_GALLERY && resultCode == RESULT_OK) {
+			try {
+				final Uri imageUri = data.getData();
+				final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+				final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+				imageView.setImageBitmap(selectedImage);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
