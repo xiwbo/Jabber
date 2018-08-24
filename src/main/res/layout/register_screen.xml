@@ -19,7 +19,7 @@
 		android:layout_marginEnd="24dp"
 		android:layout_marginBottom="40dp"
 		android:background="@drawable/buttonshape"
-		android:backgroundTint="#808080"
+		android:backgroundTint="@color/fbBlue"
 		android:text="REGISTER"
 		android:textColor="#ffffff"
 		android:textSize="20sp"
@@ -116,23 +116,24 @@
 		android:layout_marginTop="29dp"
 		android:layout_marginBottom="24dp"
 		android:src="@drawable/appicon"
-		app:layout_constraintBottom_toTopOf="@+id/navEmail"
+		app:layout_constraintBottom_toTopOf="@+id/txtFEmail"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent" />
 
 	<EditText
 		android:id="@+id/txtConfirmPw"
+		android:digits="0123456789@._ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 		android:layout_width="0dp"
-		android:layout_height="39dp"
+		android:layout_height="50dp"
 		android:layout_marginStart="24dp"
-		android:layout_marginTop="8dp"
 		android:layout_marginEnd="24dp"
 		android:layout_marginBottom="3dp"
 		android:backgroundTint="#fff"
 		android:ems="10"
 		android:fontFamily="@font/robotolight"
 		android:hint="Confirm Password"
+		android:imeOptions="actionSend"
 		android:inputType="textPassword"
 		android:textColor="@android:color/background_light"
 		app:layout_constraintBottom_toTopOf="@+id/btnRegister"
@@ -141,7 +142,8 @@
 		app:layout_constraintTop_toBottomOf="@+id/txtPassword" />
 
 	<EditText
-		android:id="@+id/navEmail"
+		android:id="@+id/txtFEmail"
+		android:digits="0123456789@._ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 		android:layout_width="0dp"
 		android:layout_height="44dp"
 		android:layout_marginStart="24dp"
@@ -161,10 +163,11 @@
 
 	<EditText
 		android:id="@+id/txtPassword"
+		android:digits="0123456789@._ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 		android:layout_width="0dp"
 		android:layout_height="42dp"
 		android:layout_marginStart="24dp"
-		android:layout_marginTop="3dp"
+		android:layout_marginTop="20dp"
 		android:layout_marginEnd="24dp"
 		android:backgroundTint="#fff"
 		android:ems="10"
@@ -174,11 +177,14 @@
 		android:textColor="@android:color/background_light"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.0"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintVertical_bias="0.49" />
 
 	<EditText
 		android:id="@+id/txtUsername"
+		android:digits="0123456789@._ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 		android:layout_width="0dp"
 		android:layout_height="0dp"
 		android:layout_marginStart="24dp"
@@ -187,13 +193,12 @@
 		android:layout_marginBottom="8dp"
 		android:backgroundTint="#fff"
 		android:ems="10"
-		android:hint="Username"
 		android:fontFamily="@font/robotolight"
+		android:hint="Username"
 		android:inputType="textEmailAddress"
 		android:textColor="@android:color/background_light"
 		app:layout_constraintBottom_toTopOf="@+id/txtPassword"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/navEmail"
-		/>
+		app:layout_constraintTop_toBottomOf="@+id/txtFEmail" />
 </androidx.constraintlayout.widget.ConstraintLayout>
