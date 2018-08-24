@@ -20,6 +20,7 @@
 
 	<EditText
 		android:id="@+id/txtUsername"
+        android:digits="0123456789@._ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 		android:fontFamily="@font/robotolight"
 		android:layout_width="0dp"
 		android:layout_height="42dp"
@@ -39,14 +40,16 @@
 
 	<EditText
 		android:id="@+id/txtPassword"
-		android:fontFamily="@font/robotolight"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginStart="24dp"
 		android:layout_marginEnd="24dp"
 		android:backgroundTint="#fff"
+		android:digits="0123456789@._ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 		android:ems="10"
+		android:fontFamily="@font/robotolight"
 		android:hint="Password"
+		android:imeOptions="actionSend"
 		android:inputType="textPassword"
 		android:textColor="@android:color/background_light"
 		app:layout_constraintBottom_toBottomOf="parent"
@@ -87,11 +90,11 @@
 		android:layout_marginEnd="24dp"
 		android:layout_marginBottom="52dp"
 		android:background="@drawable/buttonshape"
-		android:backgroundTint="#808080"
+		android:backgroundTint="@color/fbBlue"
 		android:fontFamily="@font/robotolight"
 		android:text="Login"
 		android:textColor="#ffffff"
-		android:textSize="20sp"
+		android:textSize="18sp"
 		app:layout_constraintBottom_toBottomOf="@+id/btnLoginFb"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
@@ -99,7 +102,6 @@
 
 	<Button
 		android:id="@+id/btnLoginFb"
-		android:fontFamily="@font/robotolight"
 		android:layout_width="0dp"
 		android:layout_height="41dp"
 		android:layout_marginStart="24dp"
@@ -108,11 +110,12 @@
 		android:background="@drawable/buttonshape"
 		android:backgroundTint="@color/fbBlue"
 		android:drawableLeft="@drawable/facebook"
+		android:fontFamily="@font/robotolight"
 		android:paddingLeft="30dp"
 		android:paddingRight="20dp"
 		android:text="LOGIN WITH FACEBOOK"
 		android:textColor="#ffffff"
-		android:textSize="20sp"
+		android:textSize="18sp"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent" />
