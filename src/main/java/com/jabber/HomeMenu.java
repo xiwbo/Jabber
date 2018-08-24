@@ -19,12 +19,24 @@ import android.view.Window;
 import android.view.MenuItem;
 import android.widget.Toast;
 import android.widget.TextView;
+import androidx.appcompat.app.AlertDialog;
+import android.view.LayoutInflater;
+import android.widget.ImageView;
+import android.net.Uri;
+import java.io.InputStream;
+import android.graphics.BitmapFactory;
+import java.io.FileNotFoundException;
+import android.provider.MediaStore;
+import android.graphics.Bitmap;
 
 public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
 	Dialog myDialog;
 	TextView textView;
 	PopupDialog logoutPopup;
+	private final int CAMERA_REQUEST = 100;
+	private final int RESULT_GALLERY = 100;
+	ImageView imageView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +56,36 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		myDialog = new Dialog(this);
 		myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		View header = navigationView.getHeaderView(0);
+		imageView = (ImageView)this.findViewById(R.id.userPhoto);
 		ImageButton imgButton = header.findViewById(R.id.addProfilePhoto);
 		imgButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(getApplicationContext(), CameraScreen.class);
-				startActivity(intent);
+				AlertDialog.Builder alertadd = new AlertDialog.Builder(HomeMenu.this);
+				LayoutInflater factory = LayoutInflater.from(HomeMenu.this);
+				final View aView = factory.inflate(R.layout.camera_pop_up, null);
+				ImageButton camera = aView.findViewById(R.id.imgCamera);
+				ImageButton gallery = aView.findViewById(R.id.imgGallery);
+				camera.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						Toast.makeText(getApplicationContext(), "Camera", Toast.LENGTH_SHORT).show();
+						dispatchTakePictureIntent();
+					}
+				});
+				gallery.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						Toast.makeText(getApplicationContext(), "Gallery", Toast.LENGTH_SHORT).show();
+						openGalleryIntent();
+					}
+				});
+				alertadd.setView(aView);
+				/*alertadd.setNeutralButton("Here!", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dlg, int sumthin) {
+					}
+				});*/
+				alertadd.show();
 			}
 		});
 	}
@@ -118,5 +154,34 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);
 		return(true);
+	}
+
+	public void dispatchTakePictureIntent() {
+		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		if(takePictureIntent.resolveActivity(getPackageManager()) != null) {
+			startActivityForResult(takePictureIntent, CAMERA_REQUEST);
+		}
+	}
+
+	public void openGalleryIntent() {
+		Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		startActivityForResult(galleryIntent , RESULT_GALLERY );
+	}
+
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+			Bitmap photo = (Bitmap)data.getExtras().get("data");
+			imageView.setImageBitmap(photo);
+		}
+		if(requestCode == RESULT_GALLERY && resultCode == RESULT_OK) {
+			try {
+				final Uri imageUri = data.getData();
+				final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+				final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+				imageView.setImageBitmap(selectedImage);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
