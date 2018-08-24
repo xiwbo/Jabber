@@ -35,7 +35,7 @@ public class RegisterScreen extends AppCompatActivity
 	TextView loginLink;
 	EditText email,username,password,confirmPassword;
 	CheckBox tickbox;
-	String user,mail,pass;
+	String user, mail, pass;
 	Firebase firebase;
 
 	@Override
@@ -85,6 +85,7 @@ public class RegisterScreen extends AppCompatActivity
 		mAuth.createUserWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 			@Override
 			public void onComplete(@NonNull Task<AuthResult> task) {
+				//If Successfully registered
 				if(task.isSuccessful()) {
 					// GO TO HOME SCREEN
 					FirebaseUser firebaseUser = mAuth.getCurrentUser();
@@ -93,8 +94,8 @@ public class RegisterScreen extends AppCompatActivity
 					HashMap<String, String> hashMap = new HashMap<>();
 					hashMap.put("id", userId);
 					hashMap.put("email", userEmail);
-					hashMap.put("username",userName);
-					hashMap.put("password",userPassword);
+					hashMap.put("username", userName);
+					hashMap.put("password", userPassword);
 					databaseReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
 						@Override
 						public void onComplete(@NonNull Task<Void> task) {

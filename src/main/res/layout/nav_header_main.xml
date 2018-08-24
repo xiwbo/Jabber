@@ -15,7 +15,7 @@
 	tools:layout_editor_absoluteY="81dp">
 
 	<ImageView
-		android:id="@+id/imageView"
+		android:id="@+id/userPhoto"
 		android:layout_width="82dp"
 		android:layout_height="81dp"
 		android:layout_marginStart="16dp"
@@ -27,7 +27,7 @@
 		app:layout_constraintTop_toTopOf="parent" />
 
 	<ImageButton
-		android:id="@+id/addImgButton"
+		android:id="@+id/addProfilePhoto"
 		android:layout_width="46dp"
 		android:layout_height="39dp"
 		android:layout_marginTop="40dp"
