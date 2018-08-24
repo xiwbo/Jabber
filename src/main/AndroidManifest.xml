@@ -62,6 +62,10 @@
             android:name=".PrivacyPolicy"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".GroupChat"
+            android:parentActivityName=".HomeMenu"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

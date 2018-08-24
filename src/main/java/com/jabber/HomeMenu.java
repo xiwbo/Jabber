@@ -1,13 +1,7 @@
 package com.jabber;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -31,7 +25,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
@@ -77,22 +70,17 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 					@Override
 					public void onClick(View view) {
 						Toast.makeText(getApplicationContext(), "Camera", Toast.LENGTH_SHORT).show();
-						dispatchTakePictureIntent();
+						openCamera();
 					}
 				});
 				gallery.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
 						Toast.makeText(getApplicationContext(), "Gallery", Toast.LENGTH_SHORT).show();
-						//openGalleryIntent();
 						openFileChooser();
 					}
 				});
 				alertadd.setView(aView);
-				/*alertadd.setNeutralButton("Here!", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dlg, int sumthin) {
-					}
-				});*/
 				alertadd.show();
 			}
 		});
@@ -180,23 +168,16 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		return(true);
 	}
 
-	public void dispatchTakePictureIntent() {
+	public void openCamera() {
 		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		if(takePictureIntent.resolveActivity(getPackageManager()) != null) {
 			startActivityForResult(takePictureIntent, CAMERA_REQUEST);
 		}
 	}
 
-	public void openGalleryIntent() {
-		Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-		startActivityForResult(galleryIntent , RESULT_GALLERY );
-	}
-
-		@Override
+	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(requestCode == CAMERA_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-			//Bitmap photo = (Bitmap)data.getExtras().get("data");
-			//System.out.println("Photo: " + photo);
 			imageURI = data.getData();
 			Picasso.get().load(imageURI).into(imageView);
 			imageView.setImageURI(imageURI);
