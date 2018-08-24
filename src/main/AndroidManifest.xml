@@ -44,5 +44,9 @@
 			android:label="Forgot Password"
 			android:parentActivityName=".LoginScreen"
 			android:theme="@style/AppTheme" />
+		<activity
+            android:name=".TermsOfUse"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />	
 	</application>
 </manifest>
