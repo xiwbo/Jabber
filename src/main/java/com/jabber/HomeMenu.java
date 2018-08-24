@@ -26,10 +26,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-
 
 public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
@@ -53,7 +51,8 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		NavigationView navigationView = (NavigationView)findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
 		//Fragments on nav
-		DisplayFragment(R.menu.main);
+		DisplayFragment(R.id.navHome);
+		navigationView.setCheckedItem(R.id.navHome);
 
 		View header = navigationView.getHeaderView(0);
 		imageView = (ImageView)this.findViewById(R.id.userPhoto);
@@ -128,7 +127,7 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		Fragment fragment = null;
 		switch(id) {
 			case R.id.navHome:
-					fragment = new NavHome();
+				fragment = new NavHomeScreen();
 				break;
 			case R.id.navBio:
 				Toast.makeText(this, "BIO SCREEN", Toast.LENGTH_SHORT).show();
@@ -140,16 +139,11 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 				Toast.makeText(this, "ANON SCREEN", Toast.LENGTH_SHORT).show();
 				break;
 			case R.id.navAboutUs:
-				fragment = new AboutScreen();
+				fragment = new NavAboutScreen();
 				break;
 			case R.id.navLogout:
 					logoutPopup = new PopupDialog(myDialog, "Are you sure you want to logout?", "OK");
 					logoutPopup.showPromptPopup();
-					// FirebaseAuth.getInstance().signOut();
-					// Toast.makeText(getApplicationContext(), "Good Bye! ",Toast.LENGTH_LONG).show();
-					// Intent intent = new Intent(getApplicationContext(), LoginScreen.class);
-					// startActivity(intent);
-					// finish();
 				break;
 		}
 		if(fragment != null) {

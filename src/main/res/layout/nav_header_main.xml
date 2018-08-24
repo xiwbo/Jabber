@@ -27,11 +27,7 @@
 		app:layout_constraintTop_toTopOf="parent" />
 
 	<ImageButton
-<<<<<<< HEAD
 		android:id="@+id/addProfilePhoto"
-=======
-		android:id="@+id/addImgButton"
->>>>>>> cef456222092a1c8d24d57afc1bc9f7fb25664cb
 		android:layout_width="46dp"
 		android:layout_height="39dp"
 		android:layout_marginTop="40dp"

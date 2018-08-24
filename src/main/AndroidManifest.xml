@@ -39,5 +39,10 @@
 			android:name=".HomeMenu"
 			android:label="@string/app_name"
 			android:theme="@style/AppTheme.NoActionBar"></activity>
+		<activity
+			android:name=".ForgotPassword"
+			android:label="Forgot Password"
+			android:parentActivityName=".LoginScreen"
+			android:theme="@style/AppTheme" />
 	</application>
 </manifest>
