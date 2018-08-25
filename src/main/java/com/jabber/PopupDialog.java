@@ -1,15 +1,18 @@
 package com.jabber;
 
 import com.google.firebase.auth.FirebaseAuth;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.TextView;
 
-public class PopupDialog extends Activity
+public class PopupDialog extends AppCompatActivity
 {
 	String txtMessage;
 	String txtButton;
@@ -52,7 +55,7 @@ public class PopupDialog extends Activity
 			@Override
 			public void onClick(View v) {
 				FirebaseAuth.getInstance().signOut();
-				Intent intent = new Intent(getApplicationContext(), LoginScreen.class);
+				Intent intent = new Intent(PopupDialog.this, LoginScreen.class);
 				startActivity(intent);
 				myDialog.dismiss();
 			}

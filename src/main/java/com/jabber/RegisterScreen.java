@@ -37,6 +37,7 @@ public class RegisterScreen extends AppCompatActivity
 	CheckBox tickbox;
 	String user, mail, pass;
 	Firebase firebase;
+	TextView termsOfUse, privacyPolicy;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,8 @@ public class RegisterScreen extends AppCompatActivity
 		password = findViewById(R.id.txtPassword);
 		confirmPassword = findViewById(R.id.txtConfirmPw);
 		tickbox = findViewById(R.id.tickbox);
+		termsOfUse = findViewById(R.id.linkTermsOfUse);
+		privacyPolicy = findViewById(R.id.linkPrivacyPolicy);
 		registerbtn.setEnabled(false);
 		email.addTextChangedListener(textWatcher);
 		username.addTextChangedListener(textWatcher);
@@ -78,6 +81,20 @@ public class RegisterScreen extends AppCompatActivity
 				else {
 					OnClick();
 				}
+			}
+		});
+		termsOfUse.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(getApplicationContext(), TermsOfUse.class);
+				startActivity(intent);
+			}
+		});
+		privacyPolicy.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(getApplicationContext(), PrivacyPolicy.class);
+				startActivity(intent);
 			}
 		});
 	}
