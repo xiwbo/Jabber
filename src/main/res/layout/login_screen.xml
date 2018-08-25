@@ -8,19 +8,19 @@
 	tools:context=".LoginScreen"
 	tools:layout_editor_absoluteY="25dp">
 
-    <ImageView
-        android:id="@+id/imgJabberLogo"
-        android:layout_width="132dp"
-        android:layout_height="124dp"
-        android:layout_marginTop="38dp"
-        android:background="@drawable/appicon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+	<ImageView
+		android:id="@+id/imgJabberLogo"
+		android:layout_width="132dp"
+		android:layout_height="124dp"
+		android:layout_marginTop="38dp"
+		android:background="@drawable/appicon"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
 
 	<EditText
 		android:id="@+id/txtUsername"
-        android:digits="0123456789@._ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+		android:digits="0123456789@._ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 		android:fontFamily="@font/robotolight"
 		android:layout_width="0dp"
 		android:layout_height="42dp"
@@ -92,7 +92,7 @@
 		android:background="@drawable/buttonshape"
 		android:backgroundTint="@color/fbBlue"
 		android:fontFamily="@font/robotolight"
-		android:text="Login"
+		android:text="LOGIN"
 		android:textColor="#ffffff"
 		android:textSize="18sp"
 		app:layout_constraintBottom_toBottomOf="@+id/btnLoginFb"
