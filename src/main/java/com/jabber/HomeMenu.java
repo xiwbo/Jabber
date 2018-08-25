@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.SearchView;
+import android.widget.ArrayAdapter;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +41,7 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 	ImageButton imgButton;
 	private Uri imageURI;
 	View header;
+	ArrayAdapter<String> adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
