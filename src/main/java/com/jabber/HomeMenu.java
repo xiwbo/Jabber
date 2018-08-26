@@ -1,6 +1,7 @@
 package com.jabber;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,9 +42,7 @@ import java.util.Map;
 
 public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
-	Dialog myDialog;
 	TextView mName;
-	PopupDialog logoutPopup;
 	private static final int PICK_IMAGE_REQUEST = 1;
 	private final int CAMERA_REQUEST = 100;
 	private final int RESULT_GALLERY = 100;
@@ -101,9 +100,6 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 				alertadd.show();
 			}
 		});
-		myDialog = new Dialog(this);
-		myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
 		mAuth = FirebaseAuth.getInstance();
 		userId = mAuth.getCurrentUser().getUid();
 		mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
@@ -137,9 +133,6 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		// noinspection SimplifiableIfStatement
 		// if (id == R.id.action_settings) {
@@ -156,7 +149,7 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 				fragment = new NavHomeScreen();
 				break;
 			case R.id.navBio:
-				Toast.makeText(this, "BIO SCREEN", Toast.LENGTH_SHORT).show();
+				fragment = new NavBioScreen();
 				break;
 			case R.id.navInterest:
 				Toast.makeText(this, "INTEREST SCREEN", Toast.LENGTH_SHORT).show();
@@ -168,8 +161,7 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 				fragment = new NavAboutScreen();
 				break;
 			case R.id.navLogout:
-					logoutPopup = new PopupDialog(myDialog, "Are you sure you want to logout?", "OK");
-					logoutPopup.showPromptPopup();
+				logout();
 				break;
 		}
 		if(fragment != null) {
@@ -211,6 +203,28 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		}
 	}
 
+	public void logout(){
+		AlertDialog.Builder logOut = new AlertDialog.Builder(this);
+		logOut.setCancelable(false);
+		logOut.setTitle("Are you sure you want to log out?");
+		logOut.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialogInterface, int i) {
+				Intent intent = new Intent(HomeMenu.this, LoginScreen.class);
+				startActivity(intent);
+				FirebaseAuth.getInstance().signOut();
+				finish();
+			}
+		});
+		logOut.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialogInterface, int i) {
+				dialogInterface.cancel();
+			}
+		});
+		logOut.show();
+	}
+
 	private void getUserInfo() {
 		mUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
@@ -224,10 +238,8 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 					}
 				}
 			}
-
 			@Override
 			public void onCancelled(DatabaseError databaseError) {
-
 			}
 		});
 	}
