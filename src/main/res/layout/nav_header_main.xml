@@ -38,24 +38,15 @@
 		app:layout_constraintEnd_toEndOf="@+id/userPhoto" />
 
 	<TextView
-		android:id="@+id/textView"
+		android:id="@+id/mName"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginEnd="20dp"
 		android:layout_marginBottom="18dp"
 		android:paddingTop="@dimen/nav_header_vertical_spacing"
-		android:text="@string/nav_header_title"
 		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toStartOf="@+id/userPhoto"
 		app:layout_constraintStart_toStartOf="parent" />
-
-	<TextView
-		android:id="@+id/txtFEmail"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="@string/nav_header_subtitle"
-		app:layout_constraintStart_toStartOf="@+id/textView"
-		app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
