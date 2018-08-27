@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
@@ -16,37 +16,46 @@
 
 	<ImageView
 		android:id="@+id/userPhoto"
-		android:scaleType="centerCrop"
-		android:layout_width="0dp"
-		android:layout_height="105dp"
-		android:layout_marginTop="10dp"
-		android:layout_marginEnd="15dp"
-		android:src="@drawable/appicon"
+		android:layout_width="121dp"
+		android:layout_height="129dp"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentEnd="true"
+		android:layout_marginTop="11dp"
+		android:layout_marginEnd="19dp"
 		android:contentDescription="@string/nav_header_desc"
 		android:paddingTop="@dimen/nav_header_vertical_spacing"
-		app:layout_constraintBottom_toTopOf="@+id/txtFEmail"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toEndOf="@+id/textView"
-		app:layout_constraintTop_toTopOf="parent" />
+		android:scaleType="centerCrop"
+		android:src="@drawable/appicon"
+		tools:layout_editor_absoluteX="201dp"
+		tools:layout_editor_absoluteY="23dp" />
 
 	<ImageButton
 		android:id="@+id/addProfilePhoto"
 		android:layout_width="46dp"
 		android:layout_height="39dp"
+		android:layout_alignBottom="@+id/userPhoto"
+		android:layout_alignParentEnd="true"
+		android:layout_marginEnd="24dp"
 		android:background="@drawable/camera_add"
-		app:layout_constraintBottom_toBottomOf="@+id/userPhoto"
-		app:layout_constraintEnd_toEndOf="@+id/userPhoto" />
+		tools:layout_editor_absoluteX="275dp"
+		tools:layout_editor_absoluteY="113dp" />
 
 	<TextView
 		android:id="@+id/mName"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginEnd="20dp"
-		android:layout_marginBottom="18dp"
+		android:layout_alignBottom="@+id/userPhoto"
+		android:layout_alignParentStart="true"
+		android:layout_marginStart="10dp"
+		android:layout_marginBottom="-1dp"
+		android:fontFamily="@font/robotolight"
 		android:paddingTop="@dimen/nav_header_vertical_spacing"
+		android:text="Username"
 		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toStartOf="@+id/userPhoto"
-		app:layout_constraintStart_toStartOf="parent" />
+		android:textColor="@color/white"
+		android:textSize="20sp"
+		android:textStyle="bold"
+		tools:layout_editor_absoluteX="24dp"
+		tools:layout_editor_absoluteY="116dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
