@@ -110,6 +110,7 @@ public class RegisterScreen extends AppCompatActivity
 					databaseReference = FirebaseDatabase.getInstance().getReference("Users").child("Email");
 					HashMap<String, String> hashMap = new HashMap<>();
 					hashMap.put("id", userId);
+					hashMap.put("profilePicture", "default");
 					hashMap.put("email", userEmail);
 					hashMap.put("username", userName);
 					hashMap.put("password", userPassword);
