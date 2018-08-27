@@ -152,10 +152,10 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 				fragment = new NavBioScreen();
 				break;
 			case R.id.navInterest:
-				Toast.makeText(this, "INTEREST SCREEN", Toast.LENGTH_SHORT).show();
+				fragment = new NavInterestScreen();
 				break;
 			case R.id.navAnonChat:
-				Toast.makeText(this, "ANON SCREEN", Toast.LENGTH_SHORT).show();
+				fragment = new NavAnonymousChatScreen();
 				break;
 			case R.id.navAboutUs:
 				fragment = new NavAboutScreen();
