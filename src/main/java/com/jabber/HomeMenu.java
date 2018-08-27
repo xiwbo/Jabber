@@ -29,10 +29,22 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
 	Dialog myDialog;
-	TextView textView;
+	TextView mName;
 	PopupDialog logoutPopup;
 	private static final int PICK_IMAGE_REQUEST = 1;
 	private final int CAMERA_REQUEST = 100;
@@ -42,6 +54,10 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 	private Uri imageURI;
 	View header;
 	ArrayAdapter<String> adapter;
+
+	private FirebaseAuth mAuth;
+	private DatabaseReference mUserDatabase;
+	private String userId, name;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +77,7 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		header = navigationView.getHeaderView(0);
 		imageView = header.findViewById(R.id.userPhoto);
 		imgButton = header.findViewById(R.id.addProfilePhoto);
+		mName = header.findViewById(R.id.mName);
 		imgButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -89,6 +106,11 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		});
 		myDialog = new Dialog(this);
 		myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+		mAuth = FirebaseAuth.getInstance();
+		userId = mAuth.getCurrentUser().getUid();
+		mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+		getUserInfo();
 	}
 
 	public void openFileChooser() {
@@ -190,5 +212,26 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 			Picasso.get().load(imageURI).into(imageView);
 			imageView.setImageURI(imageURI);
 		}
+	}
+
+	private void getUserInfo() {
+		mUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot) {
+				if(dataSnapshot.exists() && dataSnapshot.getChildrenCount() > 0) {
+					Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+					if(map.get("username")!= null) {
+						name = map.get("username").toString();
+						mName.setText(name);
+						Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
+					}
+				}
+			}
+
+			@Override
+			public void onCancelled(DatabaseError databaseError) {
+
+			}
+		});
 	}
 }
