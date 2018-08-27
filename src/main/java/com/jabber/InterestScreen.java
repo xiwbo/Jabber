@@ -12,6 +12,6 @@ public class InterestScreen extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.interest_screen);
+		setContentView(R.layout.fragment_interest_screen);
 	}
 }
