@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +42,7 @@ public class FragmentGroupTab extends Fragment
 {
 	View view;
 	ListView listView;
-	FloatingActionButton fab;
+	ImageButton imgButton;
 	DatabaseReference root = FirebaseDatabase.getInstance().getReference().child("GroupChatName");
 	private ArrayAdapter<String> arrayAdapter;
 	private ArrayList<String> listOfRooms = new ArrayList<>();
@@ -60,10 +61,10 @@ public class FragmentGroupTab extends Fragment
 		Firebase.setAndroidContext(getContext());
 		firebase = new Firebase("https://jabber-6ac14.firebaseio.com");
 		mAuth = FirebaseAuth.getInstance();
-		fab = view.findViewById(R.id.addGroup);
+		imgButton = view.findViewById(R.id.addGroup);
 		arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,listOfRooms);
 		listView.setAdapter(arrayAdapter);
-		fab.setOnClickListener(new View.OnClickListener() {
+		imgButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				addGroupName();
@@ -84,10 +85,18 @@ public class FragmentGroupTab extends Fragment
 
 	private void addGroupName() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-		builder.setTitle("Enter group name:");
+		builder.setTitle("Create group");
 		final EditText textField = new EditText(getContext());
+		textField.setHint("Enter group name");
+		textField.setPadding(10, 50, 10 , 20);
 		builder.setView(textField);
-		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialogInterface, int i) {
+				dialogInterface.cancel();
+			}
+		});
+		builder.setPositiveButton("CREATE", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialogInterface, int i) {
 				groupName = textField.getText().toString();
@@ -109,12 +118,6 @@ public class FragmentGroupTab extends Fragment
 					public void onCancelled(@NonNull DatabaseError databaseError) {
 					}
 				});
-			}
-		});
-		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialogInterface, int i) {
-				dialogInterface.cancel();
 			}
 		});
 		builder.show();
