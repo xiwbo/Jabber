@@ -78,6 +78,9 @@ public class RegisterScreen extends AppCompatActivity
 				else if(password.length() < 6) {
 					Toast.makeText(getApplicationContext(), "Please check password, make sure your password is atleast 6 characters.", Toast.LENGTH_SHORT).show();
 				}
+				else if(!tickbox.isChecked()) {
+					Toast.makeText(getApplicationContext(), "Please check the below the box below, indicated that you have read and agree to the Terms Of Use and Privacy Policy", Toast.LENGTH_SHORT).show();
+				}
 				else {
 					OnClick();
 				}
@@ -98,6 +101,19 @@ public class RegisterScreen extends AppCompatActivity
 			}
 		});
 	}
+
+	public void OnClick() {
+		if(password.getText().toString().equals(confirmPassword.getText().toString())) {
+			user = username.getText().toString();
+			mail = email.getText().toString();
+			pass = password.getText().toString();
+			createAccount(user,mail,pass);
+		}
+		else {
+			Toast.makeText(getApplicationContext(), "Password does not match.", Toast.LENGTH_SHORT).show();
+		}
+	}
+
 	public void createAccount(final String userName, final String userEmail, final String userPassword) {
 		mAuth.createUserWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 			@Override
@@ -107,7 +123,7 @@ public class RegisterScreen extends AppCompatActivity
 					// GO TO HOME SCREEN
 					FirebaseUser firebaseUser = mAuth.getCurrentUser();
 					String userId = firebaseUser.getUid();
-					databaseReference = FirebaseDatabase.getInstance().getReference("Users").child("Email");
+					databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
 					HashMap<String, String> hashMap = new HashMap<>();
 					hashMap.put("id", userId);
 					hashMap.put("profilePicture", "default");
@@ -132,18 +148,6 @@ public class RegisterScreen extends AppCompatActivity
 				}
 			}
 		});
-	}
-
-	public void OnClick() {
-		if(password.getText().toString().equals(confirmPassword.getText().toString())) {
-			user = username.getText().toString();
-			mail = email.getText().toString();
-			pass = password.getText().toString();
-			createAccount(user,mail,pass);
-		}
-		else {
-			Toast.makeText(getApplicationContext(), "Password does not match.", Toast.LENGTH_SHORT).show();
-		}
 	}
 
 	private TextWatcher textWatcher = new TextWatcher() {
