@@ -22,6 +22,7 @@ public class NavAboutScreen extends Fragment
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(false);
 		//title(header) bar
 		getActivity().setTitle("About us");
 		//screen orientation of fragments

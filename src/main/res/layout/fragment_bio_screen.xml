@@ -51,7 +51,7 @@
 		app:layout_constraintTop_toBottomOf="@+id/editText" />
 
 	<ImageButton
-		android:id="@+id/addProfilePhoto2"
+		android:id="@+id/addDP"
 		android:layout_width="46dp"
 		android:layout_height="44dp"
 		android:layout_marginEnd="-1dp"
@@ -96,7 +96,7 @@
 		android:inputType="textPersonName"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/addProfilePhoto2" />
+		app:layout_constraintTop_toBottomOf="@+id/addDP" />
 
 	<Spinner
 		android:id="@+id/spinner"
