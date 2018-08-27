@@ -22,17 +22,16 @@ import com.firebase.client.Firebase;
 public class ForgotPassword extends AppCompatActivity
 {
 	private FirebaseAuth mAuth;
-	Firebase firebase;
-	EditText inputEmail;
-	Button sendbtn;
-
+	private Firebase firebase;
+	private EditText inputEmail;
+	private Button sendbtn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.forgot_password);
 		Firebase.setAndroidContext(this);
-		firebase = new Firebase("https://jabber-6ac14.firebaseio.com");
+		firebase = new Firebase(getResources().getString(R.string.firebaseDomain));
 		mAuth = FirebaseAuth.getInstance();
 		inputEmail = findViewById(R.id.txtFEmail);
 		inputEmail.addTextChangedListener(textWatcher);

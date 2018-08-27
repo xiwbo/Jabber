@@ -8,10 +8,10 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 
-public class TermsOfUse extends AppCompatActivity {
-
-	WebView webView;
-	Button btnOkay;
+public class TermsOfUse extends AppCompatActivity
+{
+	private WebView webView;
+	private Button btnOkay;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +19,7 @@ public class TermsOfUse extends AppCompatActivity {
 		setContentView(R.layout.webview_terms_of_use);
 		webView = findViewById(R.id.policy_webView);
 		btnOkay = findViewById(R.id.btnOkay);
-		webView.loadUrl("https://drive.google.com/file/d/1BnT2uqr6BqAZUdSKQMUWS2K8HipALdMY/view");
+		webView.loadUrl(getResources().getString(R.string.termsOfUseDomain));
 		webView.getSettings().setJavaScriptEnabled(true);
 		webView.getSettings().setUseWideViewPort(true);
 		btnOkay.setOnClickListener(new View.OnClickListener() {
