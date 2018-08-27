@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto">
 	<item
-		android:id="@+id/app_bar_search"
+		android:id="@+id/txtSearch"
 		android:title="Menu"
 		android:icon="@drawable/search"
 		app:showAsAction="always"
