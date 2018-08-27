@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -28,9 +30,16 @@ public class NavHomeScreen extends Fragment
 		super.onViewCreated(view, savedInstanceState);
 	}
 
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		getActivity().getMenuInflater().inflate(R.menu.main, menu);
+	}
+
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
 		//title(header) bar
 		getActivity().setTitle("Home");
 		//screen orientation of fragments

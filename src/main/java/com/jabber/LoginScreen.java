@@ -125,10 +125,6 @@ public class LoginScreen extends Activity
 					//Sign in success
 					HomeMenu();
 				}
-				else {
-					// If sign in fails, display a message to the user.
-					Toast.makeText(getApplicationContext(), "Incorrect username or email and/or password.", Toast.LENGTH_SHORT).show();
-				}
 			}
 		});
 	}

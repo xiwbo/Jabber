@@ -5,32 +5,30 @@
 	android:id="@+id/constraintLayout"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".FragmentGroupTab">
+	tools:context=".FragmentGroupTab"
+	tools:layout_editor_absoluteY="81dp">
 
 	<ListView
 		android:id="@+id/groupListView"
-		android:layout_width="0dp"
-		android:layout_height="0dp"
-		android:layout_marginStart="8dp"
-		android:layout_marginTop="8dp"
-		android:layout_marginEnd="8dp"
-		android:layout_marginBottom="22dp"
+		android:layout_width="344dp"
+		android:layout_height="407dp"
+		android:layout_marginTop="20dp"
 		app:layout_constraintBottom_toTopOf="@+id/addGroup"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+		app:layout_constraintTop_toTopOf="parent"
+		tools:layout_editor_absoluteX="8dp" />
 
-	<com.google.android.material.floatingactionbutton.FloatingActionButton
+	<ImageButton
 		android:id="@+id/addGroup"
-		android:layout_width="67dp"
-		android:layout_height="40dp"
+		android:layout_width="44dp"
+		android:layout_height="48dp"
 		android:layout_marginEnd="16dp"
-		android:layout_marginBottom="16dp"
-		android:clickable="true"
-		android:scaleType="center"
-		android:src="@drawable/add"
-		app:backgroundTint="@color/white"
+		android:background="@android:color/transparent"
+		android:scaleType="fitCenter"
+		android:src="@drawable/create_group"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/_dynamic" />
+		app:layout_constraintHorizontal_bias="1.0"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/groupListView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

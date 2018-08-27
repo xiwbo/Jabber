@@ -15,10 +15,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,24 +42,29 @@ public class FragmentGroupTab extends Fragment
 {
 	View view;
 	ListView listView;
-	FloatingActionButton fab;
+	ImageButton imgButton;
 	DatabaseReference root = FirebaseDatabase.getInstance().getReference().child("GroupChatName");
 	private ArrayAdapter<String> arrayAdapter;
 	private ArrayList<String> listOfRooms = new ArrayList<>();
 	String groupName;
+	private FirebaseAuth mAuth;
+	FirebaseUser currentUser;
+	Firebase firebase;
 
 	public FragmentGroupTab() {
 	}
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
 		view = inflater.inflate(R.layout.fragment_group_tab, container, false);
 		listView = view.findViewById(R.id.groupListView);
-		fab = view.findViewById(R.id.addGroup);
+		Firebase.setAndroidContext(getContext());
+		firebase = new Firebase("https://jabber-6ac14.firebaseio.com");
+		mAuth = FirebaseAuth.getInstance();
+		imgButton = view.findViewById(R.id.addGroup);
 		arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,listOfRooms);
 		listView.setAdapter(arrayAdapter);
-		fab.setOnClickListener(new View.OnClickListener() {
+		imgButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				addGroupName();
@@ -62,9 +73,10 @@ public class FragmentGroupTab extends Fragment
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+				currentUser = mAuth.getCurrentUser();
 				Intent intent = new Intent(getContext(), GroupChat.class);
 				intent.putExtra("roomName",((TextView)view).getText().toString());
-				intent.putExtra("userName", "Ginebra");
+				intent.putExtra("userName", currentUser.getEmail());
 				startActivity(intent);
 			}
 		});
@@ -73,10 +85,18 @@ public class FragmentGroupTab extends Fragment
 
 	private void addGroupName() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-		builder.setTitle("Enter group name:");
+		builder.setTitle("Create group");
 		final EditText textField = new EditText(getContext());
+		textField.setHint("Enter group name");
+		textField.setPadding(10, 50, 10 , 20);
 		builder.setView(textField);
-		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialogInterface, int i) {
+				dialogInterface.cancel();
+			}
+		});
+		builder.setPositiveButton("CREATE", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialogInterface, int i) {
 				groupName = textField.getText().toString();
@@ -96,15 +116,8 @@ public class FragmentGroupTab extends Fragment
 					}
 					@Override
 					public void onCancelled(@NonNull DatabaseError databaseError) {
-
 					}
 				});
-			}
-		});
-		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialogInterface, int i) {
-				dialogInterface.cancel();
 			}
 		});
 		builder.show();

@@ -22,7 +22,6 @@ import java.util.Map;
 
 public class GroupChat extends AppCompatActivity
 {
-
 	private TextView chatConvo;
 	private DatabaseReference root;
 	Button btnSend;
@@ -36,7 +35,6 @@ public class GroupChat extends AppCompatActivity
 		btnSend = findViewById(R.id.groupBtnSend);
 		txtField = findViewById(R.id.groupTextField);
 		chatConvo = findViewById(R.id.groupTxtMessages);
-
 		userName = getIntent().getExtras().get("userName").toString();
 		groupName = getIntent().getExtras().get("roomName").toString();
 		setTitle(" Room: " + groupName);
@@ -59,25 +57,19 @@ public class GroupChat extends AppCompatActivity
 			public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 				appendChat(dataSnapshot);
 			}
-
 			@Override
 			public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 				appendChat(dataSnapshot);
 			}
-
 			@Override
 			public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
 			}
-
 			@Override
 			public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
 			}
-
 			@Override
 			public void onCancelled(@NonNull DatabaseError databaseError) {
-
 			}
 		});
 	}
