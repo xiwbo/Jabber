@@ -107,11 +107,14 @@ public class LoginScreen extends Activity
 	@Override
 	public void onStart() {
 		super.onStart();
-		//Check user if signed in already
+		userIsLoggedIn();
+	}
+
+	private void userIsLoggedIn() {
 		currentUser = mAuth.getCurrentUser();
 		if(currentUser != null) {
-			System.out.println("UID: " + currentUser.getUid());
 			HomeMenu();
+			return;
 		}
 	}
 
@@ -204,13 +207,11 @@ public class LoginScreen extends Activity
 				if (task.isSuccessful()) {
 					// Sign in success, update UI with the signed-in user's information
 					HomeMenu();
-					//updateUI(user);
 				} else {
 					// If sign in fails, display a message to the user.
 					Log.w(TAG, "signInWithCredential:failure", task.getException());
 					Toast.makeText(getApplicationContext(), "Authentication failed.",
 							Toast.LENGTH_SHORT).show();
-					//updateUI(null);
 				}
 			}
 		});

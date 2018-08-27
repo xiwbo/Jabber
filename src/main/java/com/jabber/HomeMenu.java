@@ -1,10 +1,12 @@
 package com.jabber;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.view.Window;
 import android.widget.ImageView;
@@ -71,7 +73,7 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
 		//Fragments on nav
-		DisplayFragment(R.id.navHome);
+		//DisplayFragment(R.id.navHome);
 		navigationView.setCheckedItem(R.id.navHome);
 		header = navigationView.getHeaderView(0);
 		imageView = header.findViewById(R.id.userPhoto);
@@ -179,6 +181,7 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 	}
 
 	public void openCamera() {
+		getPermissions();
 		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		if(takePictureIntent.resolveActivity(getPackageManager()) != null) {
 			startActivityForResult(takePictureIntent, CAMERA_REQUEST);
@@ -196,6 +199,12 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 			imageURI = data.getData();
 			Picasso.get().load(imageURI).into(imageView);
 			imageView.setImageURI(imageURI);
+		}
+	}
+
+	 private void getPermissions() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.CAMERA}, 1);
 		}
 	}
 
