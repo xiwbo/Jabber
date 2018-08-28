@@ -1,14 +1,9 @@
 package com.jabber;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +13,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.firebase.client.Firebase;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,16 +35,16 @@ import java.util.Set;
 
 public class FragmentGroupTab extends Fragment
 {
-	View view;
-	ListView listView;
-	ImageButton imgButton;
-	DatabaseReference root = FirebaseDatabase.getInstance().getReference().child("GroupChatName");
+	private View view;
+	private ListView listView;
+	private ImageButton imgButton;
+	private DatabaseReference root = FirebaseDatabase.getInstance().getReference().child("GroupChatName");
 	private ArrayAdapter<String> arrayAdapter;
 	private ArrayList<String> listOfRooms = new ArrayList<>();
-	String groupName;
+	private String groupName;
 	private FirebaseAuth mAuth;
-	FirebaseUser currentUser;
-	Firebase firebase;
+	private FirebaseUser currentUser;
+	private Firebase firebase;
 
 	public FragmentGroupTab() {
 	}
@@ -59,7 +54,7 @@ public class FragmentGroupTab extends Fragment
 		view = inflater.inflate(R.layout.fragment_group_tab, container, false);
 		listView = view.findViewById(R.id.groupListView);
 		Firebase.setAndroidContext(getContext());
-		firebase = new Firebase("https://jabber-6ac14.firebaseio.com");
+		firebase = new Firebase(getResources().getString(R.string.firebaseDomain));
 		mAuth = FirebaseAuth.getInstance();
 		imgButton = view.findViewById(R.id.addGroup);
 		arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,listOfRooms);

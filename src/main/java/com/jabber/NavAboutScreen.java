@@ -13,7 +13,8 @@ import android.view.ViewGroup;
 
 public class NavAboutScreen extends Fragment
 {
-	View view;
+	private View view;
+
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
@@ -23,17 +24,13 @@ public class NavAboutScreen extends Fragment
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(false);
-		//title(header) bar
 		getActivity().setTitle("About us");
-		//screen orientation of fragments
 		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
-
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-		return(inflater.inflate(R.layout.fragment_about_screen, container, false));
+		view = inflater.inflate(R.layout.fragment_about_screen, container, false);
+		return(view);
 	}
 }

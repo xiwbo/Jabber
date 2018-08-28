@@ -4,5 +4,8 @@
 	<string name="navigation_drawer_open">Open navigation drawer</string>
 	<string name="navigation_drawer_close">Close navigation drawer</string>
 	<string name="nav_header_desc">Navigation header</string>
-	<string name="action_settings">Settings</string>
+	<string name="firebaseDomain">https://jabber-6ac14.firebaseio.com</string>
+	<string name="privacyPolicyDomain">https://drive.google.com/file/d/1i6Qg6Oubcd8cteO9uSPSBhan6r1F_JMh/view</string>
+	<string name="termsOfUseDomain">https://drive.google.com/file/d/1BnT2uqr6BqAZUdSKQMUWS2K8HipALdMY/view</string>
+	<string name="facebook_app_id">238325906828579</string>
 </resources>

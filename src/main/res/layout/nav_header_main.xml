@@ -4,7 +4,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="176dp"
-	android:background="@drawable/background"
+	android:background="@color/colorAccent"
 	android:gravity="bottom"
 	android:orientation="vertical"
 	android:paddingLeft="16dp"
@@ -25,7 +25,7 @@
 		android:contentDescription="@string/nav_header_desc"
 		android:paddingTop="8dp"
 		android:scaleType="centerCrop"
-		android:src="@drawable/appicon"
+		android:src="@drawable/bio"
 		tools:layout_editor_absoluteX="201dp"
 		tools:layout_editor_absoluteY="23dp" />
 

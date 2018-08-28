@@ -24,9 +24,9 @@ public class GroupChat extends AppCompatActivity
 {
 	private TextView chatConvo;
 	private DatabaseReference root;
-	Button btnSend;
-	EditText txtField;
-	String userName, groupName, tempKey, msgs, chatUsername;
+	private Button btnSend;
+	private EditText txtField;
+	private String userName, groupName, tempKey, msgs, chatUsername;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +73,7 @@ public class GroupChat extends AppCompatActivity
 			}
 		});
 	}
+
 	private void appendChat(DataSnapshot snapshot) {
 		Iterator i = snapshot.getChildren().iterator();
 		while(i.hasNext()) {
