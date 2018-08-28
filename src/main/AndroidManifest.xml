@@ -2,89 +2,52 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.jabber">
 
-	<uses-permission
-		android:name="android.permission.INTERNET" />
-	<uses-permission
-		android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	<uses-permission
-		android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission
-		android:name="android.permission.CAMERA" />
-	<uses-feature
-		android:name="android.hardware.camera2.full"
-		android:required="true" />
-	<uses-feature
-		android:name="android.hardware.camera.any"
-		android:required="true" />
-	<uses-feature
-		android:name="android.hardware.camera.autofocus"
-		android:required="false" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-feature android:name="android.hardware.camera2.full" android:required="true" />
+	<uses-feature android:name="android.hardware.camera.any" android:required="true" />
+	<uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
 
-	<application
+	<application android:icon="@drawable/appicon" android:label="@string/app_name"
 		android:allowBackup="true"
-		android:icon="@drawable/appicon"
-		android:label="@string/app_name"
 		android:resizeableActivity="true"
-		android:screenOrientation="portrait"
-		android:supportsRtl="true">
-		<activity
-			android:name=".SplashScreen"
-			android:configChanges="orientation|keyboardHidden|screenSize"
-			android:label="@string/app_name"
+		android:screenOrientation="portrait" >
+		<activity android:name=".SplashScreen" android:label="@string/app_name"
 			android:screenOrientation="portrait"
-			android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+			android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
-
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 		<activity
-			android:name=".LoginScreen"
-			android:configChanges="orientation|keyboardHidden|screenSize"
-			android:label="@string/app_name"
-			android:screenOrientation="portrait"
-			android:theme="@style/AppTheme.NoActionBar" />
+			android:name=".LoginScreen" android:label="@string/app_name"
+			android:theme="@style/AppTheme.NoActionBar" android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" />
 		<activity
-			android:name=".RegisterScreen"
-			android:configChanges="orientation|keyboardHidden|screenSize"
-			android:label="@string/app_name"
-			android:screenOrientation="portrait"
-			android:theme="@style/AppTheme.NoActionBar" />
+			android:name=".RegisterScreen" android:label="@string/app_name"
+			android:theme="@style/AppTheme.NoActionBar" android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" />
 		<activity
-			android:name=".HomeMenu"
-			android:configChanges="orientation|keyboardHidden|screenSize"
-			android:label="@string/app_name"
-			android:theme="@style/AppTheme.NoActionBar" />
-		<activity
-			android:name=".ForgotPassword"
-			android:configChanges="orientation|keyboardHidden|screenSize"
-			android:label="Forgot Password"
+			android:name=".HomeMenu" android:label="@string/app_name"
+			android:theme="@style/AppTheme.NoActionBar" android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" />
+		<activity android:name=".ForgotPassword" android:label="Forgot Password"
 			android:parentActivityName=".LoginScreen"
-			android:screenOrientation="portrait"
-			android:theme="@style/AppTheme" />
+			android:theme="@style/AppTheme" android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" />
 		<activity
 			android:name=".TermsOfUse"
-			android:configChanges="orientation|keyboardHidden|screenSize"
-			android:screenOrientation="portrait"
 			android:theme="@style/AppTheme.NoActionBar" />
 		<activity
 			android:name=".PrivacyPolicy"
-			android:configChanges="orientation|keyboardHidden|screenSize"
-			android:screenOrientation="portrait"
 			android:theme="@style/AppTheme.NoActionBar" />
 		<activity
 			android:name=".GroupChat"
-			android:configChanges="orientation|keyboardHidden|screenSize"
 			android:parentActivityName=".HomeMenu"
-			android:screenOrientation="portrait"
-			android:theme="@style/AppTheme" />
+			android:theme="@style/AppTheme" android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" />
 		<activity
 			android:name=".AddContacts"
 			android:label="Select Contact"
-			android:configChanges="orientation|keyboardHidden|screenSize"
 			android:parentActivityName=".HomeMenu"
-			android:screenOrientation="portrait"
 			android:theme="@style/AppTheme" />
 		<activity
 			android:name="com.facebook.FacebookActivity"
@@ -104,5 +67,4 @@
 			</intent-filter>
 		</activity>
 	</application>
-
 </manifest>

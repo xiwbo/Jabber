@@ -1,19 +1,15 @@
 package com.jabber;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.SearchView;
-import android.widget.ArrayAdapter;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.LayoutInflater;
@@ -31,48 +27,46 @@ import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
-	TextView mName;
 	private static final int PICK_IMAGE_REQUEST = 1;
 	private final int CAMERA_REQUEST = 100;
-	private final int RESULT_GALLERY = 100;
-	ImageView imageView;
-	ImageButton imgButton;
+	private ImageView imageView;
+	private ImageButton imgButton, camera, gallery;
 	private Uri imageURI;
-	View header;
-	ArrayAdapter<String> adapter;
-
+	private View header;
+	private TextView mName;
+	private DrawerLayout drawer;
+	private Fragment fragment = null;
+	private NavigationView navigationView;
 	private FirebaseAuth mAuth;
 	private DatabaseReference mUserDatabase;
 	private String userId, name;
+	private Toolbar toolbar;
+	private AlertDialog.Builder logOut, alertadd;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.nav_main);
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
-		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+		drawer = findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 		drawer.addDrawerListener(toggle);
 		toggle.syncState();
-		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+		navigationView = findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
-		//Fragments on nav
 		DisplayFragment(R.id.navHome);
-		navigationView.setCheckedItem(R.id.navHome);
 		header = navigationView.getHeaderView(0);
 		imageView = header.findViewById(R.id.userPhoto);
 		imgButton = header.findViewById(R.id.addProfilePhoto);
@@ -80,23 +74,27 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		imgButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				AlertDialog.Builder alertadd = new AlertDialog.Builder(HomeMenu.this);
+				alertadd = new AlertDialog.Builder(HomeMenu.this);
 				LayoutInflater factory = LayoutInflater.from(HomeMenu.this);
 				final View aView = factory.inflate(R.layout.camera_pop_up, null);
-				ImageButton camera = aView.findViewById(R.id.imgCamera);
-				ImageButton gallery = aView.findViewById(R.id.imgGallery);
+				camera = aView.findViewById(R.id.imgCamera);
+				gallery = aView.findViewById(R.id.imgGallery);
 				camera.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						Toast.makeText(getApplicationContext(), "Camera", Toast.LENGTH_SHORT).show();
-						openCamera();
+						Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+						if(takePictureIntent.resolveActivity(getPackageManager()) != null) {
+							startActivityForResult(takePictureIntent, CAMERA_REQUEST);
+						}
 					}
 				});
 				gallery.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						Toast.makeText(getApplicationContext(), "Gallery", Toast.LENGTH_SHORT).show();
-						openFileChooser();
+						Intent intent = new Intent();
+						intent.setType("image/*");
+						intent.setAction(Intent.ACTION_GET_CONTENT);
+						startActivityForResult(intent, PICK_IMAGE_REQUEST);
 					}
 				});
 				alertadd.setView(aView);
@@ -109,16 +107,8 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		getUserInfo();
 	}
 
-	public void openFileChooser() {
-		Intent intent = new Intent();
-		intent.setType("image/*");
-		intent.setAction(Intent.ACTION_GET_CONTENT);
-		startActivityForResult(intent, PICK_IMAGE_REQUEST);
-	}
-
 	@Override
 	public void onBackPressed() {
-		DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawer_layout);
 		if (drawer.isDrawerOpen(GravityCompat.START)) {
 			drawer.closeDrawer(GravityCompat.START);
 		}
@@ -127,19 +117,7 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		}
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		// noinspection SimplifiableIfStatement
-		// if (id == R.id.action_settings) {
-		//	return true;
-		// }
-		// 3 dots code will go here
-		return(super.onOptionsItemSelected(item));
-	}
-
 	private void DisplayFragment(int id) {
-		Fragment fragment = null;
 		switch(id) {
 			case R.id.navHome:
 				fragment = new NavHomeScreen();
@@ -157,7 +135,25 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 				fragment = new NavAboutScreen();
 				break;
 			case R.id.navLogout:
-				logout();
+				logOut = new AlertDialog.Builder(this);
+				logOut.setCancelable(false);
+				logOut.setTitle("Are you sure you want to log out?");
+				logOut.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialogInterface, int i) {
+						Intent intent = new Intent(HomeMenu.this, LoginScreen.class);
+						startActivity(intent);
+						FirebaseAuth.getInstance().signOut();
+						finish();
+					}
+				});
+				logOut.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialogInterface, int i) {
+						dialogInterface.cancel();
+					}
+				});
+				logOut.show();
 				break;
 		}
 		if(fragment != null) {
@@ -165,7 +161,6 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 			ft.replace(R.id.MyFrameLayout, fragment);
 			ft.commit();
 		}
-		DrawerLayout drawer = findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);
 	}
 
@@ -176,13 +171,6 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		int id = item.getItemId();
 		DisplayFragment(id);
 		return(true);
-	}
-
-	public void openCamera() {
-		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		if(takePictureIntent.resolveActivity(getPackageManager()) != null) {
-			startActivityForResult(takePictureIntent, CAMERA_REQUEST);
-		}
 	}
 
 	@Override
@@ -197,28 +185,6 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 			Picasso.get().load(imageURI).into(imageView);
 			imageView.setImageURI(imageURI);
 		}
-	}
-
-	public void logout(){
-		AlertDialog.Builder logOut = new AlertDialog.Builder(this);
-		logOut.setCancelable(false);
-		logOut.setTitle("Are you sure you want to log out?");
-		logOut.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialogInterface, int i) {
-				Intent intent = new Intent(HomeMenu.this, LoginScreen.class);
-				startActivity(intent);
-				FirebaseAuth.getInstance().signOut();
-				finish();
-			}
-		});
-		logOut.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialogInterface, int i) {
-				dialogInterface.cancel();
-			}
-		});
-		logOut.show();
 	}
 
 	private void getUserInfo() {

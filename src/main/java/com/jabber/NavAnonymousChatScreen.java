@@ -8,14 +8,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 public class NavAnonymousChatScreen extends Fragment
 {
-	View view;
+	private View view;
 
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -26,15 +24,13 @@ public class NavAnonymousChatScreen extends Fragment
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(false);
-		//title(header) bar
 		getActivity().setTitle("Anonymous");
-		//screen orientation of fragments
 		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-		return(inflater.inflate(R.layout.fragment_anonymous_screen, container, false));
+		view = inflater.inflate(R.layout.fragment_anonymous_screen, container, false);
+		return(view);
 	}
 }

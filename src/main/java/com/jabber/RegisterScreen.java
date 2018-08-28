@@ -1,6 +1,7 @@
 package com.jabber;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -30,22 +31,25 @@ import java.util.HashMap;
 public class RegisterScreen extends AppCompatActivity
 {
 	private FirebaseAuth mAuth;
-	DatabaseReference databaseReference;
-	Button registerbtn;
-	TextView loginLink;
-	EditText email,username,password,confirmPassword;
-	CheckBox tickbox;
-	String user, mail, pass;
-	Firebase firebase;
-	TextView termsOfUse, privacyPolicy;
+	private Firebase firebase;
+	private FirebaseUser firebaseUser;
+	private DatabaseReference databaseReference;
+	private Button registerbtn;
+	private TextView loginLink;
+	private EditText email,username,password,confirmPassword;
+	private CheckBox tickbox;
+	private String user, mail, pass, userId;
+	private TextView termsOfUse, privacyPolicy;
+	private Intent loginIntent, termsOfUseIntent, policyIntent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register_screen);
 		Firebase.setAndroidContext(this);
-		firebase = new Firebase("https://jabber-6ac14.firebaseio.com");
+		firebase = new Firebase(getResources().getString(R.string.firebaseDomain));
 		mAuth = FirebaseAuth.getInstance();
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		registerbtn = findViewById(R.id.btnRegister);
 		email = findViewById(R.id.txtFEmail);
 		username = findViewById(R.id.txtUsername);
@@ -64,9 +68,9 @@ public class RegisterScreen extends AppCompatActivity
 		loginLink.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(getApplicationContext(), LoginScreen.class);
-				startActivity(intent);
-				RegisterScreen.this.finish();
+				loginIntent = new Intent(getApplicationContext(), LoginScreen.class);
+				startActivity(loginIntent);
+				finish();
 			}
 		});
 		registerbtn.setOnClickListener(new View.OnClickListener() {
@@ -75,11 +79,14 @@ public class RegisterScreen extends AppCompatActivity
 				if(!email.getText().toString().contains("@") || !email.getText().toString().contains(".com")) {
 					Toast.makeText(getApplicationContext(), "Please check your email address.", Toast.LENGTH_SHORT).show();
 				}
-				else if(password.length() < 6) {
+				if(password.length() < 6) {
 					Toast.makeText(getApplicationContext(), "Please check password, make sure your password is atleast 6 characters.", Toast.LENGTH_SHORT).show();
 				}
-				else if(!tickbox.isChecked()) {
+				if(!tickbox.isChecked()) {
 					Toast.makeText(getApplicationContext(), "Please check the below the box below, indicated that you have read and agree to the Terms Of Use and Privacy Policy", Toast.LENGTH_SHORT).show();
+				}
+				if(!password.getText().toString().equals(confirmPassword.getText().toString()) || !confirmPassword.getText().toString().equals(password.getText().toString())) {
+					Toast.makeText(getApplicationContext(), "Password does not match.", Toast.LENGTH_SHORT).show();
 				}
 				else {
 					OnClick();
@@ -89,29 +96,24 @@ public class RegisterScreen extends AppCompatActivity
 		termsOfUse.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(getApplicationContext(), TermsOfUse.class);
-				startActivity(intent);
+				termsOfUseIntent = new Intent(getApplicationContext(), TermsOfUse.class);
+				startActivity(termsOfUseIntent);
 			}
 		});
 		privacyPolicy.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(getApplicationContext(), PrivacyPolicy.class);
-				startActivity(intent);
+				policyIntent = new Intent(getApplicationContext(), PrivacyPolicy.class);
+				startActivity(policyIntent);
 			}
 		});
 	}
 
 	public void OnClick() {
-		if(password.getText().toString().equals(confirmPassword.getText().toString())) {
-			user = username.getText().toString();
-			mail = email.getText().toString();
-			pass = password.getText().toString();
-			createAccount(user,mail,pass);
-		}
-		else {
-			Toast.makeText(getApplicationContext(), "Password does not match.", Toast.LENGTH_SHORT).show();
-		}
+		user = username.getText().toString();
+		mail = email.getText().toString();
+		pass = password.getText().toString();
+		createAccount(user,mail,pass);
 	}
 
 	public void createAccount(final String userName, final String userEmail, final String userPassword) {
@@ -121,8 +123,8 @@ public class RegisterScreen extends AppCompatActivity
 				//If Successfully registered
 				if(task.isSuccessful()) {
 					// GO TO HOME SCREEN
-					FirebaseUser firebaseUser = mAuth.getCurrentUser();
-					String userId = firebaseUser.getUid();
+					firebaseUser = mAuth.getCurrentUser();
+					userId = firebaseUser.getUid();
 					databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
 					HashMap<String, String> hashMap = new HashMap<>();
 					hashMap.put("id", userId);

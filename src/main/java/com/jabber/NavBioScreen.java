@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,10 +28,9 @@ import static android.app.Activity.RESULT_OK;
 
 public class NavBioScreen extends Fragment
 {
-	View view;
-	ImageButton profilePic;
-	ImageView avatar;
-	private final int CAMERA_REQUEST = 100;
+	private View view;
+	private ImageButton profilePic;
+	private ImageView avatar;
 	private Uri imageURI;
 	private static final int PICK_IMAGE_REQUEST = 1;
 
@@ -44,11 +42,9 @@ public class NavBioScreen extends Fragment
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//title(header) bar
-		getActivity().setTitle("Bio");
-		//screen orientation of fragments
-		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setHasOptionsMenu(true);
+		getActivity().setTitle("Bio");
+		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
 	@Override
@@ -96,7 +92,10 @@ public class NavBioScreen extends Fragment
 		profilePic.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				openFileChooser();
+				Intent intent = new Intent();
+				intent.setType("image/*");
+				intent.setAction(Intent.ACTION_GET_CONTENT);
+				startActivityForResult(intent, PICK_IMAGE_REQUEST);
 			}
 		});
 		return(view);
@@ -110,16 +109,9 @@ public class NavBioScreen extends Fragment
 			if(imageURI != null) {
 				avatar.setImageURI(imageURI);
 			}
-			else  {
+			else {
 				System.out.println("HADASDA");
 			}
 		}
-	}
-
-	public void openFileChooser() {
-		Intent intent = new Intent();
-		intent.setType("image/*");
-		intent.setAction(Intent.ACTION_GET_CONTENT);
-		startActivityForResult(intent, PICK_IMAGE_REQUEST);
 	}
 }
