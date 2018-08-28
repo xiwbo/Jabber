@@ -71,7 +71,7 @@ public class FragmentGroupTab extends Fragment
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 				currentUser = mAuth.getCurrentUser();
 				Intent intent = new Intent(getContext(), GroupChat.class);
-				intent.putExtra("roomName",((TextView)view).getText().toString());
+				intent.putExtra("roomName", ((TextView)view).getText().toString());
 				intent.putExtra("userName", currentUser.getEmail());
 				startActivity(intent);
 			}
