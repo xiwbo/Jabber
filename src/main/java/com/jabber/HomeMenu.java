@@ -1,10 +1,13 @@
 package com.jabber;
 
+import android.Manifest;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.widget.ImageView;
 import android.widget.ImageButton;
@@ -66,7 +69,9 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		toggle.syncState();
 		navigationView = findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
+		//Fragments on nav
 		DisplayFragment(R.id.navHome);
+		navigationView.setCheckedItem(R.id.navHome);
 		header = navigationView.getHeaderView(0);
 		imageView = header.findViewById(R.id.userPhoto);
 		imgButton = header.findViewById(R.id.addProfilePhoto);
@@ -173,6 +178,14 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		return(true);
 	}
 
+	public void openCamera() {
+		getPermissions();
+		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		if(takePictureIntent.resolveActivity(getPackageManager()) != null) {
+			startActivityForResult(takePictureIntent, CAMERA_REQUEST);
+		}
+	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if(requestCode == CAMERA_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
@@ -185,6 +198,34 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 			Picasso.get().load(imageURI).into(imageView);
 			imageView.setImageURI(imageURI);
 		}
+	}
+
+	 private void getPermissions() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.CAMERA}, 1);
+		}
+	}
+
+	public void logout(){
+		AlertDialog.Builder logOut = new AlertDialog.Builder(this);
+		logOut.setCancelable(false);
+		logOut.setTitle("Are you sure you want to log out?");
+		logOut.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialogInterface, int i) {
+				Intent intent = new Intent(HomeMenu.this, LoginScreen.class);
+				startActivity(intent);
+				FirebaseAuth.getInstance().signOut();
+				finish();
+			}
+		});
+		logOut.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialogInterface, int i) {
+				dialogInterface.cancel();
+			}
+		});
+		logOut.show();
 	}
 
 	private void getUserInfo() {
