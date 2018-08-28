@@ -52,10 +52,10 @@ public class FragmentGroupTab extends Fragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_group_tab, container, false);
-		listView = view.findViewById(R.id.groupListView);
 		Firebase.setAndroidContext(getContext());
 		firebase = new Firebase(getResources().getString(R.string.firebaseDomain));
 		mAuth = FirebaseAuth.getInstance();
+		listView = view.findViewById(R.id.groupListView);
 		imgButton = view.findViewById(R.id.addGroup);
 		arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,listOfRooms);
 		listView.setAdapter(arrayAdapter);

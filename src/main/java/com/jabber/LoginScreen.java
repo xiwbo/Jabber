@@ -35,12 +35,12 @@ import com.firebase.client.Firebase;
 public class LoginScreen extends Activity
 {
 	private FirebaseAuth mAuth;
+	private Firebase firebase;
+	private FirebaseUser currentUser;
 	private Button loginbtn, fbLogin;
 	private EditText username, password;
 	private String user, pass;
-	private Firebase firebase;
 	private TextView registerLink, forgotPass;
-	private FirebaseUser currentUser;
 	private Intent HomeMenuIntent, forgotPasswordIntent, registerIntent;
 	private LoginButton loginButton;
 	private CallbackManager mCallbackManager = CallbackManager.Factory.create();
