@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -98,6 +99,7 @@ public class FragmentGroupTab extends Fragment
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put(groupName,"");
 				root.updateChildren(map);
+				Toast.makeText(getContext(), "Group added", Toast.LENGTH_SHORT).show();
 				root.addValueEventListener(new ValueEventListener() {
 					@Override
 					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

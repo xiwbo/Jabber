@@ -125,15 +125,6 @@ public class LoginScreen extends Activity
 				finish();
 			}
 		});
-
-		fbLoginBtn = (Button)findViewById(R.id.btnLoginFb);
-		fbLoginBtn.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				loginButton.performClick();
-			}
-		});
-		handleFacebookLoginButton();
 	}
 
 	@Override
@@ -255,24 +246,5 @@ public class LoginScreen extends Activity
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		mCallbackManager.onActivityResult(requestCode, resultCode, data);
-	}
-
-	// [START auth_with_facebook]
-	private void handleFacebookAccessToken(AccessToken token) {
-		AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-		mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-			@Override
-			public void onComplete(@NonNull Task<AuthResult> task) {
-				if (task.isSuccessful()) {
-					// Sign in success, update UI with the signed-in user's information
-					HomeMenu();
-				} else {
-					// If sign in fails, display a message to the user.
-					Log.w(TAG, "signInWithCredential:failure", task.getException());
-					Toast.makeText(getApplicationContext(), "Authentication failed.",
-							Toast.LENGTH_SHORT).show();
-				}
-			}
-		});
 	}
 }

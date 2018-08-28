@@ -35,11 +35,6 @@ android {
 	lintOptions {
 		abortOnError false
 	}
-
-	repositories {
-		maven { url 'https://maven.google.com' }
-	}
-
 }
 dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -49,7 +44,7 @@ dependencies {
 	implementation 'com.google.android.material:material:1.0.0-beta01'
 	implementation "com.google.firebase:firebase-database:16.0.1"
 	implementation 'com.google.firebase:firebase-auth:16.0.3'
-	implementation 'com.google.firebase:firebase-core:16.0.0'
+	implementation 'com.google.firebase:firebase-core:16.0.1'
 	implementation 'com.firebase:firebase-client-android:2.5.2'
 	implementation 'com.google.firebase:firebase-storage:16.0.1'
 	implementation 'com.facebook.android:facebook-login:4.35.0'
