@@ -189,9 +189,9 @@ public class LoginScreen extends Activity
 				}
 				else {
 					// If sign in fails, display a message to the user.
+					PopupDialog popup = new PopupDialog(myDialog, "Authentication failed.", "red", "OK");
+					popup.showPopup();
 					Log.w(TAG, "signInWithCredential:failure", task.getException());
-					Toast.makeText(getApplicationContext(), "Authentication failed.",
-							Toast.LENGTH_SHORT).show();
 				}
 			}
 		});

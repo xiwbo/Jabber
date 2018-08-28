@@ -27,12 +27,12 @@ public class PopupDialog extends Activity
 		Button popupButton;
 		TextView popupText;
 		myDialog.setContentView(R.layout.popup);
-		popupText = (TextView)myDialog.findViewById(R.id.popupTxt);
+		popupText = myDialog.findViewById(R.id.popupTxt);
 		popupText.setText(txtMessage);
 		if(colorMessage.equalsIgnoreCase("red")) {
 			popupText.setTextColor(Color.rgb(200,0,0));
 		}
-		popupButton = (Button)myDialog.findViewById(R.id.popupBtn);
+		popupButton = myDialog.findViewById(R.id.popupBtn);
 		popupButton.setText(txtButton);
 		popupButton.setOnClickListener(new View.OnClickListener() {
 			@Override
