@@ -1,10 +1,14 @@
 package com.jabber;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +25,7 @@ import com.firebase.client.Firebase;
 
 public class ForgotPassword extends AppCompatActivity
 {
+	private Dialog myDialog;
 	private FirebaseAuth mAuth;
 	private Firebase firebase;
 	private EditText inputEmail;
@@ -30,6 +35,8 @@ public class ForgotPassword extends AppCompatActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.forgot_password);
+		myDialog = new Dialog(this);
+		myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		Firebase.setAndroidContext(this);
 		firebase = new Firebase(getResources().getString(R.string.firebaseDomain));
 		mAuth = FirebaseAuth.getInstance();
@@ -50,11 +57,19 @@ public class ForgotPassword extends AppCompatActivity
 		mAuth.sendPasswordResetEmail(emailAddress).addOnCompleteListener(new OnCompleteListener<Void>() {
 			@Override
 			public void onComplete(@NonNull Task<Void> task) {
-				if(task.isSuccessful()) {
-					Toast.makeText(getApplicationContext(), "Your new password has been sent to your email", Toast.LENGTH_SHORT).show();
+				if(isOnline()) {
+					if(task.isSuccessful()) {
+						PopupDialog popup = new PopupDialog(myDialog, "Your new password has been sent to your email.", "red", "OK");
+						popup.showPopup();
+
+					}
+					else {
+						PopupDialog popup = new PopupDialog(myDialog, "Email not found.", "red", "OK");
+					}
 				}
 				else {
-					Toast.makeText(getApplicationContext(), "Email not found.", Toast.LENGTH_SHORT).show();
+					PopupDialog popup = new PopupDialog(myDialog, "Please check your internet connection.", "red", "OK");
+					popup.showPopup();
 				}
 			}
 		});
@@ -86,4 +101,16 @@ public class ForgotPassword extends AppCompatActivity
 			return(false);
 		}
 	};
+
+	//Check if user is connected to web
+	private boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager)getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+		if(networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }
