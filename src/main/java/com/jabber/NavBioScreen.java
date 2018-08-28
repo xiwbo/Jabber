@@ -3,6 +3,7 @@ package com.jabber;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,13 +17,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
+
+import static android.app.Activity.RESULT_OK;
 
 public class NavBioScreen extends Fragment
 {
-	View view;
+	private View view;
+	private ImageButton profilePic;
+	private ImageView avatar;
+	private Uri imageURI;
+	private static final int PICK_IMAGE_REQUEST = 1;
+
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
@@ -31,11 +42,9 @@ public class NavBioScreen extends Fragment
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//title(header) bar
-		getActivity().setTitle("Bio");
-		//screen orientation of fragments
-		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setHasOptionsMenu(true);
+		getActivity().setTitle("Bio");
+		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
 	@Override
@@ -77,7 +86,32 @@ public class NavBioScreen extends Fragment
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-		return(inflater.inflate(R.layout.fragment_bio_screen, container, false));
+		view = inflater.inflate(R.layout.fragment_bio_screen, container, false);
+		profilePic = view.findViewById(R.id.addDP);
+		avatar = view.findViewById(R.id.imgAvatar);
+		profilePic.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent();
+				intent.setType("image/*");
+				intent.setAction(Intent.ACTION_GET_CONTENT);
+				startActivityForResult(intent, PICK_IMAGE_REQUEST);
+			}
+		});
+		return(view);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+			imageURI = data.getData();
+			Picasso.get().load(imageURI).into(avatar);
+			if(imageURI != null) {
+				avatar.setImageURI(imageURI);
+			}
+			else {
+				System.out.println("HADASDA");
+			}
+		}
 	}
 }

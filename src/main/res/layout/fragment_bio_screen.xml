@@ -50,9 +50,15 @@
 		app:layout_constraintTop_toBottomOf="@+id/txtName" />
 
 	<ImageButton
+<<<<<<< HEAD
 		android:id="@+id/addProfilePhoto2"
 		android:layout_width="40dp"
 		android:layout_height="40dp"
+=======
+		android:id="@+id/addDP"
+		android:layout_width="46dp"
+		android:layout_height="44dp"
+>>>>>>> bd9f0b9ba24cb4eb9e27d11794f01f22d2e5fa86
 		android:layout_marginEnd="-1dp"
 		android:background="@drawable/camera_add"
 		app:layout_constraintBottom_toBottomOf="@+id/imgAvatar"
@@ -96,7 +102,7 @@
 		android:inputType="textPersonName"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/addProfilePhoto2" />
+		app:layout_constraintTop_toBottomOf="@+id/addDP" />
 
 	<Spinner
 		android:id="@+id/spinner"

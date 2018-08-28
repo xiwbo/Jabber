@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment;
 
 public class FragmentMessagesTab extends Fragment
 {
-	View view;
-	ImageButton addContact;
+	private View view;
+	private ImageButton addContact;
 
 	public FragmentMessagesTab() {
 		// Required empty public constructor
