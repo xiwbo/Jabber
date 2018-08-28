@@ -21,7 +21,6 @@ public class PopupDialog extends Activity
 		this.txtMessage = txtMessage;
 		this.txtButton = txtButton;
 		this.myDialog = dialog;
-		
 	}
 
 	public void showPopup() {
@@ -47,6 +46,7 @@ public class PopupDialog extends Activity
 
 	// public boolean showPromptPopup() {
 	// 	Button btnYes;
+	// 	myDialog.setContentView(R.layout.popuplogout);
 	// 	btnYes = (Button)myDialog.findViewById(R.id.popupBtnYes);
 	// 	btnYes.setOnClickListener(new View.OnClickListener() {
 	// 		@Override
