@@ -49,8 +49,6 @@
 
 	<ListView
 		android:id="@+id/added_interest"
-		android:transcriptMode="alwaysScroll"
-		android:stackFromBottom="true"
 		android:layout_width="0dp"
 		android:layout_height="0dp"
 		android:layout_alignParentBottom="true"
