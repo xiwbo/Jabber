@@ -80,6 +80,7 @@ public class NavInterestScreen extends Fragment
 				map.put(txtInterest.getText().toString(), "");
 				mUserDatabase.updateChildren(map);
 				Toast.makeText(getContext(), "Interests added", Toast.LENGTH_SHORT).show();
+				txtInterest.setText("");
 				mUserDatabase.addValueEventListener(new ValueEventListener() {
 					@Override
 					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

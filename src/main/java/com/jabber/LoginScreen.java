@@ -1,6 +1,7 @@
 package com.jabber;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -10,20 +11,25 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.util.Log;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import androidx.annotation.NonNull;
+import com.firebase.client.Firebase;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
+import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -31,21 +37,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.firebase.client.Firebase;
 
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.FacebookAuthProvider;
 
 public class LoginScreen extends Activity
 {
 	private FirebaseAuth mAuth;
+	private Dialog myDialog;
 	private Firebase firebase;
 	private FirebaseUser currentUser;
 	private Button loginbtn, fbLogin;
@@ -60,6 +57,8 @@ public class LoginScreen extends Activity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		myDialog = new Dialog(this);
+		myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		mCallbackManager = CallbackManager.Factory.create();
 		setContentView(R.layout.login_screen);
 		Firebase.setAndroidContext(this);
@@ -79,11 +78,19 @@ public class LoginScreen extends Activity
 		loginbtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if(!username.getText().toString().contains("@") || !username.getText().toString().contains(".com")) {
-					Toast.makeText(getApplicationContext(), "Please check your email address.", Toast.LENGTH_SHORT).show();
+				String LoginUsername = username.getText().toString();
+				if(isOnline()){
+					if(!LoginUsername.contains("@") || !LoginUsername.contains(".com")) {
+						PopupDialog popup = new PopupDialog(myDialog, "Incorrect username or email and/or password.", "red", "OK");
+						popup.showPopup();
+					}
+					else {
+						signIn();
+					}
 				}
 				else {
-					signIn();
+					PopupDialog popup = new PopupDialog(myDialog, "Please check your internet connection.", "red", "OK");
+					popup.showPopup();
 				}
 			}
 		});
@@ -102,7 +109,7 @@ public class LoginScreen extends Activity
 				startActivity(forgotPasswordIntent);
 			}
 		});
-
+		registerLink = findViewById(R.id.linkRegister);
 		registerLink.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -111,15 +118,6 @@ public class LoginScreen extends Activity
 				finish();
 			}
 		});
-
-		fbLogin = (Button)findViewById(R.id.btnLoginFb);
-		fbLogin.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				loginButton.performClick();
-			}
-		});
-		handleFacebookLoginButton();
 	}
 
 	@Override
@@ -191,9 +189,9 @@ public class LoginScreen extends Activity
 				}
 				else {
 					// If sign in fails, display a message to the user.
+					PopupDialog popup = new PopupDialog(myDialog, "Authentication failed.", "red", "OK");
+					popup.showPopup();
 					Log.w(TAG, "signInWithCredential:failure", task.getException());
-					Toast.makeText(getApplicationContext(), "Authentication failed.",
-							Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
@@ -225,6 +223,18 @@ public class LoginScreen extends Activity
 			return(false);
 		}
 	};
+
+	//Check if user is connected to web
+	private boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager)getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+		if(networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

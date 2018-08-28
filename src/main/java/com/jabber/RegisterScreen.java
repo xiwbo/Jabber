@@ -1,12 +1,16 @@
 package com.jabber;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -30,6 +34,7 @@ import java.util.HashMap;
 
 public class RegisterScreen extends AppCompatActivity
 {
+	private Dialog myDialog;
 	private FirebaseAuth mAuth;
 	private Firebase firebase;
 	private FirebaseUser firebaseUser;
@@ -45,6 +50,8 @@ public class RegisterScreen extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		myDialog = new Dialog(this);
+		myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.register_screen);
 		Firebase.setAndroidContext(this);
 		firebase = new Firebase(getResources().getString(R.string.firebaseDomain));
@@ -77,16 +84,24 @@ public class RegisterScreen extends AppCompatActivity
 			@Override
 			public void onClick(View view) {
 				if(!email.getText().toString().contains("@") || !email.getText().toString().contains(".com")) {
-					Toast.makeText(getApplicationContext(), "Please check your email address.", Toast.LENGTH_SHORT).show();
+					PopupDialog popup = new PopupDialog(myDialog, "Please check your email address.", "red", "OK");
+					popup.showPopup();
 				}
 				if(password.length() < 6) {
-					Toast.makeText(getApplicationContext(), "Please check password, make sure your password is atleast 6 characters.", Toast.LENGTH_SHORT).show();
+					PopupDialog popup = new PopupDialog(myDialog, "Please check password, make sure your password is atleast 6 characters.", "red", "OK");
+					popup.showPopup();
 				}
 				if(!tickbox.isChecked()) {
-					Toast.makeText(getApplicationContext(), "Please check the below the box below, indicated that you have read and agree to the Terms Of Use and Privacy Policy", Toast.LENGTH_SHORT).show();
+					PopupDialog popup = new PopupDialog(myDialog, "Please check the below the box below, indicated that you have read and agree to the Terms Of Use and Privacy Policy.", "red", "OK");
+					popup.showPopup();
 				}
 				if(!password.getText().toString().equals(confirmPassword.getText().toString()) || !confirmPassword.getText().toString().equals(password.getText().toString())) {
-					Toast.makeText(getApplicationContext(), "Password does not match.", Toast.LENGTH_SHORT).show();
+					PopupDialog popup = new PopupDialog(myDialog, "Password does not match.", "red", "OK");
+					popup.showPopup();
+				}
+				if(isOnline()) {
+					PopupDialog popup = new PopupDialog(myDialog, "Please check your internet connection.", "red", "OK");
+					popup.showPopup();
 				}
 				else {
 					OnClick();
@@ -107,6 +122,18 @@ public class RegisterScreen extends AppCompatActivity
 				startActivity(policyIntent);
 			}
 		});
+	}
+
+	//Check if user is connected to web
+	private boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager)getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+		if(networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	public void OnClick() {
