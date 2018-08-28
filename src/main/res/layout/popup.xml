@@ -16,12 +16,12 @@
 			android:layout_height="wrap_content"
 			android:text="DEFAULT PROMPT TEXT POPUP"
 			android:textColor="@android:color/black"
-			android:textSize="22sp"
+			android:textSize="18sp"
 			android:gravity="center"
 			android:layout_marginTop="20dp"
 			android:layout_marginLeft="10dp"
 			android:layout_marginRight="10dp"
-			android:layout_marginBottom="12dp" />
+			android:layout_marginBottom="10dp" />
 	</LinearLayout>
 	<Button
 		android:id="@+id/popupBtn"
