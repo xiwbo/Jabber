@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -32,6 +33,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.firebase.client.Firebase;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FacebookAuthProvider;
+
 public class LoginScreen extends Activity
 {
 	private FirebaseAuth mAuth;
@@ -49,6 +60,7 @@ public class LoginScreen extends Activity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mCallbackManager = CallbackManager.Factory.create();
 		setContentView(R.layout.login_screen);
 		Firebase.setAndroidContext(this);
 		firebase = new Firebase(getResources().getString(R.string.firebaseDomain));
@@ -99,6 +111,15 @@ public class LoginScreen extends Activity
 				finish();
 			}
 		});
+
+		fbLoginBtn = (Button)findViewById(R.id.btnLoginFb);
+		fbLoginBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				loginButton.performClick();
+			}
+		});
+		handleFacebookLoginButton();
 	}
 
 	@Override
@@ -200,4 +221,30 @@ public class LoginScreen extends Activity
 			return(false);
 		}
 	};
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		mCallbackManager.onActivityResult(requestCode, resultCode, data);
+	}
+
+	// [START auth_with_facebook]
+	private void handleFacebookAccessToken(AccessToken token) {
+		AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+		mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+			@Override
+			public void onComplete(@NonNull Task<AuthResult> task) {
+				if (task.isSuccessful()) {
+					// Sign in success, update UI with the signed-in user's information
+					HomeMenu();
+					//updateUI(user);
+				} else {
+					// If sign in fails, display a message to the user.
+					Log.w(TAG, "signInWithCredential:failure", task.getException());
+					Toast.makeText(getApplicationContext(), "Authentication failed.",
+							Toast.LENGTH_SHORT).show();
+					//updateUI(null);
+				}
+			}
+		});
+	}
 }
