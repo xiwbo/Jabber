@@ -68,6 +68,7 @@ public class FragmentMessagesTab extends Fragment
 					assert users != null;
 					assert firebaseUser != null;
 					if(!users.getId().equals(firebaseUser.getUid())) {
+						//populate the recyclerview with username of users
 						listOfUsers.add(users);
 						Toast.makeText(getContext(), users.toString(), Toast.LENGTH_SHORT).show();
 					}
