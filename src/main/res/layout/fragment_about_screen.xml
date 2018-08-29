@@ -1,107 +1,72 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8" ?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:background="@android:color/background_light"
+	android:padding="5dp"
+	android:layout_gravity="center"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	tools:context=".AboutScreen"
-	tools:layout_editor_absoluteY="81dp">
-
-	<TextView
-		android:id="@+id/textView12"
-		android:layout_width="0dp"
-		android:layout_height="0dp"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
-
+	android:layout_height="match_parent">
 	<ImageView
 		android:id="@+id/imgJabberLogo"
-		android:layout_width="134dp"
-		android:layout_height="0dp"
-		android:layout_marginTop="16dp"
-		android:src="@drawable/appicon"
-		app:layout_constraintBottom_toTopOf="@+id/lblJabber"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
-
+		android:layout_width="211dp"
+		android:layout_height="150dp"
+		android:layout_marginTop="20dp"
+		android:layout_gravity="center"
+		android:src="@drawable/appicon" />
 	<TextView
 		android:id="@+id/lblJabber"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginEnd="34dp"
-		android:layout_marginBottom="16dp"
 		android:fontFamily="@font/robotoblack"
+		android:layout_marginTop="15dp"
 		android:text="Jabber"
 		android:textColor="#000"
-		android:textSize="20sp"
-		app:layout_constraintBottom_toTopOf="@+id/lblAbout"
-		app:layout_constraintEnd_toEndOf="@+id/imgJabberLogo"
-		app:layout_constraintTop_toBottomOf="@+id/imgJabberLogo" />
-
-	<TextView
-		android:id="@+id/lblFooter1"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="19dp"
-		android:layout_marginBottom="33dp"
-		android:text="Queen's King Inc."
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintStart_toStartOf="@+id/lblFooter"
-		app:layout_constraintTop_toBottomOf="@+id/lblFooter" />
-
-	<TextView
-		android:id="@+id/lblFooter"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="10dp"
-		android:text="All rights reserved 2018"
-		app:layout_constraintBottom_toTopOf="@+id/lblFooter1"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/lblName" />
-
-	<TextView
-		android:id="@+id/lblDevelopers"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="19dp"
-		android:layout_marginBottom="8dp"
-		android:fontFamily="@font/robotoblack"
-		android:text="Developers"
-		android:textColor="#000"
-		android:textSize="20sp"
-		app:layout_constraintBottom_toTopOf="@+id/lblName"
-		app:layout_constraintStart_toStartOf="@+id/lblName"
-		app:layout_constraintTop_toBottomOf="@+id/lblAbout" />
-
-	<TextView
-		android:id="@+id/lblName"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginEnd="4dp"
-		android:layout_marginBottom="8dp"
-		android:text="Alfie Osayan\nDaniel Joshua Manalo\nBowwi Katigbak\nIvan Oliveros\nArlyn Queen Oliva"
-		android:textAlignment="center"
-		android:textColor="#000"
-		android:textSize="14dp"
-		app:layout_constraintBottom_toTopOf="@+id/lblFooter"
-		app:layout_constraintEnd_toEndOf="@+id/lblFooter"
-		app:layout_constraintTop_toBottomOf="@+id/lblDevelopers" />
-
+		android:layout_gravity="center"
+		android:textSize="25sp" />
 	<TextView
 		android:id="@+id/lblAbout"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginEnd="20dp"
-		android:layout_marginBottom="8dp"
+		android:fontFamily="@font/robotolight"
+		android:layout_marginTop="15dp"
+		android:layout_gravity="center"
 		android:text="The application will allow you to chat with your \nfriend and families. In addtion, you may also chat \nwith anonymously with anonymous person with \nthe same interest, and very useful, easy to use and \nabsolutely free."
 		android:textColor="#000"
-		android:textSize="14sp"
-		app:layout_constraintBottom_toTopOf="@+id/lblDevelopers"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/lblJabber" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+		android:textSize="16sp" />
+	<TextView
+		android:id="@+id/lblDevelopers"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:fontFamily="@font/robotoblack"
+		android:text="Developers"
+		android:layout_marginTop="20dp"
+		android:layout_gravity="center"
+		android:textColor="#000"
+		android:textSize="18sp" />
+	<TextView
+		android:id="@+id/lblName"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:fontFamily="@font/robotolight"
+		android:text="Alfie Osayan\nDaniel Joshua Manalo\nBowwi Katigbak\nIvan Oliveros\nArlyn Queen Oliva"
+		android:textAlignment="center"
+		android:layout_marginTop="13dp"
+		android:layout_gravity="center"
+		android:textColor="#000"
+		android:textSize="14dp" />
+	<TextView
+		android:id="@+id/lblFooter"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:fontFamily="@font/robotoitalic"
+		android:layout_marginTop="45dp"
+		android:layout_gravity="center"
+		android:text="All rights reserved 2018" />
+	<TextView
+		android:id="@+id/lblFooter1"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:fontFamily="@font/robotolight"
+		android:layout_gravity="center"
+		android:text="Queen's King Inc." />
+</LinearLayout>
