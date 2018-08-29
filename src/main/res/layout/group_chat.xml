@@ -30,7 +30,8 @@
 				android:id="@+id/groupTxtMessages"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:text="TextView" />
+				android:textSize="18sp"
+				android:fontFamily="@font/robotocondensed"/>
 		</LinearLayout>
 	</ScrollView>
 
@@ -38,28 +39,27 @@
 		android:id="@+id/groupTextField"
 		android:layout_width="231dp"
 		android:layout_height="48dp"
-		android:layout_marginStart="21dp"
-		android:layout_marginEnd="18dp"
+		android:layout_marginStart="10dp"
+		android:layout_marginEnd="25dp"
 		android:background="@drawable/rounded_edittext"
 		android:ems="10"
-		android:fontFamily="@font/robotolight"
+		android:fontFamily="@font/robotocondensed"
 		android:hint="Enter message"
 		android:inputType="textMultiLine"
-		android:scrollbars="vertical"
 		android:maxLines="12"
 		android:padding="5dp"
+		android:scrollbars="vertical"
 		app:layout_constraintBaseline_toBaselineOf="@+id/groupBtnSend"
 		app:layout_constraintEnd_toStartOf="@+id/groupBtnSend"
 		app:layout_constraintStart_toStartOf="parent" />
 
 	<Button
 		android:id="@+id/groupBtnSend"
-		android:layout_width="0dp"
-		android:layout_height="43dp"
+		android:layout_width="59dp"
+		android:layout_height="57dp"
 		android:layout_marginEnd="16dp"
 		android:layout_marginBottom="32dp"
-		android:background="@drawable/buttonshape"
-		android:text="SEND"
+		android:background="@drawable/send_arrow"
 		android:textColor="@color/white"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
