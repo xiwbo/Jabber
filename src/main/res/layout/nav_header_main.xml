@@ -4,7 +4,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="176dp"
-	android:background="@color/colorAccent"
+	android:background="@drawable/navbackground"
 	android:gravity="bottom"
 	android:orientation="vertical"
 	android:paddingLeft="16dp"
@@ -42,6 +42,8 @@
 
 	<TextView
 		android:id="@+id/mName"
+		android:scrollbars="vertical"
+		android:gravity="bottom"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_alignBottom="@+id/userPhoto"
@@ -50,7 +52,7 @@
 		android:layout_marginBottom="-1dp"
 		android:fontFamily="@font/robotolight"
 		android:paddingTop="8dp"
-		android:text="Username"
+		android:text=""
 		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 		android:textColor="@color/white"
 		android:textSize="20sp"

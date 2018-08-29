@@ -99,7 +99,7 @@ public class RegisterScreen extends AppCompatActivity
 					PopupDialog popup = new PopupDialog(myDialog, "Password does not match.", "red", "OK");
 					popup.showPopup();
 				}
-				if(isOnline()) {
+				if(!isOnline()) {
 					PopupDialog popup = new PopupDialog(myDialog, "Please check your internet connection.", "red", "OK");
 					popup.showPopup();
 				}
@@ -163,17 +163,15 @@ public class RegisterScreen extends AppCompatActivity
 						@Override
 						public void onComplete(@NonNull Task<Void> task) {
 							if(task.isSuccessful()) {
-								Toast.makeText(getApplicationContext(),"Register Success!", Toast.LENGTH_SHORT).show();
-								Intent intent = new Intent(getApplicationContext(), LoginScreen.class);
-								intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-								startActivity(intent);
-								RegisterScreen.this.finish();
+								startActivity(new Intent(getApplicationContext(), LoginScreen.class));
+								finish();
 							}
 						}
 					});
 				}
 				else {
-					Toast.makeText(getApplicationContext(),"Register fail", Toast.LENGTH_SHORT).show();
+					PopupDialog popup = new PopupDialog(myDialog, "Register fail.", "red", "OK");
+					popup.showPopup();
 				}
 			}
 		});

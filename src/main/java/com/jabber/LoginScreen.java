@@ -20,24 +20,21 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import androidx.annotation.NonNull;
-import com.firebase.client.Firebase;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
-import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.firebase.client.Firebase;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 
 public class LoginScreen extends Activity
 {
@@ -49,7 +46,6 @@ public class LoginScreen extends Activity
 	private EditText username, password;
 	private String user, pass;
 	private TextView registerLink, forgotPass;
-	private Intent HomeMenuIntent, forgotPasswordIntent, registerIntent;
 	private LoginButton loginButton;
 	private CallbackManager mCallbackManager = CallbackManager.Factory.create();
 	private static final String TAG = "FacebookLogin";
@@ -105,16 +101,15 @@ public class LoginScreen extends Activity
 		forgotPass.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				forgotPasswordIntent = new Intent(getApplicationContext(), ForgotPassword.class);
-				startActivity(forgotPasswordIntent);
+				startActivity(new Intent(getApplicationContext(), ForgotPassword.class));
 			}
 		});
+
 		registerLink = findViewById(R.id.linkRegister);
 		registerLink.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				registerIntent = new Intent(getApplicationContext(), RegisterScreen.class);
-				startActivity(registerIntent);
+				startActivity(new Intent(getApplicationContext(), RegisterScreen.class));
 				finish();
 			}
 		});
@@ -150,10 +145,8 @@ public class LoginScreen extends Activity
 
 	public void HomeMenu() {
 		currentUser = mAuth.getCurrentUser();
-		HomeMenuIntent = new Intent(getApplicationContext(), HomeMenu.class);
-		HomeMenuIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
 		Toast.makeText(getApplicationContext(),"Welcome! " + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
-		startActivity(HomeMenuIntent);
+		startActivity(new Intent(getApplicationContext(), HomeMenu.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
 		finish();
 	}
 
@@ -229,10 +222,10 @@ public class LoginScreen extends Activity
 		ConnectivityManager cm = (ConnectivityManager)getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 		if(networkInfo != null && networkInfo.isConnectedOrConnecting()) {
-			return true;
+			return(true);
 		}
 		else {
-			return false;
+			return(false);
 		}
 	}
 

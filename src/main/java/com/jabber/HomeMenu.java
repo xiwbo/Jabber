@@ -201,7 +201,6 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 					if(map.get("username")!= null) {
 						name = map.get("username").toString();
 						mName.setText(name);
-						Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
 					}
 				}
 			}
@@ -214,13 +213,12 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 	public void promptLogout() {
 		Button btnYes;
 		myDialog.setContentView(R.layout.popuplogout);
-		btnYes = (Button)myDialog.findViewById(R.id.popupBtnYes);
+		btnYes = myDialog.findViewById(R.id.popupBtnYes);
 		btnYes.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				myDialog.dismiss();
-				Intent intent = new Intent(HomeMenu.this, LoginScreen.class);
-				startActivity(intent);
+				startActivity(new Intent(HomeMenu.this, LoginScreen.class));
 				FirebaseAuth.getInstance().signOut();
 				finish();
 			}

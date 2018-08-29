@@ -66,8 +66,7 @@ public class NavBioScreen extends Fragment
 				logOut.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialogInterface, int i) {
-						Intent intent = new Intent(getContext(), LoginScreen.class);
-						startActivity(intent);
+						startActivity(new Intent(getContext(), LoginScreen.class));
 						FirebaseAuth.getInstance().signOut();
 						getActivity().finish();
 					}
@@ -108,9 +107,6 @@ public class NavBioScreen extends Fragment
 			Picasso.get().load(imageURI).into(avatar);
 			if(imageURI != null) {
 				avatar.setImageURI(imageURI);
-			}
-			else {
-				System.out.println("HADASDA");
 			}
 		}
 	}

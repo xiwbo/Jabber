@@ -143,7 +143,7 @@
 
 	<EditText
 		android:id="@+id/txtUsername"
-		android:digits="0123456789@._ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+		android:digits="0123456789@._ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
 		android:layout_width="0dp"
 		android:layout_height="0dp"
 		android:layout_marginStart="24dp"
@@ -154,6 +154,7 @@
 		android:ems="10"
 		android:fontFamily="@font/robotolight"
 		android:hint="Username"
+		android:maxLength="12"
 		android:inputType="textEmailAddress"
 		android:textColor="@android:color/background_light"
 		app:layout_constraintBottom_toTopOf="@+id/txtPassword"
@@ -163,7 +164,7 @@
 
 	<EditText
 		android:id="@+id/txtPassword"
-		android:digits="0123456789@._ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+		android:digits="0123456789@._ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
 		android:layout_width="0dp"
 		android:layout_height="42dp"
 		android:layout_marginStart="24dp"
@@ -184,7 +185,7 @@
 
 	<EditText
 		android:id="@+id/txtConfirmPw"
-		android:digits="0123456789@._ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+		android:digits="0123456789@._ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
 		android:layout_width="0dp"
 		android:layout_height="50dp"
 		android:layout_marginStart="24dp"

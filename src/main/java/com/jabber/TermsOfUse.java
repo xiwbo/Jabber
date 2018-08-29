@@ -25,8 +25,7 @@ public class TermsOfUse extends AppCompatActivity
 		btnOkay.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(getApplicationContext(), RegisterScreen.class);
-				startActivity(intent);
+				startActivity(new Intent(getApplicationContext(), RegisterScreen.class));
 				finish();
 			}
 		});
