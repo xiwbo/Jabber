@@ -39,6 +39,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>
 		return(usersList.size());
 	}
 
+	public void setCountries(List<Users> usersList) {
+		this.usersList = usersList;
+		notifyDataSetChanged();
+	}
+
 	public class ViewHolder extends RecyclerView.ViewHolder
 	{
 		public TextView username;

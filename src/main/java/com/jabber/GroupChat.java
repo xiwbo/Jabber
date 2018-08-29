@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
@@ -26,6 +27,7 @@ public class GroupChat extends AppCompatActivity
 	private DatabaseReference root;
 	private Button btnSend;
 	private EditText txtField;
+	private ScrollView scrollView;
 	private String userName, groupName, tempKey, msgs, chatUsername;
 
 	@Override
@@ -35,6 +37,7 @@ public class GroupChat extends AppCompatActivity
 		btnSend = findViewById(R.id.groupBtnSend);
 		txtField = findViewById(R.id.groupTextField);
 		chatConvo = findViewById(R.id.groupTxtMessages);
+		scrollView = findViewById(R.id.scrollView2);
 		userName = getIntent().getExtras().get("userName").toString();
 		groupName = getIntent().getExtras().get("roomName").toString();
 		setTitle(" Room: " + groupName);
@@ -50,6 +53,8 @@ public class GroupChat extends AppCompatActivity
 				map2.put("Name", userName);
 				map2.put("Message", txtField.getText().toString());
 				messageRoot.updateChildren(map2);
+				txtField.setText("");
+				scrollView.fullScroll(View.FOCUS_DOWN);
 			}
 		});
 		root.addChildEventListener(new ChildEventListener() {
@@ -80,7 +85,6 @@ public class GroupChat extends AppCompatActivity
 			msgs = (String) ((DataSnapshot)i.next()).getValue();
 			chatUsername = (String) ((DataSnapshot)i.next()).getValue();
 			chatConvo.append(chatUsername + " : " + msgs + "\n");
-			txtField.setText("");
 		}
 	}
 }
