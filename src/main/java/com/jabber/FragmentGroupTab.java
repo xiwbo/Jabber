@@ -8,12 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -82,10 +82,10 @@ public class FragmentGroupTab extends Fragment
 	}
 
 	private void addGroupName() {
-		Button btnYes;
+		Button btnCreateGroup;
 		myDialog.setContentView(R.layout.popupaddgroup);
-		btnYes = (Button)myDialog.findViewById(R.id.popupBtnYes);
-		btnYes.setOnClickListener(new View.OnClickListener() {
+		btnCreateGroup = (Button)myDialog.findViewById(R.id.popupBtnCreate);
+		btnCreateGroup.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				EditText newGroup = (EditText)myDialog.findViewById(R.id.popupTxtGroupName);
