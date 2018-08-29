@@ -1,10 +1,12 @@
 package com.jabber;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +23,7 @@ import com.firebase.client.Firebase;
 
 public class ForgotPassword extends AppCompatActivity
 {
+	private Dialog myDialog;
 	private FirebaseAuth mAuth;
 	private Firebase firebase;
 	private EditText inputEmail;
@@ -29,6 +32,8 @@ public class ForgotPassword extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		myDialog = new Dialog(this);
+		myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.forgot_password);
 		Firebase.setAndroidContext(this);
 		firebase = new Firebase(getResources().getString(R.string.firebaseDomain));
@@ -51,10 +56,12 @@ public class ForgotPassword extends AppCompatActivity
 			@Override
 			public void onComplete(@NonNull Task<Void> task) {
 				if(task.isSuccessful()) {
-					Toast.makeText(getApplicationContext(), "Your new password has been sent to your email", Toast.LENGTH_SHORT).show();
+					PopupDialog popup = new PopupDialog(myDialog, "Your new password has been sent to your email.", "red", "OK");
+					popup.showPopup();
 				}
 				else {
-					Toast.makeText(getApplicationContext(), "Email not found.", Toast.LENGTH_SHORT).show();
+					PopupDialog popup = new PopupDialog(myDialog, "Email not found.", "red", "OK");
+					popup.showPopup();
 				}
 			}
 		});

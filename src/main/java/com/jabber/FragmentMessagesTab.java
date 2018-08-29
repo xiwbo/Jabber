@@ -57,7 +57,6 @@ public class FragmentMessagesTab extends Fragment
 
 	private void readUsers() {
 		final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-		String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 		DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users");
 		reference.addValueEventListener(new ValueEventListener() {
 			@Override
@@ -70,16 +69,13 @@ public class FragmentMessagesTab extends Fragment
 					if(!users.getId().equals(firebaseUser.getUid())) {
 						//populate the recyclerview with username of users
 						listOfUsers.add(users);
-						Toast.makeText(getContext(), users.toString(), Toast.LENGTH_SHORT).show();
 					}
 				}
 				userAdapter = new UserAdapter(getContext(), listOfUsers);
 				recyclerView.setAdapter(userAdapter);
 			}
-
 			@Override
 			public void onCancelled(@NonNull DatabaseError databaseError) {
-
 			}
 		});
 	}

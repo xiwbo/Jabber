@@ -1,10 +1,12 @@
 package com.jabber;
 
+import android.app.Dialog;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -37,6 +39,7 @@ public class NavInterestScreen extends Fragment
 	private View view;
 	private FirebaseAuth mAuth;
 	private Firebase firebase;
+	private Dialog myDialog;
 	private FirebaseUser currentUser;
 	private ImageButton addInterest;
 	private EditText txtInterest;
@@ -63,6 +66,8 @@ public class NavInterestScreen extends Fragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_interest_screen, container, false);
+		myDialog = new Dialog(getContext());
+		myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		Firebase.setAndroidContext(getContext());
 		firebase = new Firebase(getResources().getString(R.string.firebaseDomain));
 		mAuth = FirebaseAuth.getInstance();
@@ -79,7 +84,8 @@ public class NavInterestScreen extends Fragment
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put(txtInterest.getText().toString(), "");
 				mUserDatabase.updateChildren(map);
-				Toast.makeText(getContext(), "Interests added", Toast.LENGTH_SHORT).show();
+				PopupDialog popup = new PopupDialog(myDialog, "Interests added.", "red", "OK");
+				popup.showPopup();
 				txtInterest.setText("");
 				mUserDatabase.addValueEventListener(new ValueEventListener() {
 					@Override

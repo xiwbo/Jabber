@@ -9,11 +9,9 @@ import android.widget.TextView;
 
 public class PopupDialog extends Activity
 {
-	String txtMessage;
-	String colorMessage;
-	String txtButton;
-	View view;
-	Dialog myDialog;
+	private String txtMessage, colorMessage, txtButton;
+	private View view;
+	private Dialog myDialog;
 
 	public PopupDialog(Dialog dialog, String txtMessage, String colorMessage, String txtButton) {
 		this.colorMessage = colorMessage;
@@ -43,31 +41,4 @@ public class PopupDialog extends Activity
 		myDialog.setCanceledOnTouchOutside(false);
 		myDialog.show();
 	}
-
-	// public boolean showPromptPopup() {
-	// 	Button btnYes;
-	// 	myDialog.setContentView(R.layout.popuplogout);
-	// 	btnYes = (Button)myDialog.findViewById(R.id.popupBtnYes);
-	// 	btnYes.setOnClickListener(new View.OnClickListener() {
-	// 		@Override
-	// 		public void onClick(View v) {
-	// 			myDialog.dismiss();
-	// 			FirebaseAuth.getInstance().signOut();
-	// 			Toast.makeText(getApplicationContext(), "Bye bye! ",Toast.LENGTH_LONG).show();
-	// 			Intent intent = new Intent(getApplicationContext(), LoginScreen.class);
-	// 			startActivity(intent);
-	// 			finish();
-	// 		}
-	// 	});
-	// 	Button btnCancel;
-	// 	btnCancel = (Button)myDialog.findViewById(R.id.popupBtnCancel);
-	// 	btnCancel.setOnClickListener(new View.OnClickListener() {
-	// 		@Override
-	// 		public void onClick(View v) {
-	// 			myDialog.dismiss();
-	// 		}
-	// 	});
-	// 	myDialog.setCanceledOnTouchOutside(false);
-	// 	myDialog.show();
-	// }
 }
