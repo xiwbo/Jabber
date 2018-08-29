@@ -53,6 +53,7 @@
 		android:fontFamily="@font/robotolight"
 		android:paddingTop="8dp"
 		android:text=""
+		android:maxLength="12"
 		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 		android:textColor="@color/white"
 		android:textSize="20sp"
