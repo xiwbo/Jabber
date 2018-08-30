@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
@@ -16,49 +16,49 @@
 
 	<ImageView
 		android:id="@+id/userPhoto"
-		android:layout_width="121dp"
-		android:layout_height="129dp"
+		android:layout_width="0dp"
+		android:layout_height="110dp"
 		android:layout_alignParentTop="true"
 		android:layout_alignParentEnd="true"
-		android:layout_marginTop="11dp"
-		android:layout_marginEnd="19dp"
+		android:layout_marginStart="10dp"
+		android:layout_marginEnd="10dp"
 		android:contentDescription="@string/nav_header_desc"
 		android:paddingTop="8dp"
 		android:scaleType="centerCrop"
 		android:src="@drawable/bio"
-		tools:layout_editor_absoluteX="201dp"
-		tools:layout_editor_absoluteY="23dp" />
+		app:layout_constraintEnd_toEndOf="@+id/mName"
+		app:layout_constraintStart_toStartOf="@+id/mName"
+		app:layout_constraintTop_toTopOf="parent" />
 
 	<ImageButton
 		android:id="@+id/addProfilePhoto"
 		android:layout_width="46dp"
 		android:layout_height="39dp"
-		android:layout_alignBottom="@+id/userPhoto"
+		android:layout_alignTop="@+id/userPhoto"
 		android:layout_alignParentEnd="true"
-		android:layout_marginEnd="24dp"
+		android:layout_marginBottom="24dp"
 		android:background="@drawable/camera_add"
-		tools:layout_editor_absoluteX="275dp"
-		tools:layout_editor_absoluteY="113dp" />
+		app:layout_constraintBottom_toBottomOf="@+id/mName"
+		app:layout_constraintEnd_toEndOf="@+id/mName" />
 
 	<TextView
 		android:id="@+id/mName"
-		android:scrollbars="vertical"
-		android:gravity="bottom"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_alignBottom="@+id/userPhoto"
 		android:layout_alignParentStart="true"
-		android:layout_marginStart="10dp"
-		android:layout_marginBottom="-1dp"
+		android:layout_marginStart="28dp"
 		android:fontFamily="@font/robotolight"
-		android:paddingTop="8dp"
-		android:text=""
+		android:gravity="bottom"
 		android:maxLength="12"
+		android:paddingTop="8dp"
+		android:scrollbars="vertical"
+		android:text="Username"
 		android:textAppearance="@style/TextAppearance.AppCompat.Body1"
 		android:textColor="@color/white"
 		android:textSize="20sp"
 		android:textStyle="bold"
-		tools:layout_editor_absoluteX="24dp"
-		tools:layout_editor_absoluteY="116dp" />
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintStart_toStartOf="parent" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

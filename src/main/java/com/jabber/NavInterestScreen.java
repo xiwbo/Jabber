@@ -80,28 +80,35 @@ public class NavInterestScreen extends Fragment
 		addInterest.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Interests");
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put(txtInterest.getText().toString(), "");
-				mUserDatabase.updateChildren(map);
-				PopupDialog popup = new PopupDialog(myDialog, "Interests added.", "red", "OK");
-				popup.showPopup();
-				txtInterest.setText("");
-				mUserDatabase.addValueEventListener(new ValueEventListener() {
-					@Override
-					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-						Set<String> set = new HashSet<String>();
-						Iterator i = dataSnapshot.getChildren().iterator();
-						while(i.hasNext()) {
-							set.add(((DataSnapshot)i.next()).getKey());
+				if(txtInterest.getText().toString().isEmpty()) {
+					PopupDialog popup = new PopupDialog(myDialog, "Please enter your interest.", "red", "OK");
+					popup.showPopup();
+				}
+				else {
+					mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Interests");
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put(txtInterest.getText().toString(), "");
+					mUserDatabase.updateChildren(map);
+					PopupDialog popup = new PopupDialog(myDialog, "Your interests is successfully added.", "red", "OK");
+					popup.showPopup();
+					txtInterest.setText("");
+					mUserDatabase.addValueEventListener(new ValueEventListener() {
+						@Override
+						public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+							Set<String> set = new HashSet<String>();
+							Iterator i = dataSnapshot.getChildren().iterator();
+							while(i.hasNext()) {
+								set.add(((DataSnapshot) i.next()).getKey());
+							}
+							listOfInterests.clear();
+							listOfInterests.addAll(set);
 						}
-						listOfInterests.clear();
-						listOfInterests.addAll(set);
-					}
-					@Override
-					public void onCancelled(@NonNull DatabaseError databaseError) {
-					}
-				});
+
+						@Override
+						public void onCancelled(@NonNull DatabaseError databaseError) {
+						}
+					});
+				}
 			}
 		});
 		return(view);

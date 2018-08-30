@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -64,28 +66,34 @@ public class NavBioScreen extends Fragment
 				Toast.makeText(getContext(), "Manage Account", Toast.LENGTH_SHORT).show();
 				break;
 			case R.id.logout:
-				Button btnYes;
-				myDialog.setContentView(R.layout.popuplogout);
-				btnYes = myDialog.findViewById(R.id.popupBtnYes);
-				btnYes.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						myDialog.dismiss();
-						startActivity(new Intent(getContext(), LoginScreen.class));
-						FirebaseAuth.getInstance().signOut();
-						getActivity().finish();
-					}
-				});
-				Button btnCancel;
-				btnCancel = (Button)myDialog.findViewById(R.id.popupBtnCancel);
-				btnCancel.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						myDialog.dismiss();
-					}
-				});
-				myDialog.setCanceledOnTouchOutside(false);
-				myDialog.show();
+				if(!isOnline()) {
+					PopupDialog popup = new PopupDialog(myDialog, "Failed to connect to the server. Please check your connection.", "red", "OK");
+					popup.showPopup();
+				}
+				else {
+					Button btnYes;
+					myDialog.setContentView(R.layout.popuplogout);
+					btnYes = myDialog.findViewById(R.id.popupBtnYes);
+					btnYes.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							myDialog.dismiss();
+							startActivity(new Intent(getContext(), LoginScreen.class));
+							FirebaseAuth.getInstance().signOut();
+							getActivity().finish();
+						}
+					});
+					Button btnCancel;
+					btnCancel = (Button) myDialog.findViewById(R.id.popupBtnCancel);
+					btnCancel.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							myDialog.dismiss();
+						}
+					});
+					myDialog.setCanceledOnTouchOutside(false);
+					myDialog.show();
+				}
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -118,6 +126,17 @@ public class NavBioScreen extends Fragment
 			if(imageURI != null) {
 				avatar.setImageURI(imageURI);
 			}
+		}
+	}
+
+	private boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(getContext().CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+		if(networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+			return(true);
+		}
+		else {
+			return(false);
 		}
 	}
 }

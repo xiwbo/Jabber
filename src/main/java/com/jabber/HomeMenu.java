@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Build;
@@ -162,7 +164,13 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 				fragment = new NavAboutScreen();
 				break;
 			case R.id.navLogout:
-				promptLogout();
+				if(!isOnline()) {
+					PopupDialog popup = new PopupDialog(myDialog, "Failed to connect to the server. Please check your connection.", "red", "OK");
+					popup.showPopup();
+				}
+				else {
+					promptLogout();
+				}
 				break;
 		}
 		if(fragment != null) {
@@ -170,7 +178,6 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 			ft.replace(R.id.MyFrameLayout, fragment);
 			ft.commit();
 		}
-		drawer.closeDrawer(GravityCompat.START);
 	}
 
 	@SuppressWarnings("StatementWithEmptyBody")
@@ -179,6 +186,7 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		// Handle navigation view item clicks here.
 		int id = item.getItemId();
 		DisplayFragment(id);
+		drawer.closeDrawer(GravityCompat.START);
 		return(true);
 	}
 
@@ -262,10 +270,16 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		btnYes.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				myDialog.dismiss();
-				startActivity(new Intent(HomeMenu.this, LoginScreen.class));
-				FirebaseAuth.getInstance().signOut();
-				finish();
+				if(!isOnline()) {
+					PopupDialog popup = new PopupDialog(myDialog, "Failed to connect to the server. Please check your connection.", "red", "OK");
+					popup.showPopup();
+				}
+				else {
+					myDialog.dismiss();
+					startActivity(new Intent(HomeMenu.this, LoginScreen.class));
+					FirebaseAuth.getInstance().signOut();
+					finish();
+				}
 			}
 		});
 		Button btnCancel;
@@ -273,10 +287,27 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		btnCancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				myDialog.dismiss();
+				if(!isOnline()) {
+					PopupDialog popup = new PopupDialog(myDialog, "Failed to connect to the server. Please check your connection.", "red", "OK");
+					popup.showPopup();
+				}
+				else {
+					myDialog.dismiss();
+				}
 			}
 		});
 		myDialog.setCanceledOnTouchOutside(false);
 		myDialog.show();
+	}
+
+	private boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager)getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+		if(networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+			return(true);
+		}
+		else {
+			return(false);
+		}
 	}
 }

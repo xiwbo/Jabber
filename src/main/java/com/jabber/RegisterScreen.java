@@ -16,7 +16,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
@@ -39,6 +38,7 @@ public class RegisterScreen extends AppCompatActivity
 	private Firebase firebase;
 	private FirebaseUser firebaseUser;
 	private DatabaseReference databaseReference;
+	private DatabaseReference mUserDatabase;
 	private Button registerbtn;
 	private TextView loginLink;
 	private EditText email,username,password,confirmPassword;
@@ -75,9 +75,15 @@ public class RegisterScreen extends AppCompatActivity
 		loginLink.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				loginIntent = new Intent(getApplicationContext(), LoginScreen.class);
-				startActivity(loginIntent);
-				finish();
+				if(!isOnline()) {
+					PopupDialog popup = new PopupDialog(myDialog, "Failed to connect to the server. Please check your internet connection.", "red", "OK");
+					popup.showPopup();
+				}
+				else {
+					loginIntent = new Intent(getApplicationContext(), LoginScreen.class);
+					startActivity(loginIntent);
+					finish();
+				}
 			}
 		});
 		registerbtn.setOnClickListener(new View.OnClickListener() {
@@ -87,20 +93,24 @@ public class RegisterScreen extends AppCompatActivity
 					PopupDialog popup = new PopupDialog(myDialog, "Please check your email address.", "red", "OK");
 					popup.showPopup();
 				}
-				if(password.length() < 6) {
+				else if(username.length() <6 ) {
+					PopupDialog popup = new PopupDialog(myDialog, "Please check username, make sure your username is atleast 6 characters, alphanumeric and has no special characters.", "red", "OK");
+					popup.showPopup();
+				}
+				else if(password.length() < 6) {
 					PopupDialog popup = new PopupDialog(myDialog, "Please check password, make sure your password is atleast 6 characters.", "red", "OK");
 					popup.showPopup();
 				}
-				if(!tickbox.isChecked()) {
+				else if(!tickbox.isChecked()) {
 					PopupDialog popup = new PopupDialog(myDialog, "Please check the below the box below, indicated that you have read and agree to the Terms Of Use and Privacy Policy.", "red", "OK");
 					popup.showPopup();
 				}
-				if(!password.getText().toString().equals(confirmPassword.getText().toString()) || !confirmPassword.getText().toString().equals(password.getText().toString())) {
+				else if(!password.getText().toString().equals(confirmPassword.getText().toString()) || !confirmPassword.getText().toString().equals(password.getText().toString())) {
 					PopupDialog popup = new PopupDialog(myDialog, "Password does not match.", "red", "OK");
 					popup.showPopup();
 				}
-				if(!isOnline()) {
-					PopupDialog popup = new PopupDialog(myDialog, "Please check your internet connection.", "red", "OK");
+				else if(!isOnline()) {
+					PopupDialog popup = new PopupDialog(myDialog, "Failed to connect to the server. Please check your internet connection.", "red", "OK");
 					popup.showPopup();
 				}
 				else {
@@ -111,15 +121,27 @@ public class RegisterScreen extends AppCompatActivity
 		termsOfUse.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				termsOfUseIntent = new Intent(getApplicationContext(), TermsOfUse.class);
-				startActivity(termsOfUseIntent);
+				if(!isOnline()) {
+					PopupDialog popup = new PopupDialog(myDialog, "Failed to connect to the server. Please check your connection.", "red", "OK");
+					popup.showPopup();
+				}
+				else {
+					termsOfUseIntent = new Intent(getApplicationContext(), TermsOfUse.class);
+					startActivity(termsOfUseIntent);
+				}
 			}
 		});
 		privacyPolicy.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				policyIntent = new Intent(getApplicationContext(), PrivacyPolicy.class);
-				startActivity(policyIntent);
+				if(!isOnline()) {
+					PopupDialog popup = new PopupDialog(myDialog, "Failed to connect to the server. Please check your connection.", "red", "OK");
+					popup.showPopup();
+				}
+				else {
+					policyIntent = new Intent(getApplicationContext(), PrivacyPolicy.class);
+					startActivity(policyIntent);
+				}
 			}
 		});
 	}
@@ -129,10 +151,10 @@ public class RegisterScreen extends AppCompatActivity
 		ConnectivityManager cm = (ConnectivityManager)getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 		if(networkInfo != null && networkInfo.isConnectedOrConnecting()) {
-			return true;
+			return(true);
 		}
 		else {
-			return false;
+			return(false);
 		}
 	}
 
@@ -194,7 +216,7 @@ public class RegisterScreen extends AppCompatActivity
 		@Override
 		public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
 			switch(i) {
-				case EditorInfo.IME_ACTION_SEND:
+				case EditorInfo.IME_ACTION_GO:
 					if(!email.getText().toString().trim().isEmpty() && !username.getText().toString().trim().isEmpty() && !password.getText().toString().trim().isEmpty() && !confirmPassword.getText().toString().trim().isEmpty() && tickbox.isChecked()) {
 						OnClick();
 					}
