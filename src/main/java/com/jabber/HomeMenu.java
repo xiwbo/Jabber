@@ -2,12 +2,16 @@ package com.jabber;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -18,6 +22,7 @@ import android.view.Window;
 import android.view.View;
 import android.view.LayoutInflater;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +32,16 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,6 +51,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
@@ -53,7 +68,9 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 	private Fragment fragment = null;
 	private NavigationView navigationView;
 	private FirebaseAuth mAuth;
-	private DatabaseReference mUserDatabase;
+	private StorageReference storageReference;
+	private DatabaseReference mUserDatabase, profileDatabase;
+	private StorageTask storageTask;
 	private String userId, name;
 	private Toolbar toolbar;
 	private AlertDialog.Builder alertadd;
@@ -91,6 +108,7 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 				camera.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
+						getPermissions();
 						Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 						if(takePictureIntent.resolveActivity(getPackageManager()) != null) {
 							startActivityForResult(takePictureIntent, CAMERA_REQUEST);
@@ -110,6 +128,8 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 				alertadd.show();
 			}
 		});
+		storageReference = FirebaseStorage.getInstance().getReference("ProfilePics");
+		profileDatabase = FirebaseDatabase.getInstance().getReference("ProfilePics");
 		mAuth = FirebaseAuth.getInstance();
 		userId = mAuth.getCurrentUser().getUid();
 		mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
@@ -144,7 +164,13 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 				fragment = new NavAboutScreen();
 				break;
 			case R.id.navLogout:
-				promptLogout();
+				if(!isOnline()) {
+					PopupDialog popup = new PopupDialog(myDialog, "Failed to connect to the server. Please check your connection.", "red", "OK");
+					popup.showPopup();
+				}
+				else {
+					promptLogout();
+				}
 				break;
 		}
 		if(fragment != null) {
@@ -152,7 +178,6 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 			ft.replace(R.id.MyFrameLayout, fragment);
 			ft.commit();
 		}
-		drawer.closeDrawer(GravityCompat.START);
 	}
 
 	@SuppressWarnings("StatementWithEmptyBody")
@@ -161,15 +186,8 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		// Handle navigation view item clicks here.
 		int id = item.getItemId();
 		DisplayFragment(id);
+		drawer.closeDrawer(GravityCompat.START);
 		return(true);
-	}
-
-	public void openCamera() {
-		getPermissions();
-		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		if(takePictureIntent.resolveActivity(getPackageManager()) != null) {
-			startActivityForResult(takePictureIntent, CAMERA_REQUEST);
-		}
 	}
 
 	@Override
@@ -183,6 +201,41 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 			imageURI = data.getData();
 			Picasso.get().load(imageURI).into(imageView);
 			imageView.setImageURI(imageURI);
+			if(storageTask != null && storageTask.isInProgress()) {
+				Toast.makeText(getApplicationContext(), "Upload in progress", Toast.LENGTH_LONG).show();
+			}
+			else {
+				uploadFiletoFirebase();
+			}
+		}
+	}
+
+	private String FileNameExtension(Uri uri) {
+		//gets the file extension (.jpeg) etc.
+		ContentResolver contentResolver = getContentResolver();
+		MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+		return(mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri)));
+	}
+
+	public void uploadFiletoFirebase() {
+		if(imageURI != null) {
+			StorageReference sReference = storageReference.child(System.currentTimeMillis() + "." + FileNameExtension(imageURI));
+			storageTask = sReference.putFile(imageURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+				@Override
+				public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+					ImageUploadFirebase imageUploadFirebase = new ImageUploadFirebase("",taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
+					final String uploadId = profileDatabase.push().getKey();
+					profileDatabase.child(uploadId).setValue(imageUploadFirebase);
+				}
+			}).addOnFailureListener(new OnFailureListener() {
+				@Override
+				public void onFailure(@NonNull Exception e) {
+					System.out.println("Error on File Upload: " + e.getMessage());
+				}
+			});
+		}
+		else {
+			Toast.makeText(getApplicationContext(), "No file selected.", Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -217,10 +270,16 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		btnYes.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				myDialog.dismiss();
-				startActivity(new Intent(HomeMenu.this, LoginScreen.class));
-				FirebaseAuth.getInstance().signOut();
-				finish();
+				if(!isOnline()) {
+					PopupDialog popup = new PopupDialog(myDialog, "Failed to connect to the server. Please check your connection.", "red", "OK");
+					popup.showPopup();
+				}
+				else {
+					myDialog.dismiss();
+					startActivity(new Intent(HomeMenu.this, LoginScreen.class));
+					FirebaseAuth.getInstance().signOut();
+					finish();
+				}
 			}
 		});
 		Button btnCancel;
@@ -228,10 +287,27 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		btnCancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				myDialog.dismiss();
+				if(!isOnline()) {
+					PopupDialog popup = new PopupDialog(myDialog, "Failed to connect to the server. Please check your connection.", "red", "OK");
+					popup.showPopup();
+				}
+				else {
+					myDialog.dismiss();
+				}
 			}
 		});
 		myDialog.setCanceledOnTouchOutside(false);
 		myDialog.show();
+	}
+
+	private boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager)getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+		if(networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+			return(true);
+		}
+		else {
+			return(false);
+		}
 	}
 }

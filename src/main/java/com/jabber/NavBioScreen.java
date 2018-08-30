@@ -1,8 +1,11 @@
 package com.jabber;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -17,6 +20,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -33,6 +38,7 @@ public class NavBioScreen extends Fragment
 	private ImageView avatar;
 	private Uri imageURI;
 	private static final int PICK_IMAGE_REQUEST = 1;
+	private Dialog myDialog;
 
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -60,24 +66,34 @@ public class NavBioScreen extends Fragment
 				Toast.makeText(getContext(), "Manage Account", Toast.LENGTH_SHORT).show();
 				break;
 			case R.id.logout:
-				AlertDialog.Builder logOut = new AlertDialog.Builder(getContext());
-				logOut.setCancelable(false);
-				logOut.setTitle("Are you sure you want to log out?");
-				logOut.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialogInterface, int i) {
-						startActivity(new Intent(getContext(), LoginScreen.class));
-						FirebaseAuth.getInstance().signOut();
-						getActivity().finish();
-					}
-				});
-				logOut.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialogInterface, int i) {
-						dialogInterface.cancel();
-					}
-				});
-				logOut.show();
+				if(!isOnline()) {
+					PopupDialog popup = new PopupDialog(myDialog, "Failed to connect to the server. Please check your connection.", "red", "OK");
+					popup.showPopup();
+				}
+				else {
+					Button btnYes;
+					myDialog.setContentView(R.layout.popuplogout);
+					btnYes = myDialog.findViewById(R.id.popupBtnYes);
+					btnYes.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							myDialog.dismiss();
+							startActivity(new Intent(getContext(), LoginScreen.class));
+							FirebaseAuth.getInstance().signOut();
+							getActivity().finish();
+						}
+					});
+					Button btnCancel;
+					btnCancel = (Button) myDialog.findViewById(R.id.popupBtnCancel);
+					btnCancel.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							myDialog.dismiss();
+						}
+					});
+					myDialog.setCanceledOnTouchOutside(false);
+					myDialog.show();
+				}
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -86,6 +102,8 @@ public class NavBioScreen extends Fragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_bio_screen, container, false);
+		myDialog = new Dialog(getContext());
+		myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		profilePic = view.findViewById(R.id.addDP);
 		avatar = view.findViewById(R.id.imgAvatar);
 		profilePic.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +126,17 @@ public class NavBioScreen extends Fragment
 			if(imageURI != null) {
 				avatar.setImageURI(imageURI);
 			}
+		}
+	}
+
+	private boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(getContext().CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+		if(networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+			return(true);
+		}
+		else {
+			return(false);
 		}
 	}
 }

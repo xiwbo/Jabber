@@ -94,14 +94,26 @@ public class LoginScreen extends Activity
 		fbLogin.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				loginButton.performClick();
+				if(!isOnline()) {
+					PopupDialog popup = new PopupDialog(myDialog, "Please check your connection.", "red", "OK");
+					popup.showPopup();
+				}
+				else {
+					loginButton.performClick();
+				}
 			}
 		});
 		handleFacebookLoginButton();
 		forgotPass.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				startActivity(new Intent(getApplicationContext(), ForgotPassword.class));
+				if(!isOnline()) {
+					PopupDialog popup = new PopupDialog(myDialog, "Please check your connection.", "red", "OK");
+					popup.showPopup();
+				}
+				else {
+					startActivity(new Intent(getApplicationContext(), ForgotPassword.class));
+				}
 			}
 		});
 
@@ -109,8 +121,14 @@ public class LoginScreen extends Activity
 		registerLink.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				startActivity(new Intent(getApplicationContext(), RegisterScreen.class));
-				finish();
+				if(!isOnline()) {
+					PopupDialog popup = new PopupDialog(myDialog, "Please check your connection.", "red", "OK");
+					popup.showPopup();
+				}
+				else {
+					startActivity(new Intent(getApplicationContext(), RegisterScreen.class));
+					finish();
+				}
 			}
 		});
 	}
@@ -158,7 +176,7 @@ public class LoginScreen extends Activity
 			public void onSuccess(LoginResult loginResult) {
 				Log.d(TAG, "facebook:onSuccess:" + loginResult);
 				handleFacebookAccessToken(loginResult.getAccessToken());
-				Toast.makeText(getApplicationContext(), "onSuccess",Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Login Success",Toast.LENGTH_SHORT).show();
 			}
 			@Override
 			public void onCancel() {
@@ -207,7 +225,7 @@ public class LoginScreen extends Activity
 		@Override
 		public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
 			switch(i) {
-				case EditorInfo.IME_ACTION_SEND:
+				case EditorInfo.IME_ACTION_GO:
 					if(!username.getText().toString().trim().isEmpty() && !password.getText().toString().trim().isEmpty()) {
 						signIn();
 					}
