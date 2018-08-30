@@ -29,7 +29,6 @@ public class AddContacts extends AppCompatActivity
 	private ArrayList<String> lists = new ArrayList<>();
 	private ListView listView;
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
