@@ -16,11 +16,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,6 +49,7 @@ public class FragmentGroupTab extends Fragment
 	private FirebaseAuth mAuth;
 	private FirebaseUser currentUser;
 	private Firebase firebase;
+	private DatabaseReference databaseReference;
 
 	public FragmentGroupTab() {
 	}
@@ -62,6 +65,7 @@ public class FragmentGroupTab extends Fragment
 		imgButton = view.findViewById(R.id.addGroup);
 		arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,listOfRooms);
 		listView.setAdapter(arrayAdapter);
+		DisplayGroupName();
 		imgButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -84,12 +88,12 @@ public class FragmentGroupTab extends Fragment
 	private void addGroupName() {
 		Button btnCreateGroup;
 		myDialog.setContentView(R.layout.popupaddgroup);
-		btnCreateGroup = (Button)myDialog.findViewById(R.id.popupBtnCreate);
+		btnCreateGroup = myDialog.findViewById(R.id.popupBtnCreate);
 		btnCreateGroup.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				EditText newGroup = (EditText)myDialog.findViewById(R.id.popupTxtGroupName);
-				String groupName = newGroup.getText().toString();
+				EditText newGroup = myDialog.findViewById(R.id.popupTxtGroupName);
+				groupName = newGroup.getText().toString();
 				if(groupName.length() > 0) {
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put(groupName,"");
@@ -110,6 +114,7 @@ public class FragmentGroupTab extends Fragment
 						public void onCancelled(@NonNull DatabaseError databaseError) {
 						}
 					});
+					myDialog.dismiss();
 				}
 				else {
 					Toast.makeText(getContext(), "Enter your group name", Toast.LENGTH_SHORT).show();
@@ -126,5 +131,22 @@ public class FragmentGroupTab extends Fragment
 		});
 		myDialog.setCanceledOnTouchOutside(false);
 		myDialog.show();
+	}
+
+	private void DisplayGroupName() {
+		root.addValueEventListener(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				Iterator i = dataSnapshot.getChildren().iterator();
+				while(i.hasNext()) {
+					//this will do the trick
+					listOfRooms.add(((DataSnapshot)i.next()).getKey());
+					arrayAdapter.notifyDataSetChanged();
+				}
+			}
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+			}
+		});
 	}
 }

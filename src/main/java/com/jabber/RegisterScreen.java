@@ -191,10 +191,6 @@ public class RegisterScreen extends AppCompatActivity
 						}
 					});
 				}
-				else {
-					PopupDialog popup = new PopupDialog(myDialog, "Register fail.", "red", "OK");
-					popup.showPopup();
-				}
 			}
 		});
 	}
