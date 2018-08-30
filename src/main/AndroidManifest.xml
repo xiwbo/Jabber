@@ -10,16 +10,6 @@
 	<uses-feature android:name="android.hardware.camera2.full" android:required="true" />
 	<uses-feature android:name="android.hardware.camera.any" android:required="true" />
 	<uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
-	<!-- Samsung -->
-	<uses-permission android:name="com.sec.android.provider.badge.permission.READ" />
-	<uses-permission android:name="com.sec.android.provider.badge.permission.WRITE" />
-
-	<!-- Sony -->
-	<uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE" />
-
-	<!-- HTC -->
-	<uses-permission android:name="com.htc.launcher.permission.READ_SETTINGS" />
-	<uses-permission android:name="com.htc.launcher.permission.UPDATE_SHORTCUT" />
 
 	<application android:icon="@drawable/appicon" android:label="@string/app_name"
 		android:allowBackup="true"

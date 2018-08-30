@@ -10,10 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.github.arturogutierrez.Badges;
-import com.github.arturogutierrez.BadgesNotSupportedException;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -88,12 +84,6 @@ public class GroupChat extends AppCompatActivity
 			msgs = (String) ((DataSnapshot)i.next()).getValue();
 			chatUsername = (String) ((DataSnapshot)i.next()).getValue();
 			chatConvo.append(chatUsername + " : " + msgs + "\n");
-			try {
-				Badges.setBadge(getApplicationContext(), (int) snapshot.getChildrenCount());
-			}
-			catch(BadgesNotSupportedException badgesNotSupportedException) {
-				Toast.makeText(getApplicationContext(), "TOAST", Toast.LENGTH_SHORT).show();
-			}
 		}
 	}
 }
