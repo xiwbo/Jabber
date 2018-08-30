@@ -7,8 +7,6 @@ import android.os.Handler;
 
 public class SplashScreen extends Activity
 {
-	private static int splashScreenTime = 2000;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -16,10 +14,9 @@ public class SplashScreen extends Activity
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				Intent intent = new Intent(SplashScreen.this, LoginScreen.class);
-				startActivity(intent);
-				SplashScreen.this.finish();
+				startActivity( new Intent(getApplicationContext(), LoginScreen.class));
+				finish();
 			}
-		}, splashScreenTime);
+		}, 2000);
 	}
 }

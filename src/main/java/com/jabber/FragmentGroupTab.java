@@ -1,27 +1,25 @@
 package com.jabber;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+
+import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.firebase.client.Firebase;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -40,27 +38,30 @@ import java.util.Set;
 
 public class FragmentGroupTab extends Fragment
 {
-	View view;
-	ListView listView;
-	ImageButton imgButton;
-	DatabaseReference root = FirebaseDatabase.getInstance().getReference().child("GroupChatName");
+	private View view;
+	private ListView listView;
+	private Dialog myDialog;
+	private ImageButton imgButton;
+	private DatabaseReference root = FirebaseDatabase.getInstance().getReference().child("GroupChatName");
 	private ArrayAdapter<String> arrayAdapter;
 	private ArrayList<String> listOfRooms = new ArrayList<>();
-	String groupName;
+	private String groupName;
 	private FirebaseAuth mAuth;
-	FirebaseUser currentUser;
-	Firebase firebase;
+	private FirebaseUser currentUser;
+	private Firebase firebase;
+	private DatabaseReference databaseReference;
 
 	public FragmentGroupTab() {
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		myDialog = new Dialog(getContext());
 		view = inflater.inflate(R.layout.fragment_group_tab, container, false);
-		listView = view.findViewById(R.id.groupListView);
 		Firebase.setAndroidContext(getContext());
-		firebase = new Firebase("https://jabber-6ac14.firebaseio.com");
+		firebase = new Firebase(getResources().getString(R.string.firebaseDomain));
 		mAuth = FirebaseAuth.getInstance();
+		listView = view.findViewById(R.id.groupListView);
 		imgButton = view.findViewById(R.id.addGroup);
 		arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,listOfRooms);
 		listView.setAdapter(arrayAdapter);
@@ -75,7 +76,7 @@ public class FragmentGroupTab extends Fragment
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 				currentUser = mAuth.getCurrentUser();
 				Intent intent = new Intent(getContext(), GroupChat.class);
-				intent.putExtra("roomName",((TextView)view).getText().toString());
+				intent.putExtra("roomName", ((TextView)view).getText().toString());
 				intent.putExtra("userName", currentUser.getEmail());
 				startActivity(intent);
 			}
@@ -83,43 +84,74 @@ public class FragmentGroupTab extends Fragment
 		return(view);
 	}
 
+	@Override
+	public void onStart() {
+		DisplayGroupName();
+		super.onStart();
+	}
+
 	private void addGroupName() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-		builder.setTitle("Create group");
-		final EditText textField = new EditText(getContext());
-		textField.setHint("Enter group name");
-		textField.setPadding(10, 50, 10 , 20);
-		builder.setView(textField);
-		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		Button btnCreateGroup;
+		myDialog.setContentView(R.layout.popupaddgroup);
+		btnCreateGroup = myDialog.findViewById(R.id.popupBtnCreate);
+		btnCreateGroup.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(DialogInterface dialogInterface, int i) {
-				dialogInterface.cancel();
-			}
-		});
-		builder.setPositiveButton("CREATE", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialogInterface, int i) {
-				groupName = textField.getText().toString();
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put(groupName,"");
-				root.updateChildren(map);
-				root.addValueEventListener(new ValueEventListener() {
-					@Override
-					public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-						Set<String> set = new HashSet<String>();
-						Iterator i = dataSnapshot.getChildren().iterator();
-						while(i.hasNext()) {
-							set.add(((DataSnapshot)i.next()).getKey());
+			public void onClick(View v) {
+				EditText newGroup = myDialog.findViewById(R.id.popupTxtGroupName);
+				groupName = newGroup.getText().toString();
+				if(groupName.length() > 0) {
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put(groupName,"");
+					root.updateChildren(map);
+					Toast.makeText(getContext(), "Group added", Toast.LENGTH_SHORT).show();
+					root.addValueEventListener(new ValueEventListener() {
+						@Override
+						public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+							Set<String> set = new HashSet<String>();
+							Iterator i = dataSnapshot.getChildren().iterator();
+							while(i.hasNext()) {
+								set.add(((DataSnapshot)i.next()).getKey());
+							}
+							listOfRooms.clear();
+							listOfRooms.addAll(set);
 						}
-						listOfRooms.clear();
-						listOfRooms.addAll(set);
-					}
-					@Override
-					public void onCancelled(@NonNull DatabaseError databaseError) {
-					}
-				});
+						@Override
+						public void onCancelled(@NonNull DatabaseError databaseError) {
+						}
+					});
+					myDialog.dismiss();
+				}
+				else {
+					Toast.makeText(getContext(), "Enter your group name", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
-		builder.show();
+		Button btnCancel;
+		btnCancel = (Button)myDialog.findViewById(R.id.popupBtnCancel);
+		btnCancel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				myDialog.dismiss();
+			}
+		});
+		myDialog.setCanceledOnTouchOutside(false);
+		myDialog.show();
+	}
+
+	private void DisplayGroupName() {
+		root.addValueEventListener(new ValueEventListener() {
+			@Override
+			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+				Iterator i = dataSnapshot.getChildren().iterator();
+				while(i.hasNext()) {
+					//this will do the trick
+					listOfRooms.add(((DataSnapshot)i.next()).getKey());
+					arrayAdapter.notifyDataSetChanged();
+				}
+			}
+			@Override
+			public void onCancelled(@NonNull DatabaseError databaseError) {
+			}
+		});
 	}
 }

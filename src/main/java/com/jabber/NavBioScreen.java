@@ -1,8 +1,12 @@
 package com.jabber;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,13 +20,29 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
+
+import static android.app.Activity.RESULT_OK;
 
 public class NavBioScreen extends Fragment
 {
-	View view;
+	private View view;
+	private ImageButton profilePic;
+	private ImageView avatar;
+	private Uri imageURI;
+	private static final int PICK_IMAGE_REQUEST = 1;
+	private Dialog myDialog;
+	private Spinner spinner;
+
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
@@ -31,11 +51,9 @@ public class NavBioScreen extends Fragment
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//title(header) bar
-		getActivity().setTitle("Bio");
-		//screen orientation of fragments
-		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setHasOptionsMenu(true);
+		getActivity().setTitle("Bio");
+		getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
 	@Override
@@ -51,25 +69,34 @@ public class NavBioScreen extends Fragment
 				Toast.makeText(getContext(), "Manage Account", Toast.LENGTH_SHORT).show();
 				break;
 			case R.id.logout:
-				AlertDialog.Builder logOut = new AlertDialog.Builder(getContext());
-				logOut.setCancelable(false);
-				logOut.setTitle("Are you sure you want to log out?");
-				logOut.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialogInterface, int i) {
-						Intent intent = new Intent(getContext(), LoginScreen.class);
-						startActivity(intent);
-						FirebaseAuth.getInstance().signOut();
-						getActivity().finish();
-					}
-				});
-				logOut.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialogInterface, int i) {
-						dialogInterface.cancel();
-					}
-				});
-				logOut.show();
+				if(!isOnline()) {
+					PopupDialog popup = new PopupDialog(myDialog, "Failed to connect to the server. Please check your connection.", "red", "OK");
+					popup.showPopup();
+				}
+				else {
+					Button btnYes;
+					myDialog.setContentView(R.layout.popuplogout);
+					btnYes = myDialog.findViewById(R.id.popupBtnYes);
+					btnYes.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							myDialog.dismiss();
+							startActivity(new Intent(getContext(), LoginScreen.class));
+							FirebaseAuth.getInstance().signOut();
+							getActivity().finish();
+						}
+					});
+					Button btnCancel;
+					btnCancel = (Button) myDialog.findViewById(R.id.popupBtnCancel);
+					btnCancel.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							myDialog.dismiss();
+						}
+					});
+					myDialog.setCanceledOnTouchOutside(false);
+					myDialog.show();
+				}
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -77,7 +104,47 @@ public class NavBioScreen extends Fragment
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-		return(inflater.inflate(R.layout.fragment_bio_screen, container, false));
+		view = inflater.inflate(R.layout.fragment_bio_screen, container, false);
+		myDialog = new Dialog(getContext());
+		myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		profilePic = view.findViewById(R.id.addDP);
+		spinner = view.findViewById(R.id.spinner);
+		avatar = view.findViewById(R.id.imgAvatar);
+		String[] gender = new String[] { "Male", "Female" };
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, gender);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter);
+		profilePic.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent();
+				intent.setType("image/*");
+				intent.setAction(Intent.ACTION_GET_CONTENT);
+				startActivityForResult(intent, PICK_IMAGE_REQUEST);
+			}
+		});
+		return(view);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+			imageURI = data.getData();
+			Picasso.get().load(imageURI).into(avatar);
+			if(imageURI != null) {
+				avatar.setImageURI(imageURI);
+			}
+		}
+	}
+
+	private boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(getContext().CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+		if(networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+			return(true);
+		}
+		else {
+			return(false);
+		}
 	}
 }

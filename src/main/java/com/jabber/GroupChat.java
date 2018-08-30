@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
-
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,9 +24,10 @@ public class GroupChat extends AppCompatActivity
 {
 	private TextView chatConvo;
 	private DatabaseReference root;
-	Button btnSend;
-	EditText txtField;
-	String userName, groupName, tempKey, msgs, chatUsername;
+	private Button btnSend;
+	private EditText txtField;
+	private ScrollView scrollView;
+	private String userName, groupName, tempKey, msgs, chatUsername;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class GroupChat extends AppCompatActivity
 		btnSend = findViewById(R.id.groupBtnSend);
 		txtField = findViewById(R.id.groupTextField);
 		chatConvo = findViewById(R.id.groupTxtMessages);
+		scrollView = findViewById(R.id.scrollView2);
 		userName = getIntent().getExtras().get("userName").toString();
 		groupName = getIntent().getExtras().get("roomName").toString();
 		setTitle(" Room: " + groupName);
@@ -50,6 +52,8 @@ public class GroupChat extends AppCompatActivity
 				map2.put("Name", userName);
 				map2.put("Message", txtField.getText().toString());
 				messageRoot.updateChildren(map2);
+				txtField.setText("");
+				scrollView.fullScroll(View.FOCUS_DOWN);
 			}
 		});
 		root.addChildEventListener(new ChildEventListener() {
@@ -73,13 +77,13 @@ public class GroupChat extends AppCompatActivity
 			}
 		});
 	}
+
 	private void appendChat(DataSnapshot snapshot) {
 		Iterator i = snapshot.getChildren().iterator();
 		while(i.hasNext()) {
 			msgs = (String) ((DataSnapshot)i.next()).getValue();
 			chatUsername = (String) ((DataSnapshot)i.next()).getValue();
 			chatConvo.append(chatUsername + " : " + msgs + "\n");
-			txtField.setText("");
 		}
 	}
 }
