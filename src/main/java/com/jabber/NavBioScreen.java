@@ -21,9 +21,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,6 +41,7 @@ public class NavBioScreen extends Fragment
 	private Uri imageURI;
 	private static final int PICK_IMAGE_REQUEST = 1;
 	private Dialog myDialog;
+	private Spinner spinner;
 
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -105,7 +108,12 @@ public class NavBioScreen extends Fragment
 		myDialog = new Dialog(getContext());
 		myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		profilePic = view.findViewById(R.id.addDP);
+		spinner = view.findViewById(R.id.spinner);
 		avatar = view.findViewById(R.id.imgAvatar);
+		String[] gender = new String[] { "Male", "Female" };
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, gender);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter);
 		profilePic.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {

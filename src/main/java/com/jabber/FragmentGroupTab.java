@@ -65,7 +65,6 @@ public class FragmentGroupTab extends Fragment
 		imgButton = view.findViewById(R.id.addGroup);
 		arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,listOfRooms);
 		listView.setAdapter(arrayAdapter);
-		DisplayGroupName();
 		imgButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -83,6 +82,12 @@ public class FragmentGroupTab extends Fragment
 			}
 		});
 		return(view);
+	}
+
+	@Override
+	public void onStart() {
+		DisplayGroupName();
+		super.onStart();
 	}
 
 	private void addGroupName() {
