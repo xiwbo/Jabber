@@ -49,7 +49,6 @@ public class FragmentGroupTab extends Fragment
 	private FirebaseAuth mAuth;
 	private FirebaseUser currentUser;
 	private Firebase firebase;
-	private DatabaseReference databaseReference;
 
 	public FragmentGroupTab() {
 	}

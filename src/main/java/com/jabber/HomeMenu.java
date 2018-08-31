@@ -178,7 +178,7 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 
 	@SuppressWarnings("StatementWithEmptyBody")
 	@Override
-	public boolean onNavigationItemSelected(MenuItem item) {
+	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 		// Handle navigation view item clicks here.
 		int id = item.getItemId();
 		DisplayFragment(id);
@@ -221,6 +221,7 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 				public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 					ImageUploadFirebase imageUploadFirebase = new ImageUploadFirebase("",taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
 					final String uploadId = profileDatabase.push().getKey();
+					assert uploadId != null;
 					profileDatabase.child(uploadId).setValue(imageUploadFirebase);
 				}
 			}).addOnFailureListener(new OnFailureListener() {

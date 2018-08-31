@@ -4,12 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,27 +23,26 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class GroupChat extends AppCompatActivity
+public class Messages extends AppCompatActivity
 {
 	private TextView chatConvo;
 	private DatabaseReference root;
-	private Button btnSend;
+	private ImageButton btnSend;
 	private EditText txtField;
 	private ScrollView scrollView;
-	private String userName, groupName, tempKey, msgs, chatUsername;
+	private String userName, tempKey, msgs, chatUsername;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.group_chat);
-		btnSend = findViewById(R.id.grpBtnSend);
-		txtField = findViewById(R.id.groupTextField);
-		chatConvo = findViewById(R.id.groupTxtMessages);
-		scrollView = findViewById(R.id.scrollView2);
-		userName = getIntent().getExtras().get("userName").toString();
-		groupName = getIntent().getExtras().get("roomName").toString();
-		setTitle(" Room: " + groupName);
-		root = FirebaseDatabase.getInstance().getReference().child("GroupChatName").child(groupName);
+		setContentView(R.layout.activity_messages);
+		btnSend = findViewById(R.id.msgButtonSend);
+		txtField = findViewById(R.id.msgTextField);
+		chatConvo = findViewById(R.id.textView4);
+		scrollView = findViewById(R.id.scrollView3);
+		userName = getIntent().getExtras().get("id").toString();
+		setTitle(userName);
+		root = FirebaseDatabase.getInstance().getReference().child("Messages").child(userName);
 		btnSend.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
