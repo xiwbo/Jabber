@@ -86,7 +86,6 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 		toggle.syncState();
 		navigationView = findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
-		//Fragments on nav
 		DisplayFragment(R.id.navHome);
 		navigationView.setCheckedItem(R.id.navHome);
 		header = navigationView.getHeaderView(0);
@@ -99,12 +98,12 @@ public class HomeMenu extends AppCompatActivity implements NavigationView.OnNavi
 				alertadd = new AlertDialog.Builder(HomeMenu.this);
 				LayoutInflater factory = LayoutInflater.from(HomeMenu.this);
 				final View aView = factory.inflate(R.layout.camera_pop_up, null);
+				getPermissions();
 				camera = aView.findViewById(R.id.imgCamera);
 				gallery = aView.findViewById(R.id.imgGallery);
 				camera.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						getPermissions();
 						Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 						if(takePictureIntent.resolveActivity(getPackageManager()) != null) {
 							startActivityForResult(takePictureIntent, CAMERA_REQUEST);
