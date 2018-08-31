@@ -85,6 +85,12 @@ public class FragmentGroupTab extends Fragment
 		return(view);
 	}
 
+	@Override
+	public void onStart() {
+		DisplayGroupName();
+		super.onStart();
+	}
+
 	private void addGroupName() {
 		Button btnCreateGroup;
 		myDialog.setContentView(R.layout.popupaddgroup);
