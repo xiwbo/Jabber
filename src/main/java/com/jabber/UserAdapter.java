@@ -1,6 +1,7 @@
 package com.jabber;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +31,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>
 
 	@Override
 	public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-		Users users = usersList.get(position);
+		final Users users = usersList.get(position);
 		holder.username.setText(users.getUsername());
+		holder.itemView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				ctx.startActivity(new Intent(ctx, Messages.class).putExtra("id", users.getId()));
+			}
+		});
 	}
 
 	@Override

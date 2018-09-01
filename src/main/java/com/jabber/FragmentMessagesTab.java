@@ -37,7 +37,7 @@ public class FragmentMessagesTab extends Fragment
 		View view = inflater.inflate(R.layout.fragment_messages_tab, container, false);
 		addContact = view.findViewById(R.id.addContacts);
 		recyclerView = view.findViewById(R.id.userRecyclerView);
-		recyclerView.setHasFixedSize(true);
+		recyclerView.setHasFixedSize(false);
 		recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 		listOfUsers = new ArrayList<>();
 		readUsers();
