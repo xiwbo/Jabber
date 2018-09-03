@@ -25,20 +25,34 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="vertical">
-
-			<TextView
-				android:id="@+id/groupTxtMessages"
-				android:layout_width="match_parent"
+			<com.daasuu.bl.BubbleLayout
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:fontFamily="@font/robotocondensed"
-				android:textSize="18sp" />
+				android:padding="8dp"
+
+				app:bl_arrowDirection="left"
+				app:bl_arrowHeight="8dp"
+				app:bl_arrowPosition="16dp"
+				app:bl_arrowWidth="8dp"
+				app:bl_strokeWidth="1dp">
+
+				<TextView
+					android:id="@+id/groupTxtMessages"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:fontFamily="@font/robotocondensed"
+					android:textSize="18sp"
+					android:layout_gravity="center_vertical"
+					android:layout_marginRight="4dp"/>
+			</com.daasuu.bl.BubbleLayout>
+
 		</LinearLayout>
 	</ScrollView>
 
 	<EditText
 		android:id="@+id/groupTextField"
 		android:layout_width="231dp"
-		android:layout_height="48dp"
+		android:layout_height="51dp"
 		android:layout_marginStart="10dp"
 		android:layout_marginEnd="25dp"
 		android:layout_marginBottom="24dp"
@@ -57,7 +71,7 @@
 	<Button
 		android:id="@+id/grpBtnSend"
 		android:layout_width="59dp"
-		android:layout_height="57dp"
+		android:layout_height="51dp"
 		android:layout_marginTop="16dp"
 		android:layout_marginEnd="16dp"
 		android:layout_marginBottom="24dp"

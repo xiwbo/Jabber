@@ -11,12 +11,10 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -103,7 +101,6 @@ public class NavInterestScreen extends Fragment
 							listOfInterests.clear();
 							listOfInterests.addAll(set);
 						}
-
 						@Override
 						public void onCancelled(@NonNull DatabaseError databaseError) {
 						}

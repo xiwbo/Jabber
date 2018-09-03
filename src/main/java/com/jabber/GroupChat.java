@@ -37,6 +37,7 @@ public class GroupChat extends AppCompatActivity
 		txtField = findViewById(R.id.groupTextField);
 		chatConvo = findViewById(R.id.groupTxtMessages);
 		scrollView = findViewById(R.id.scrollView2);
+		scrollView.fullScroll(View.FOCUS_DOWN);
 		userName = getIntent().getExtras().get("userName").toString();
 		groupName = getIntent().getExtras().get("roomName").toString();
 		setTitle(" Room: " + groupName);
@@ -84,6 +85,7 @@ public class GroupChat extends AppCompatActivity
 			msgs = (String) ((DataSnapshot)i.next()).getValue();
 			chatUsername = (String) ((DataSnapshot)i.next()).getValue();
 			chatConvo.append(chatUsername + " : " + msgs + "\n");
+			scrollView.fullScroll(View.FOCUS_DOWN);
 		}
 	}
 }

@@ -1,193 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/scrollViewBio"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="@color/white"
 	tools:context=".NavBioScreen">
 
-	<TextView
-		android:id="@+id/lblBirthdate"
-		android:layout_width="wrap_content"
+	<LinearLayout
+		android:id="@+id/linearLayoutBio"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="16dp"
-		android:layout_marginTop="8dp"
-		android:layout_marginBottom="6dp"
-		android:fontFamily="@font/robotocondensed"
-		android:text="Birthdate:"
-		android:textSize="14sp"
-		app:layout_constraintBottom_toTopOf="@+id/txtBirthDate"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/spinner" />
+		android:orientation="vertical"
+		android:padding="16dp">
 
-	<TextView
-		android:id="@+id/lblAge"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginEnd="48dp"
-		android:layout_marginBottom="8dp"
-		android:fontFamily="@font/robotocondensed"
-		android:text="Age:"
-		android:textSize="14sp"
-		app:layout_constraintBottom_toTopOf="@+id/txtAge"
-		app:layout_constraintEnd_toEndOf="@+id/txtName"
-		app:layout_constraintTop_toBottomOf="@+id/txtName" />
+		<ImageView
+			android:id="@+id/profilePicture"
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:src="@drawable/bio"
+			android:layout_gravity="center"/>
 
-	<TextView
-		android:id="@+id/lblGender"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:layout_marginBottom="8dp"
-		android:fontFamily="@font/robotocondensed"
-		android:text="Gender:"
-		android:textSize="14sp"
-		app:layout_constraintBottom_toTopOf="@+id/spinner"
-		app:layout_constraintStart_toStartOf="@+id/txtName"
-		app:layout_constraintTop_toBottomOf="@+id/txtName" />
+		<ImageButton
+			android:id="@+id/imgButtonCameraBio"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:layout_marginTop="-25dp"
+			android:layout_marginLeft="175dp"
+			android:background="@android:color/transparent"
+			android:scaleType="fitCenter"
+			android:src="@drawable/camera_add" />
 
-	<ImageButton
-		android:id="@+id/addDP"
-		android:layout_width="46dp"
-		android:layout_height="44dp"
-		android:layout_marginEnd="-1dp"
-		android:background="@drawable/camera_add"
-		app:layout_constraintBottom_toBottomOf="@+id/imgAvatar"
-		app:layout_constraintEnd_toEndOf="@+id/imgAvatar"
-		app:layout_constraintHorizontal_bias="1.0"
-		app:layout_constraintStart_toStartOf="@+id/imgAvatar"
-		app:layout_constraintTop_toBottomOf="@+id/imgAvatar" />
+		<com.rengwuxian.materialedittext.MaterialEditText
+			android:id="@+id/txtUsernameBio"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="Name"
+			android:maxLength="30"
+			android:layout_marginTop="16dp"
+			app:met_floatingLabel="normal"/>
 
-	<ImageView
-		android:id="@+id/imgAvatar"
-		android:layout_width="100dp"
-		android:layout_height="80dp"
-		android:layout_marginTop="10dp"
-		android:src="@drawable/bio"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="horizontal"
+			android:layout_marginBottom="30dp">
+			<Spinner
+				android:id="@+id/spinnerBio"
+				android:layout_width="wrap_content"
+				android:layout_marginTop="16dp"
+				android:layout_height="wrap_content" />
 
-	<TextView
-		android:id="@+id/textView2"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="16dp"
-		android:layout_marginBottom="12dp"
-		android:fontFamily="@font/robotocondensed"
-		android:text="Name:"
-		android:textSize="14sp"
-		app:layout_constraintBottom_toTopOf="@+id/txtName"
-		app:layout_constraintStart_toStartOf="parent" />
+			<com.rengwuxian.materialedittext.MaterialEditText
+				android:id="@+id/txtAge"
+				android:layout_marginLeft="70dp"
+				android:inputType="number"
+				android:maxLength="2"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="Age"
+				android:layout_marginTop="16dp"
+				app:met_floatingLabel="normal"/>
 
-	<EditText
-		android:id="@+id/txtName"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="16dp"
-		android:layout_marginTop="5dp"
-		android:layout_marginEnd="16dp"
-		android:backgroundTint="@color/fbBlue"
-		android:ems="10"
-		android:hint="txtName"
-		android:inputType="textPersonName"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/addDP" />
+		</LinearLayout>
 
-	<Spinner
-		android:id="@+id/spinner"
-		android:layout_width="110dp"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="33dp"
-		android:backgroundTint="@color/fbBlue"
-		app:layout_constraintStart_toStartOf="@+id/lblGender"
-		app:layout_constraintTop_toBottomOf="@+id/txtName" />
+		<com.rengwuxian.materialedittext.MaterialEditText
+			android:id="@+id/txtBirthDateBio"
+			android:inputType="date"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="Birthdate"
+			android:maxLength="8"
+			android:layout_marginTop="20dp"
+			android:layout_marginBottom="30dp"
+			app:met_floatingLabel="normal"/>
 
-	<EditText
-		android:id="@+id/txtAge"
-		android:layout_width="0dp"
-		android:layout_height="40dp"
-		android:layout_marginTop="50dp"
-		android:layout_marginBottom="78dp"
-		android:backgroundTint="@color/fbBlue"
-		android:ems="10"
-		android:hint="txtAge"
-		android:inputType="phone"
-		app:layout_constraintBottom_toBottomOf="@+id/txtBirthDate"
-		app:layout_constraintEnd_toEndOf="@+id/txtBirthDate"
-		app:layout_constraintStart_toStartOf="@+id/lblAge"
-		app:layout_constraintTop_toTopOf="@+id/txtName" />
+		<com.rengwuxian.materialedittext.MaterialEditText
+			android:id="@+id/txtLocationBio"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="Location"
+			android:maxLength="50"
+			android:layout_marginTop="20dp"
+			android:layout_marginBottom="30dp"
+			app:met_floatingLabel="normal"/>
 
-	<EditText
-		android:id="@+id/txtBirthDate"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="16dp"
-		android:layout_marginEnd="16dp"
-		android:layout_marginBottom="45dp"
-		android:backgroundTint="@color/fbBlue"
-		android:ems="10"
-		android:hint="txtBirthDate"
-		android:inputType="date"
-		app:layout_constraintBottom_toTopOf="@+id/txtLocation"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent" />
+		<com.rengwuxian.materialedittext.MaterialEditText
+			android:id="@+id/txtAboutBio"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="About"
+			android:inputType="textMultiLine"
+			android:scrollbars="vertical"
+			android:layout_marginTop="20dp"
+			android:layout_marginBottom="30dp"
+			app:met_floatingLabel="normal"/>
 
-	<TextView
-		android:id="@+id/lblLocation"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:layout_marginBottom="8dp"
-		android:fontFamily="@font/robotocondensed"
-		android:text="Location:"
-		android:textSize="14sp"
-		app:layout_constraintBottom_toTopOf="@+id/txtLocation"
-		app:layout_constraintStart_toStartOf="@+id/txtBirthDate"
-		app:layout_constraintTop_toBottomOf="@+id/txtBirthDate" />
-
-	<EditText
-		android:id="@+id/txtLocation"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="16dp"
-		android:layout_marginEnd="16dp"
-		android:layout_marginBottom="45dp"
-		android:backgroundTint="@color/fbBlue"
-		android:ems="10"
-		android:hint="txtLocation"
-		android:inputType="textPersonName"
-		app:layout_constraintBottom_toBottomOf="@+id/lblAbout"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent" />
-
-	<TextView
-		android:id="@+id/lblAbout"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="3dp"
-		android:fontFamily="@font/robotocondensed"
-		android:text="About:"
-		android:textSize="14sp"
-		app:layout_constraintBottom_toTopOf="@+id/txtAbout"
-		app:layout_constraintStart_toStartOf="@+id/txtAbout" />
-
-	<EditText
-		android:id="@+id/txtAbout"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="16dp"
-		android:layout_marginEnd="16dp"
-		android:layout_marginBottom="10dp"
-		android:backgroundTint="@color/fbBlue"
-		android:ems="10"
-		android:hint="txtAbout"
-		android:inputType="textPersonName"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+	</LinearLayout>
+</ScrollView>

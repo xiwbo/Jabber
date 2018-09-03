@@ -1,7 +1,6 @@
 package com.jabber;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -29,8 +27,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.squareup.picasso.Picasso;
-
 import static android.app.Activity.RESULT_OK;
 
 public class NavBioScreen extends Fragment
@@ -42,6 +40,8 @@ public class NavBioScreen extends Fragment
 	private static final int PICK_IMAGE_REQUEST = 1;
 	private Dialog myDialog;
 	private Spinner spinner;
+	private MaterialEditText birthdate;
+	private String myValue;
 
 	@Override
 	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -107,13 +107,15 @@ public class NavBioScreen extends Fragment
 		view = inflater.inflate(R.layout.fragment_bio_screen, container, false);
 		myDialog = new Dialog(getContext());
 		myDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		profilePic = view.findViewById(R.id.addDP);
-		spinner = view.findViewById(R.id.spinner);
-		avatar = view.findViewById(R.id.imgAvatar);
+		profilePic = view.findViewById(R.id.imgButtonCameraBio);
+		spinner = view.findViewById(R.id.spinnerBio);
+		avatar = view.findViewById(R.id.profilePicture);
+		birthdate = view.findViewById(R.id.txtBirthDateBio);
 		String[] gender = new String[] { "Male", "Female" };
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, gender);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
+		birthdate.setText(myValue);
 		profilePic.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
