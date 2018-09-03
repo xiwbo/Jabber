@@ -26,6 +26,9 @@ import androidx.recyclerview.widget.RecyclerView;
 public class FragmentMessagesTab extends Fragment
 {
 	private ImageButton addContact;
+	private RecyclerView recyclerView;
+	private List<Users> listOfUsers;
+	private UserAdapter userAdapter;
 
 	public FragmentMessagesTab() {
 		// Required empty public constructor

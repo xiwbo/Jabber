@@ -8,27 +8,21 @@
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.CAMERA" />
 
-	<supports-screens
-		android:anyDensity="true"
-		android:largeScreens="true"
+	<supports-screens android:anyDensity="true" android:largeScreens="true"
 		android:normalScreens="true"
 		android:smallScreens="true" />
-	<uses-feature
-		android:name="android.hardware.camera2.full"
-		android:required="true" />
-	<uses-feature
-		android:name="android.hardware.camera.any"
-		android:required="true" />
-	<uses-feature
-		android:name="android.hardware.camera.autofocus"
-		android:required="false" />
 
-	<application android:icon="@drawable/appicon" android:label="@string/app_name"
+	<uses-feature android:name="android.hardware.camera2.full" android:required="true" />
+	<uses-feature android:name="android.hardware.camera.any" android:required="true" />
+	<uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+
+	<application
 		android:allowBackup="true"
 		android:icon="@drawable/appicon"
 		android:label="@string/app_name"
 		android:resizeableActivity="true"
 		android:screenOrientation="portrait">
+
 		<activity
 			android:name=".SplashScreen"
 			android:label="@string/app_name"
@@ -83,15 +77,12 @@
 			android:name="com.facebook.FacebookActivity"
 			android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
 			android:label="@string/app_name" />
-
 		<meta-data
 			android:name="com.facebook.sdk.ApplicationId"
 			android:value="@string/facebook_app_id" />
-
 		<activity android:name=".Messages"
 			android:parentActivityName=".HomeMenu"
 			android:screenOrientation="portrait"
-			android:theme="@style/AppTheme"></activity>
+			android:theme="@style/AppTheme" />
 	</application>
-
 </manifest>

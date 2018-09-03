@@ -16,13 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -64,6 +62,7 @@ public class FragmentGroupTab extends Fragment
 		imgButton = view.findViewById(R.id.addGroup);
 		arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,listOfRooms);
 		listView.setAdapter(arrayAdapter);
+		DisplayGroupName();
 		imgButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -81,12 +80,6 @@ public class FragmentGroupTab extends Fragment
 			}
 		});
 		return(view);
-	}
-
-	@Override
-	public void onStart() {
-		DisplayGroupName();
-		super.onStart();
 	}
 
 	private void addGroupName() {
@@ -142,6 +135,7 @@ public class FragmentGroupTab extends Fragment
 			@Override
 			public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 				Iterator i = dataSnapshot.getChildren().iterator();
+				listOfRooms.clear();
 				while(i.hasNext()) {
 					//this will do the trick
 					listOfRooms.add(((DataSnapshot)i.next()).getKey());
