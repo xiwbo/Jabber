@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/PopUp"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="horizontal"
+	tools:layout_editor_absoluteX="16dp"
+	tools:layout_editor_absoluteY="81dp">
+
+	<ImageButton
+		android:id="@+id/imgCamera"
+		android:layout_width="67dp"
+		android:layout_height="123dp"
+		android:layout_weight="1"
+		android:background="@android:color/transparent"
+		app:srcCompat="@drawable/camera_lbl" />
+
+	<ImageButton
+		android:id="@+id/imgGallery"
+		android:layout_width="wrap_content"
+		android:layout_height="119dp"
+		android:layout_weight="1"
+		android:background="@android:color/transparent"
+		app:srcCompat="@drawable/gallery_lbl" />
+</LinearLayout>

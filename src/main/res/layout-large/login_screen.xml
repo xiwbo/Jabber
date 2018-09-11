@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@drawable/background"
+	android:fitsSystemWindows="true"
+	tools:context=".LoginScreen"
+	tools:layout_editor_absoluteY="25dp">
+
+	<ImageView
+		android:id="@+id/imgJabberLogo"
+		android:layout_width="242dp"
+		android:layout_height="254dp"
+		android:layout_marginTop="38dp"
+		android:background="@drawable/appicon"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<EditText
+		android:id="@+id/txtUsername"
+		android:layout_width="0dp"
+		android:layout_height="42dp"
+		android:layout_marginStart="24dp"
+		android:layout_marginTop="120dp"
+		android:layout_marginEnd="24dp"
+		android:layout_marginBottom="119dp"
+		android:backgroundTint="#fff"
+		android:digits="0123456789@._ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+		android:ems="10"
+		android:fontFamily="@font/robotolight"
+		android:hint="Email or Username"
+		android:inputType="textEmailAddress"
+		android:textColor="@android:color/background_light"
+		app:layout_constraintBottom_toBottomOf="@+id/lblForgotPw"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/imgJabberLogo" />
+
+	<EditText
+		android:id="@+id/txtPassword"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="24dp"
+		android:layout_marginEnd="24dp"
+		android:layout_marginBottom="367dp"
+		android:backgroundTint="#fff"
+		android:digits="0123456789@._ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+		android:ems="10"
+		android:fontFamily="@font/robotolight"
+		android:hint="Password"
+		android:imeOptions="actionGo"
+		android:inputType="textPassword"
+		android:textColor="@android:color/background_light"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent" />
+
+	<TextView
+		android:id="@+id/lblForgotPw"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="24dp"
+		android:fontFamily="@font/robotolight"
+		android:text="Forgot"
+		android:textColor="@android:color/background_light"
+		app:layout_constraintBaseline_toBaselineOf="@+id/linkForgotPw"
+		app:layout_constraintStart_toStartOf="parent" />
+
+	<TextView
+		android:id="@+id/linkForgotPw"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="2dp"
+		android:layout_marginTop="34dp"
+		android:fontFamily="@font/robotolight"
+		android:text="Password?"
+		android:textColor="@color/fbBlue"
+		android:textStyle="bold"
+		app:layout_constraintStart_toEndOf="@+id/lblForgotPw"
+		app:layout_constraintTop_toBottomOf="@+id/txtPassword" />
+
+	<Button
+		android:id="@+id/btnLogin"
+		android:layout_width="0dp"
+		android:layout_height="41dp"
+		android:layout_marginStart="24dp"
+		android:layout_marginTop="35dp"
+		android:layout_marginEnd="24dp"
+		android:layout_marginBottom="31dp"
+		android:background="@drawable/buttonshape"
+		android:backgroundTint="@color/fbBlue"
+		android:fontFamily="@font/robotolight"
+		android:text="LOGIN"
+		android:textColor="#ffffff"
+		android:textSize="18sp"
+		app:layout_constraintBottom_toTopOf="@+id/btnLoginFb"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/lblForgotPw" />
+
+	<com.facebook.login.widget.LoginButton
+		android:id="@+id/login_button"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:visibility="gone"
+		app:layout_constraintBottom_toTopOf="parent"
+		app:layout_constraintEnd_toStartOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<Button
+		android:id="@+id/btnLoginFb"
+		android:layout_width="0dp"
+		android:layout_height="41dp"
+		android:layout_marginStart="24dp"
+		android:layout_marginTop="107dp"
+		android:layout_marginEnd="24dp"
+		android:layout_marginBottom="108dp"
+		android:background="@drawable/buttonshape"
+		android:backgroundTint="@color/fbBlue"
+		android:drawableLeft="@drawable/facebook"
+		android:fontFamily="@font/robotolight"
+		android:paddingLeft="30dp"
+		android:paddingRight="20dp"
+		android:text="LOGIN WITH FACEBOOK"
+		android:textColor="#ffffff"
+		android:textSize="18sp"
+		app:layout_constraintBottom_toBottomOf="@+id/lblRegister"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/lblForgotPw" />
+
+	<TextView
+		android:id="@+id/lblRegister"
+		android:layout_width="wrap_content"
+		android:layout_height="19dp"
+		android:fontFamily="sans-serif-condensed"
+		android:text="Don't have an account yet?"
+		android:textColor="@android:color/background_light"
+		app:layout_constraintBottom_toTopOf="@+id/linkRegister"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent" />
+
+	<TextView
+		android:id="@+id/linkRegister"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="48dp"
+		android:layout_marginBottom="39dp"
+		android:fontFamily="@font/robotobold"
+		android:text="Register"
+		android:textColor="@color/fbBlue"
+		android:textStyle="bold"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintStart_toStartOf="@+id/lblRegister" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".Messages"
+	tools:layout_editor_absoluteY="81dp">
+
+	<ScrollView
+		android:id="@+id/scrollView3"
+		android:layout_width="0dp"
+		android:layout_height="691dp"
+		android:layout_marginStart="8dp"
+		android:layout_marginTop="8dp"
+		android:layout_marginEnd="8dp"
+		android:layout_marginBottom="39dp"
+		app:layout_constraintBottom_toTopOf="@+id/msgButtonSend"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent">
+
+		<LinearLayout
+			android:id="@+id/linear2"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+
+			<TextView
+				android:id="@+id/textView4"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" />
+		</LinearLayout>
+	</ScrollView>
+
+	<EditText
+		android:id="@+id/msgTextField"
+		android:layout_width="0dp"
+		android:layout_height="48dp"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="10dp"
+		android:layout_marginEnd="17dp"
+		android:layout_marginBottom="32dp"
+		android:background="@drawable/rounded_edittext"
+		android:ems="10"
+		android:fontFamily="@font/robotocondensed"
+		android:hint="Enter message"
+		android:inputType="textMultiLine"
+		android:maxLines="12"
+		android:padding="5dp"
+		android:scrollbars="vertical"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toStartOf="@+id/msgButtonSend"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/msgButtonSend" />
+
+	<ImageButton
+		android:background="@android:color/transparent"
+		android:id="@+id/msgButtonSend"
+		android:scaleType="fitCenter"
+		android:layout_width="76dp"
+		android:layout_height="50dp"
+		android:layout_marginEnd="16dp"
+		android:layout_marginBottom="16dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@+id/msgTextField"
+		app:layout_constraintTop_toBottomOf="@+id/scrollView3"
+		app:srcCompat="@drawable/send_arrow" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

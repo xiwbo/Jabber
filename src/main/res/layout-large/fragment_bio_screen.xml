@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/scrollViewBio"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/white"
+	tools:context=".NavBioScreen">
+
+	<LinearLayout
+		android:id="@+id/linearLayoutBio"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:padding="16dp">
+
+		<ImageView
+			android:id="@+id/profilePicture"
+			android:layout_width="100dp"
+			android:layout_height="100dp"
+			android:src="@drawable/bio"
+			android:layout_gravity="center"/>
+
+		<ImageButton
+			android:id="@+id/imgButtonCameraBio"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:layout_marginLeft="280dp"
+			android:layout_marginTop="-25dp"
+			android:background="@android:color/transparent"
+			android:scaleType="fitCenter"
+			android:src="@drawable/camera_add" />
+
+		<com.rengwuxian.materialedittext.MaterialEditText
+			android:id="@+id/txtUsernameBio"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="Name"
+			android:maxLength="30"
+			android:layout_marginTop="16dp"
+			app:met_floatingLabel="normal"/>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="horizontal"
+			android:layout_marginBottom="30dp">
+			<Spinner
+				android:id="@+id/spinnerBio"
+				android:layout_width="wrap_content"
+				android:layout_marginTop="16dp"
+				android:layout_height="wrap_content" />
+
+			<com.rengwuxian.materialedittext.MaterialEditText
+				android:id="@+id/txtAge"
+				android:layout_marginLeft="70dp"
+				android:inputType="number"
+				android:maxLength="2"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="Age"
+				android:layout_marginTop="16dp"
+				app:met_floatingLabel="normal"/>
+
+		</LinearLayout>
+
+		<com.rengwuxian.materialedittext.MaterialEditText
+			android:id="@+id/txtBirthDateBio"
+			android:inputType="date"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="Birthdate"
+			android:maxLength="8"
+			android:layout_marginTop="20dp"
+			android:layout_marginBottom="30dp"
+			app:met_floatingLabel="normal"/>
+
+		<com.rengwuxian.materialedittext.MaterialEditText
+			android:id="@+id/txtLocationBio"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="Location"
+			android:maxLength="50"
+			android:layout_marginTop="20dp"
+			android:layout_marginBottom="30dp"
+			app:met_floatingLabel="normal"/>
+
+		<com.rengwuxian.materialedittext.MaterialEditText
+			android:id="@+id/txtAboutBio"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:hint="About"
+			android:inputType="textMultiLine"
+			android:scrollbars="vertical"
+			android:layout_marginTop="20dp"
+			android:layout_marginBottom="30dp"
+			app:met_floatingLabel="normal"/>
+
+	</LinearLayout>
+</ScrollView>

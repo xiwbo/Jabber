@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".GroupChat"
+	tools:layout_editor_absoluteY="89dp">
+
+	<ScrollView
+		android:id="@+id/scrollView2"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:layout_marginStart="8dp"
+		android:layout_marginTop="11dp"
+		android:layout_marginEnd="8dp"
+		android:layout_marginBottom="25dp"
+		app:layout_constraintBottom_toTopOf="@+id/grpBtnSend"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent">
+
+		<LinearLayout
+			android:id="@+id/layout1"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+
+			<com.daasuu.bl.BubbleLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+
+				app:bl_arrowDirection="left"
+				app:bl_arrowHeight="8dp"
+				app:bl_arrowPosition="16dp"
+				app:bl_arrowWidth="8dp"
+				app:bl_strokeWidth="1dp">
+
+				<TextView
+					android:id="@+id/groupTxtMessages"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:layout_marginRight="4dp"
+					android:fontFamily="@font/robotocondensed"
+					android:textSize="24sp" />
+			</com.daasuu.bl.BubbleLayout>
+
+		</LinearLayout>
+	</ScrollView>
+
+	<EditText
+		android:id="@+id/groupTextField"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:layout_marginStart="16dp"
+		android:layout_marginEnd="23dp"
+		android:background="@drawable/rounded_edittext"
+		android:ems="10"
+		android:fontFamily="@font/robotocondensed"
+		android:hint="Enter message"
+		android:inputType="textMultiLine"
+		android:maxLines="12"
+		android:padding="5dp"
+		android:scrollbars="vertical"
+		app:layout_constraintBottom_toBottomOf="@+id/grpBtnSend"
+		app:layout_constraintEnd_toStartOf="@+id/grpBtnSend"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/grpBtnSend" />
+
+	<Button
+		android:id="@+id/grpBtnSend"
+		android:layout_width="56dp"
+		android:layout_height="61dp"
+		android:layout_marginEnd="36dp"
+		android:layout_marginBottom="35dp"
+		android:background="@drawable/send_arrow"
+		android:textColor="@color/white"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@+id/groupTextField"
+		app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
